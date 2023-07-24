@@ -321,81 +321,130 @@ export class BasicElements extends Component {
                 <form className="forms-sample">
                   <div className="row">
                     <Form.Group className='col'>
-                      <label htmlFor="AvgUn.Wt" className="col-sm-5 col-form-label">Average unit weight </label>
+                      <label htmlFor="screwMake" className="col-sm-5 col-form-label">Screw Make </label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="AvgUn.Wt" placeholder="Average unit weight" />
+                      <Form.Control type="text" className="form-control" id="screwMake" placeholder="Screw Make" />
+                      <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
+
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="NoOfDES" className=" col-sm-5 col-form-label">Number of DES</label>
+                      <label htmlFor="screwSize" className=" col-sm-5 col-form-label">Screw Size</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="NoOfDES" placeholder="N Stone" />
+                      <Form.Control type="text" className="form-control" id="screwSize" placeholder="Screw Size" />
+                      <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series )</i></span>
+
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="Quantity" className="col-sm-5 col-form-label ">Quantity</label>
+                      <label htmlFor="cuttingType" className="col-sm-5 col-form-label ">Cutting Type</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="Quantity" placeholder="Quantity" />
-                      </div>
-                    </Form.Group>
-                  </div>
-                  <div className="row">
-                    <Form.Group className='col'>
-                      <label htmlFor="TotalQuantity" className="col-sm-5 col-form-label">Total quantity</label>
-                      <div className="col">
-                      <Form.Control type="text" className="form-control" id="TotalQuantity" placeholder="Total quantity" />
-                      </div>
-                    </Form.Group>
-                    <Form.Group className='col'>
-                      <label htmlFor="EstWT" className=" col-sm-5 col-form-label">Esitmate  weight</label>
-                      <div className="col">
-                      <Form.Control type="text" className="form-control" id="EstWT" placeholder="Esitmate  weight" />
-                      </div>
-                    </Form.Group>
-                    <Form.Group className='col'>
-                      <label htmlFor="PureEst" className="col-sm-5 col-form-label ">Pure estimate</label>
-                      <div className="col">
-                      <Form.Control type="text" className="form-control" id="PureEst" placeholder="Pure estimate" />
+                      <Form.Control type="text" className="form-control" id="cuttingType" placeholder="Cutting Type" />
                       </div>
                     </Form.Group>
                   </div>
                   <div className="row">
                     <Form.Group className='col'>
-                      <label htmlFor="AvgUn.Wt" className="col-sm-5 col-form-label">Average unit weight </label>
+                      <label htmlFor="cuttingDesign" className="col-sm-5 col-form-label">Cutting Design</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="AvgUn.Wt" placeholder="Average unit weight" />
+                      <Form.Control type="text" className="form-control" id="cuttingDesign" placeholder="Cutting Design" />
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="NoOfDES" className=" col-sm-5 col-form-label">Number of DES</label>
+                      <label htmlFor="stoneBrand" className="col-sm-5 col-form-label">Stone Brand</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="NoOfDES" placeholder="N Stone" />
+                      <select className="form-control" name='stoneBrand' id="stoneBrand">
+                        <option  value=""> Select</option>
+                        <option value="MP">MP</option>
+                        <option value="Single Buff">Single Buff</option>
+                        <option value="Double Buff">Double Buff</option>
+                      </select>
+                      <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
+
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="Quantity" className="col-sm-5 col-form-label ">Quantity</label>
+                      <label htmlFor="polishType" className="col-sm-5 col-form-label">Polish Type</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="Quantity" placeholder="Quantity" />
+                      <select className="form-control" name='polishType' id="polishType">
+                        <option  value=""> Select</option>
+                        <option value="MP">MP</option>
+                        <option value="Single Buff">Single Buff</option>
+                        <option value="Double Buff">Double Buff</option>
+                      </select>
                       </div>
                     </Form.Group>
                   </div>
                   <div className="row">
                     <Form.Group className='col'>
-                      <label htmlFor="TotalQuantity" className="col-sm-5 col-form-label">Total quantity</label>
+                      <label htmlFor="dimmyColType" className="col-sm-5 col-form-label">Dimmy Col Type</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="TotalQuantity" placeholder="Total quantity" />
+                      <select className="form-control" name='dimmyColType' id="dimmyColType">
+                        <option value=" ">select</option>
+                        <option value="RC-GPC">RC-GPC</option>
+                        <option value="1st ONLY-CN">1st ONLY-CN</option>
+                        <option value="RC-CN">VA916</option>
+                        <option value="1st-GPC">1st-GPC</option>
+                      </select>
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="EstWT" className=" col-sm-5 col-form-label">Esitmate  weight</label>
+                      <label htmlFor="SILSURColoringType" className="col-sm-5 col-form-label">SILSUR color Type</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="EstWT" placeholder="Esitmate  weight" />
+                        <select className="form-control" name='SILSURColoringType' id="SILSURColoringType">
+                          <option value=" ">select</option>
+                          <option value="RC-GPC">RC-GPC</option>
+                          <option value="1st ONLY-CN">1st ONLY-CN</option>
+                          <option value="RC-CN">VA916</option>
+                          <option value="1st-GPC">1st-GPC</option>
+                        </select>
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="PureEst" className="col-sm-5 col-form-label ">Pure estimate</label>
+                      <label htmlFor="surfaceFinish" className="col-sm-5 col-form-label">Surface Finish</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="PureEst" placeholder="Pure estimate" />
+                      <select className="form-control" name='surfaceFinish' id="surfaceFinish">
+                        <option value=" ">select</option>
+                        <option value="Cut">Cut</option>
+                        <option value="SB">SB</option>
+                      </select>
+                      </div>
+                    </Form.Group>
+                  </div>
+                  <div className="row">
+                  <Form.Group className='col'>
+                      <label htmlFor="coat" className="col-sm-5 col-form-label">Coat</label>
+                      <div className="col">
+                      <select className="form-control" name='coat' id="coat">
+                        <option value=" ">select</option>
+                        <option value="CMF">CMF</option>
+                        <option value="MBD">MBD</option>
+                        <option value="ANC">ANC</option>
+                      </select>
+                      </div>
+                    </Form.Group>
+                    <Form.Group className='col'>
+                      <label htmlFor="cardType" className="col-sm-5 col-form-label">Card Type</label>
+                      <div className="col">
+                      <select className="form-control" name='cardType' id="cardType">
+                        <option value=" ">select</option>
+                        <option value="CMF">CB_W_1</option>
+                        <option value="CMF">CB_W_2</option>
+                        <option value="CMF">CB_W_3</option>
+                      </select>
+                      <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
+
+                      </div>
+                    </Form.Group>
+                    <Form.Group className='col'>
+                      <label htmlFor="stoneSettingType" className="col-sm-5 col-form-label">Stone Setting Type</label>
+                      <div className="col">
+                      <select className="form-control" name='stoneSettingType' id="stoneSettingType">
+                        <option value=" ">select</option>
+                        <option value="CMF">CB_W_1</option>
+                        <option value="CMF">CB_W_2</option>
+                        <option value="CMF">CB_W_3</option>
+                      </select>
                       </div>
                     </Form.Group>
                   </div>
