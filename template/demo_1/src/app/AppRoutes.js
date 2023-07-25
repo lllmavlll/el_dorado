@@ -12,7 +12,7 @@ const Typography = lazy(() => import('./basic-ui/Typography'));
 const BasicElements = lazy(() => import('./form-elements/BasicElements'));
 const Product = lazy(() => import('./form-elements/orderItems'));   
 
-const BasicTable = lazy(() => import('./tables/BasicTable'));
+// const BasicTable = lazy(() => import('./tables/BasicTable'));
 
 const Mdi = lazy(() => import('./icons/Mdi'));
 
@@ -25,7 +25,11 @@ const Error500 = lazy(() => import('./error-pages/Error500'));
 const Login = lazy(() => import('./user-pages/Login'));
 const Register1 = lazy(() => import('./user-pages/Register'));
 
+
+
 const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
+
+const GSreceive  = lazy(()=> import('./screens/GSreceive'))
 
 
 
@@ -44,7 +48,7 @@ class AppRoutes extends Component {
           {/* path */}
           <Route path="/product" component={ Product } /> 
 
-          <Route path="/tables/basic-table" component={ BasicTable } />
+          <Route path="/tables/basic-table" component={ GSreceive } />
 
           <Route path="/icons/mdi" component={ Mdi } />
 
