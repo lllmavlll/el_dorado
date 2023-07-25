@@ -1,42 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form } from 'react-bootstrap';
 // import DatePicker from "react-datepicker";
-import bsCustomFileInput from 'bs-custom-file-input';
-import $ from 'jquery';
-
-
-export class orderItems extends Component {
-  state = {
-    startDate: new Date()
-  };
- 
-  handleChange = date => {
-    this.setState({
-      startDate: date
-    });
-  };
-
-  componentDidMount() {
-    bsCustomFileInput.init()
-  }
 
 
 
-  render() {
-
-    const showStoneProperties = document.querySelector( '.showStoneProperties')
-    const showPropBtn = document.querySelector('.showBtn')
-
-  //  const onClickHandler=(e)=>{
-  //       e.preventDefault()
-  //     }
-
-    return (
+const orderItems = () => {
+  return (
+    <>
       <div>
         <div className="page-header">
           <h3 className="page-title"> product</h3>
         </div>
-        
         <div className="row">                       
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
@@ -67,7 +41,7 @@ export class orderItems extends Component {
                     <Form.Group className='col'>
                       <label htmlFor="modelNo" className="col-sm-5 col-form-label">Model No.</label>
                       <div className="col">
-                      <Form.Control type="text" className="form-control" id="modelNo" placeholder="Model No." />
+                      <Form.Control type="text" className="form-control " id="modelNo" placeholder="Model No." />
                       </div>
                     </Form.Group>
                     {/* <Form.Group className='col'>
@@ -124,22 +98,71 @@ export class orderItems extends Component {
                       <Form.Control type="text" className="form-control" id="screwType" placeholder="Screw Type" />
                       </div>
                     </Form.Group>
-                    <Form.Group className='col'>
+                    {/* <Form.Group className='col'>
                       <label htmlFor="SKUNo" className=" col-sm-5 col-form-label">SKU No.</label>
                       <div className="col">
                       <Form.Control type="text" className="form-control" id="SKUNo" placeholder="SKU No." />
                       </div>
-                    </Form.Group>
-                    
+                    </Form.Group> */}
+                    <div className='col'>
+                      <p></p>
+                      <button type="submit" className="btn btn-primary mr-4">Submit</button>
+                    </div>
+                    <div className='col'>
+                      <p></p>
+                      <button type="submit" className="btn btn-primary mr-4">Show Product Name</button>
+                    </div>
+
                   </div>
+
+                  {/* <div className='col'>
+                    <button type="submit" className="btn btn-primary mr-4">Save</button>
+                  </div> */}
+
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+      
+    </>
+  )
 }
 
 export default orderItems
+
+
+// export class orderItems extends Component {
+//   state = {
+//     startDate: new Date()
+//   };
+ 
+//   handleChange = date => {
+//     this.setState({
+//       startDate: date
+//     });
+//   };
+
+//   componentDidMount() {
+//     bsCustomFileInput.init()
+//   }
+
+
+
+//   render() {
+
+//     const showStoneProperties = document.querySelector( '.showStoneProperties')
+//     const showPropBtn = document.querySelector('.showBtn')
+
+//   //  const onClickHandler=(e)=>{
+//   //       e.preventDefault()
+//   //     }
+
+//     return (
+      
+//     )
+//   }
+// }
+
+// export default orderItems

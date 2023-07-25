@@ -6,11 +6,11 @@ import Spinner from '../app/shared/Spinner';
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 const Buttons = lazy(() => import('./basic-ui/Buttons'));
-const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
+// const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 const Typography = lazy(() => import('./basic-ui/Typography'));
 
 const BasicElements = lazy(() => import('./form-elements/BasicElements'));
-const Product = lazy(() => import('./form-elements/orderItems'));    {/* importing component as a function note the path */}
+const Product = lazy(() => import('./form-elements/orderItems'));   
 
 const BasicTable = lazy(() => import('./tables/BasicTable'));
 
@@ -21,8 +21,12 @@ const ChartJs = lazy(() => import('./charts/ChartJs'));
 const Error404 = lazy(() => import('./error-pages/Error404'));
 const Error500 = lazy(() => import('./error-pages/Error500'));
 
+
 const Login = lazy(() => import('./user-pages/Login'));
 const Register1 = lazy(() => import('./user-pages/Register'));
+
+const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
+
 
 
 class AppRoutes extends Component {
@@ -33,7 +37,7 @@ class AppRoutes extends Component {
           <Route exact path="/dashboard" component={ Dashboard } />
 
           <Route path="/basic-ui/buttons" component={ Buttons } />
-          <Route path="/basic-ui/dropdowns" component={ Dropdowns } />
+          <Route path="/basic-ui/dropdowns" component={ BoxFraming } />
           <Route path="/basic-ui/typography" component={ Typography } />
 
           <Route path="/form-Elements/basic-elements" component={ BasicElements } />
