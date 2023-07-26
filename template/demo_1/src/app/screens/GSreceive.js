@@ -21,13 +21,7 @@ const GSreceive = () => {
               <div className="card-body">
                 {/* <h4 className="card-title">Customer Details</h4> */}
                 <form className="forms-sample">
-                  <Form.Group className='row'>
-                    <label htmlFor="receivedDate" className="col-sm-5 col-form-label" >Receive Date</label>
-                    <div className="col-sm-7">
-                    <Form.Control type="date"  value={inputValue.receivedDate} name='customerName' onChange={handleInputChange} className="form-control" id="receivedDate" placeholder="Customer Name" />
-                    </div>
-                  </Form.Group>
-                  <Form.Group className='row'>
+                <Form.Group className='row'>
                     <label htmlFor="GSName" className="col-sm-5 col-form-label" >Goldsmith Name</label>
                     <div className="col-sm-7">
                     <select className="form-control"  value={inputValue.GSName}   onChange={handleInputChange} name='GSName' id="GSName">
@@ -40,7 +34,14 @@ const GSreceive = () => {
                     </div>
                   </Form.Group>
                   <Form.Group className='row'>
-                    <label htmlFor="RecNo" className="col-sm-5 col-form-label" >Rec Number</label>
+                    <label htmlFor="receivedDate" className="col-sm-5 col-form-label" >Receive Date</label>
+                    <div className="col-sm-7">
+                    <Form.Control type="date"  value={inputValue.receivedDate} name='customerName' onChange={handleInputChange} className="form-control" id="receivedDate" placeholder="Customer Name" />
+                    </div>
+                  </Form.Group>
+                
+                  <Form.Group className='row'>
+                    <label htmlFor="RecNo" className="col-sm-5 col-form-label" >Receipt Number</label>
                     <div className="col-sm-7">
                     <select className="form-control"  value={inputValue.RecNo}   onChange={handleInputChange} name='RecNo' id="RecNo">
                       <option  value="NEW"> NEW</option>
@@ -52,9 +53,9 @@ const GSreceive = () => {
                     </div>
                   </Form.Group>
                   <Form.Group className='row'>
-                    <label htmlFor="orderNo" className="col-sm-5 col-form-label" >Order Number</label>
+                    <label htmlFor="orderNo" className="col-sm-5 col-form-label" > Sub Order Number</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.orderNo} name='orderNo' onChange={handleInputChange} className="form-control" id="orderNo" placeholder="Order Number" />
+                    <Form.Control type="text"  value={inputValue.orderNo} name='orderNo' onChange={handleInputChange} className="form-control" id="orderNo" placeholder=" Sub Order Number" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">
@@ -82,7 +83,7 @@ const GSreceive = () => {
                   </Form.Group>
                   <div className='col'>
                     <div className='row'>
-                      <div className="col-md-6 form-check">
+                      {/* <div className="col-md-6 form-check">
                         <label className="form-check-label text-muted">
                           <input type="checkbox" className="form-check-input"/>
                           <i className="input-helper"></i>
@@ -95,7 +96,7 @@ const GSreceive = () => {
                           <i className="input-helper"></i>
                           spare
                         </label>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                  
@@ -400,7 +401,7 @@ const GSreceive = () => {
                           </div>
                         </Form.Group>
                       </div>
-                    <div className="col-md-4">
+                      <div className="col-md-4">
                         <Form.Group className="row">
                           <label  htmlFor="issueWeight" className="col-sm-4 col-form-label">Issue Weight</label>
                           <div className="col-sm-8">
@@ -419,7 +420,7 @@ const GSreceive = () => {
                         </div>
                       </Form.Group>
                     </div>
-                    <div className="col-md-4">
+                      <div className="col-md-4">
                         <Form.Group className="row">
                           <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
                           <div className="col-sm-8">
@@ -427,7 +428,7 @@ const GSreceive = () => {
                           </div>
                         </Form.Group>
                       </div>
-                    <div className="col-md-4">
+                      <div className="col-md-4">
                         <Form.Group className="row">
                           <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
                           <div className="col-sm-8">
@@ -436,7 +437,33 @@ const GSreceive = () => {
                         </Form.Group>
                       </div>
                   </div>
+                  <div className='row'>
+                     <div className="col-md-4">
+                       <Form.Group className="row">
+                        <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
+                        <div className="col-sm-8">
 
+                          <div className='row'>
+                            <div style={{marginRight:"15px"}} className="form-check">
+                              <label className="form-check-label text-muted">
+                                <input type="checkbox" className="form-check-input"/>
+                                <i className="input-helper"></i>
+                                Cmpany A/C 
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <label className="form-check-label text-muted">
+                                <input type="checkbox" className="form-check-input"/>
+                                <i className="input-helper"></i>
+                                GS A/C 
+                              </label>
+                            </div>
+                          </div>
+
+                        </div>
+                      </Form.Group>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>

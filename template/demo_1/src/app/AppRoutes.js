@@ -9,7 +9,7 @@ const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 // const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 const Typography = lazy(() => import('./basic-ui/Typography'));
 
-const OrderForm = lazy(() => import('./form-elements/BasicElements'));
+
 const Product = lazy(() => import('./form-elements/orderItems'));   
 
 // const BasicTable = lazy(() => import('./tables/BasicTable'));
@@ -29,6 +29,9 @@ const Register1 = lazy(() => import('./user-pages/Register'));
 
 const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
 
+const OrderForm = lazy(() => import('./form-elements/BasicElements'));
+const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
+
 const GSreceive  = lazy(()=> import('./screens/GSreceive'))
 
 
@@ -41,6 +44,7 @@ class AppRoutes extends Component {
           <Route exact path="/dashboard" component={ Dashboard } />
 
           <Route path="/customer-order-form/order-form" component={ OrderForm } />
+          <Route path="/customer-order-form/sub-order-form" component={ SubOrderForm } />
 
           <Route path="/gold-smith/receive" component={ GSreceive } />
           <Route path="/gold-smith/issuance" component={ Typography } />
@@ -56,7 +60,7 @@ class AppRoutes extends Component {
           <Route path="/charts/chart-js" component={ ChartJs } />
 
 
-          <Route path="/user-pages/login-1" component={ Login } />
+          <Route path="/stock-transfer" component={ Login } />
           <Route path="/user-pages/register-1" component={ Register1 } />
 
           <Route path="/error-pages/error-404" component={ Error404 } />
