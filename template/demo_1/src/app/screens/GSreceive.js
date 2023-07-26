@@ -10,6 +10,7 @@ const GSreceive = () => {
   })
   
   const handleInputChange = (event) => {}
+  // setInputValue('')
   return (
     <>
         <div className="page-header">

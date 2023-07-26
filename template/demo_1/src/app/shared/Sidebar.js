@@ -44,6 +44,7 @@ class Sidebar extends Component {
       {path:'/slaes', state: 'salesMenuOpen'},
       {path:'/customer-ledger', state: 'customerLedgerMenuOpen'},
       {path:'/configuration', state: 'configurationMenuOpen'},
+      {path:'/view', state: 'viewMenuOpen'},
       {path:'/error-pages', state: 'errorPagesMenuOpen'},
     ];
 
@@ -159,7 +160,24 @@ class Sidebar extends Component {
                 <ul className="nav flex-column sub-menu">
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/issuance') ? 'nav-link active' : 'nav-link' } to="/gold-smith/issuance"><Trans>GS Issuance</Trans></Link></li>
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/receive') ? 'nav-link active' : 'nav-link' } to="/gold-smith/receive"><Trans>GS Receive</Trans></Link></li>
-                  {/* <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/dropdowns') ? 'nav-link active' : 'nav-link' } to="/basic-ui/dropdowns"><Trans>BoxFraming</Trans></Link></li> */}
+                  <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/order') ? 'nav-link active' : 'nav-link' } to="/gold-smith/order"><Trans>GS order</Trans></Link></li>
+                </ul>
+              </div>
+            </Collapse>
+          </li> 
+
+            <li className={ this.isPathActive('/views') ? 'nav-item menu-items active' : 'nav-item menu-items' }>
+            <div className={ this.state.viewMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('viewMenuOpen') } data-toggle="collapse">
+              <span className="menu-icon">
+                <i className="mdi mdi-table"></i>
+              </span>
+              <span className="menu-title"><Trans>Views </Trans></span>
+              <i className="menu-arrow"></i>
+            </div>
+            <Collapse in={ this.state.viewMenuOpen }>
+              <div>
+                <ul className="nav flex-column sub-menu">
+                  <li className="nav-item"> <Link className={ this.isPathActive('/views/order-form-view') ? 'nav-link active' : 'nav-link' } to="/views/order-form-view"><Trans>Order Form View</Trans></Link></li>
                 </ul>
               </div>
             </Collapse>

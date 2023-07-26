@@ -27,7 +27,7 @@ class Navbar extends Component {
               </form>
             </li>
           </ul>
-          <ul className="navbar-nav navbar-nav-right">
+          {/*<ul className="navbar-nav navbar-nav-right">
             <Dropdown alignRight as="li" className="nav-item d-none d-lg-block">
                 <Dropdown.Toggle className="nav-link btn btn-success create-new-button no-caret">
                 + <Trans>Create New Project</Trans>
@@ -214,7 +214,7 @@ class Navbar extends Component {
                 <p className="p-3 mb-0 text-center"><Trans>Advanced settings</Trans></p>
               </Dropdown.Menu>
             </Dropdown>
-          </ul>
+          </ul>*/}
           <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" onClick={this.toggleOffcanvas}>
             <span className="mdi mdi-format-line-spacing"></span>
           </button>

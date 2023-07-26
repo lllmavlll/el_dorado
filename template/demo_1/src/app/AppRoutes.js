@@ -23,9 +23,10 @@ const Error500 = lazy(() => import('./error-pages/Error500'));
 
 
 const Login = lazy(() => import('./user-pages/Login'));
+
 const Register1 = lazy(() => import('./user-pages/Register'));
 
-
+const OrderFormView = lazy(() => import('./screens/OrderFormViews'));
 
 const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
 
@@ -33,6 +34,7 @@ const OrderForm = lazy(() => import('./form-elements/BasicElements'));
 const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
 
 const GSreceive  = lazy(()=> import('./screens/GSreceive'))
+const GSOrder  = lazy(()=> import('./screens/GSOrder'))
 
 
 
@@ -47,6 +49,7 @@ class AppRoutes extends Component {
           <Route path="/customer-order-form/sub-order-form" component={ SubOrderForm } />
 
           <Route path="/gold-smith/receive" component={ GSreceive } />
+          <Route path="/gold-smith/order" component={ GSOrder } />
           <Route path="/gold-smith/issuance" component={ Typography } />
           <Route path="/box-framing" component={ BoxFraming } />
 
@@ -54,6 +57,8 @@ class AppRoutes extends Component {
           <Route path="/product" component={ Product } /> 
 
           <Route path="/tables/basic-table" component={ GSreceive } />
+
+          <Route path="/views/order-form-view" component={ OrderFormView } />
 
           <Route path="/icons/mdi" component={ Mdi } />
 
