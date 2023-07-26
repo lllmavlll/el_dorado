@@ -175,7 +175,7 @@ const BasicElements = () => {
           </nav>
         </div>
         <div className="row">
-        <div className="col-md-4 grid-margin stretch-card">
+          <div className="col-md-4 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Customer Details</h4>
@@ -193,7 +193,7 @@ const BasicElements = () => {
                     </div>
                   </Form.Group>
                 <Form.Group className='row'>
-                    <label htmlFor="RequiredDate" className="col-sm-5 col-form-label" >Required Date</label>
+                    <label htmlFor="requiredDate" className="col-sm-5 col-form-label" >Required Date</label>
                     <div className="col-sm-7">
                     <Form.Control type="date"  value={inputValue.requiredDate} name='requiredDate' onChange={handleInputChange} className="form-control" id="requiredDate"  />
                     </div>
@@ -239,7 +239,7 @@ const BasicElements = () => {
               </div>
             </div>
           </div>
-          <div className="col-8 grid-margin ">
+          <div className="col-8 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
