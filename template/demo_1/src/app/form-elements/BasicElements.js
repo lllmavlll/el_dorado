@@ -201,7 +201,7 @@ const BasicElements = () => {
                 <Form.Group className='row'>
                     <label htmlFor="CustomerOrderNo" className="col-sm-5 col-form-label" >Cust order Touch</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="CustomerOrderNo" placeholder="Cust order number" />
+                    <Form.Control type="text"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="CustomerOrderNo" placeholder="Cust order Touch" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">

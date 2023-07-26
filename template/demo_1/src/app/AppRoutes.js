@@ -5,11 +5,11 @@ import Spinner from '../app/shared/Spinner';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
-const Buttons = lazy(() => import('./basic-ui/Buttons'));
+// const Buttons = lazy(() => import('./basic-ui/Buttons'));
 // const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 const Typography = lazy(() => import('./basic-ui/Typography'));
 
-const BasicElements = lazy(() => import('./form-elements/BasicElements'));
+const OrderForm = lazy(() => import('./form-elements/BasicElements'));
 const Product = lazy(() => import('./form-elements/orderItems'));   
 
 // const BasicTable = lazy(() => import('./tables/BasicTable'));
@@ -40,11 +40,12 @@ class AppRoutes extends Component {
         <Switch>
           <Route exact path="/dashboard" component={ Dashboard } />
 
-          <Route path="/basic-ui/buttons" component={ Buttons } />
-          <Route path="/basic-ui/dropdowns" component={ BoxFraming } />
-          <Route path="/basic-ui/typography" component={ Typography } />
+          <Route path="/customer-order-form/order-form" component={ OrderForm } />
 
-          <Route path="/form-Elements/basic-elements" component={ BasicElements } />
+          <Route path="/gold-smith/receive" component={ GSreceive } />
+          <Route path="/gold-smith/issuance" component={ Typography } />
+          <Route path="/box-framing" component={ BoxFraming } />
+
           {/* path */}
           <Route path="/product" component={ Product } /> 
 
