@@ -54,9 +54,9 @@ const GSreceive = () => {
                     </div>
                   </Form.Group>
                   <Form.Group className='row'>
-                    <label htmlFor="orderNo" className="col-sm-5 col-form-label" > Sub Order Number</label>
+                    <label htmlFor="GSONo" className="col-sm-5 col-form-label" > GSO number</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.orderNo} name='orderNo' onChange={handleInputChange} className="form-control" id="orderNo" placeholder=" Sub Order Number" />
+                    <Form.Control type="text"  value={inputValue.GSONo} name='GSONo' onChange={handleInputChange} className="form-control" id="GSONo" placeholder=" GSO number" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">
@@ -70,18 +70,19 @@ const GSreceive = () => {
                     </select>
                     </div>
                   </Form.Group>
-                  <Form.Group className='row'>
-                    <label htmlFor="seal" className="col-sm-5 col-form-label" >Seal</label>
+                  <Form.Group className="row">
+                    <label  htmlFor="pktQty" className="col-sm-5 col-form-label">PKT Quantity</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.seal} name='seal' onChange={handleInputChange} className="form-control" id="seal" placeholder="Seal" />
-                    </div>
-                  </Form.Group> 
-                  <Form.Group className='row'>
-                    <label htmlFor="touch" className="col-sm-5 col-form-label" >Touch</label>
-                    <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.touch} name='touch' onChange={handleInputChange} className="form-control" id="touch" placeholder="Touch" />
-                    </div>
+                      <Form.Control  type="text"  value={inputValue.pktQty} name='pktQty' onChange={handleInputChange}  className="form-control" id="pktQty" placeholder="0.0" />
+                      </div>
                   </Form.Group>
+                  <Form.Group className="row">
+                    <label  htmlFor="pktWt" className="col-sm-5 col-form-label">PKT Weight</label>
+                    <div className="col-sm-7">
+                      <Form.Control  type="text"  value={inputValue.pktWt} name='pktWt' onChange={handleInputChange}  className="form-control" id="pktWt" placeholder="0.000" />
+                        </div>
+                  </Form.Group>
+                  
                   <div className='col'>
                     <div className='row'>
                       {/* <div className="col-md-6 form-check">
@@ -191,18 +192,18 @@ const GSreceive = () => {
 
                   <div className="row">
                     <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="pktQty" className="col-sm-4 col-form-label">PKT Quantity</label>
+                      <Form.Group className='row'>
+                        <label htmlFor="seal" className="col-sm-4 col-form-label" >Seal</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.pktQty} name='pktQty' onChange={handleInputChange}  className="form-control" id="pktQty" placeholder="0.0" />
+                          <Form.Control type="text"  value={inputValue.seal} name='seal' onChange={handleInputChange} className="form-control" id="seal" placeholder="Seal" />
                         </div>
                       </Form.Group>
                     </div>
                     <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="pktWt" className="col-sm-4 col-form-label">PKT Weight</label>
+                      <Form.Group className='row'>
+                        <label htmlFor="touch" className="col-sm-4 col-form-label" >Touch</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.pktWt} name='pktWt' onChange={handleInputChange}  className="form-control" id="pktWt" placeholder="0.000" />
+                          <Form.Control type="text"  value={inputValue.touch} name='touch' onChange={handleInputChange} className="form-control" id="touch" placeholder="Touch" />
                         </div>
                       </Form.Group>
                     </div>
@@ -384,6 +385,7 @@ const GSreceive = () => {
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
+                <h4 className="card-title">Testing</h4>
                 <form className="forms-sample">
                   <div className='row'>
                     <div className="col-md-4">
@@ -469,7 +471,21 @@ const GSreceive = () => {
               </div>
             </div>
           </div>
+          <div className="col-lg-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <div className="table-responsive OFtable-res ">
+                  <table className="table table-bordered OFtable ">
+                    <thead>
+                      <tr>
 
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
     </>
   )

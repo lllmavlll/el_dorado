@@ -7,7 +7,7 @@ const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 // const Buttons = lazy(() => import('./basic-ui/Buttons'));
 // const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
-const Typography = lazy(() => import('./basic-ui/Typography'));
+// const Typography = lazy(() => import('./basic-ui/Typography'));
 
 
 const Product = lazy(() => import('./form-elements/orderItems'));   
@@ -27,6 +27,7 @@ const Login = lazy(() => import('./user-pages/Login'));
 const Register1 = lazy(() => import('./user-pages/Register'));
 
 const OrderFormView = lazy(() => import('./screens/OrderFormViews'));
+const GSOView = lazy(() => import('./screens/GSOView'));
 
 const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
 
@@ -35,6 +36,7 @@ const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
 
 const GSreceive  = lazy(()=> import('./screens/GSreceive'))
 const GSOrder  = lazy(()=> import('./screens/GSOrder'))
+const GSIssuance  = lazy(()=> import('./screens/GSIssuance'))
 
 
 
@@ -46,11 +48,13 @@ class AppRoutes extends Component {
           <Route exact path="/dashboard" component={ Dashboard } />
 
           <Route path="/customer-order-form/order-form" component={ OrderForm } />
-          <Route path="/customer-order-form/sub-order-form" component={ SubOrderForm } />
+          <Route path="/customer-order-form/order-form-view" component={ OrderFormView } />
+          {/* <Route path="/customer-order-form/sub-order-form" component={ SubOrderForm } /> */}
 
           <Route path="/gold-smith/receive" component={ GSreceive } />
           <Route path="/gold-smith/order" component={ GSOrder } />
-          <Route path="/gold-smith/issuance" component={ Typography } />
+          <Route path="/gold-smith/issuance" component={ GSIssuance } />
+
           <Route path="/box-framing" component={ BoxFraming } />
 
           {/* path */}
@@ -59,6 +63,7 @@ class AppRoutes extends Component {
           <Route path="/tables/basic-table" component={ GSreceive } />
 
           <Route path="/views/order-form-view" component={ OrderFormView } />
+          <Route path="/views/GSOrder-view" component={ GSOView } />
 
           <Route path="/icons/mdi" component={ Mdi } />
 

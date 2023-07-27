@@ -8,22 +8,37 @@ const GSOrder = () => {
             <div className="col-md-12 grid-margin stretch-card">
              <div className="card">
               <div className="card-body">
-                {/* <h4 className="card-title">Customer Details</h4> */}
-                <form className="forms-sample">
+                <h4 className="card-title">Gold Smith Order</h4>
+                    <form className="forms-sample">
 
-                    <div className='row'>
-                        <div className="col-md-12">
+                      <div className='row'>
+                        
+                        <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="goldSmithName" className="col-sm-2 col-form-label">Gold Smith Name </label>
-                                <div className="col-sm-10">
+                                <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Order Number </label>
+                                <div className="col-sm-8">
+                                  <select className="form-control"    id="stoneBrand">
+                                      <option  value=""> Select</option>
+                                      <option value="Order Number_1">Order Number_1</option>
+                                      <option value="Order Number_2">Order Number_2</option>
+                                      <option value="Order Number_3">Order Number_3</option>
+                                  </select>
+                                </div>
+                            </Form.Group>
+                        </div>
+
+                        <div className="col-md-6">
+                            <Form.Group className="row">
+                                <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
+                                <div className="col-sm-8">
                                 <Form.Control  type="text"  name='goldSmithName'  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
                                 </div>
                             </Form.Group>
                         </div>
-                     
-                    </div> 
 
-                    <div className='row'>
+                      </div> 
+
+                      <div className='row'>
                         <div className="col-md-6">
                             <Form.Group className="row">
                                 <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
@@ -40,24 +55,23 @@ const GSOrder = () => {
                             </div>
                         </Form.Group>
                         </div>
-                      
-                    </div> 
+                     </div> 
 
-                    <div className='row'>
+                      <div className='row'>
                         <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="itemQty" className="col-sm-4 col-form-label">Item Quantity</label>
+                                <label  htmlFor="AlloQty" className="col-sm-4 col-form-label"> Allocated Quantity</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='itemQty'  className="form-control" id="itemQty" placeholder="Item Quantity" />
+                                <Form.Control  type="text"  name='AlloQty'  className="form-control" id="AlloQty" placeholder="Allocated Quantity" />
                                 </div>
                             </Form.Group>
                         </div>
                         
                         <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="productQuantity" className="col-sm-4 col-form-label">Product Quantity</label>
+                                <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Alloted</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='productQuantity'  className="form-control" id="productQuantity" placeholder="Product Quantity" />
+                                <Form.Control  type="text"  name='productQuantity'  className="form-control" id="productQuantity" placeholder=" Quantity To Be Alloted" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -66,28 +80,28 @@ const GSOrder = () => {
                                 <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Save</button>
                             </div>
                         </div>
-                    </div> 
-                </form>
-             </div>
-            </div>
-          </div>  
+                      </div> 
+                   </form>
+                </div>
+                </div>
+            </div>  
 
 
             {/* table */}
-        <div className="col-lg-12 grid-margin stretch-card">
+          <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">Gold Smith Order List</h4>
+                <h4 className="card-title"> Order List</h4>
                 <div className="table-responsive">
                   <table className="table table-bordered">
                     <thead>
                       <tr>
                         <th> SL No. </th>
-                        <th> Gols Smith Name </th>
+                        <th> Order Number </th>
                         <th> Item Name </th>
-                        <th> Item Quantity </th>
-                        <th> Product Name </th>
-                        <th> Product Quantity </th>
+                        <th> Item Qty </th>
+                        <th> Allocated Qty </th>
+                        <th> Qty to be Allocated </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -150,6 +164,25 @@ const GSOrder = () => {
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-12 grid-margin">
+             <div className="card">
+              <div className="card-body">
+                <div className='row'>
+                  <div className="col-md-3">
+                    <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Create Gold Smith Order</button>
+                  </div>
+                  <div className="col-md-9">
+                    <Form.Group className="row">
+                      <label  htmlFor="GSONoGen" className="col-sm-3 col-form-label">GSO Number Generated </label>
+                      <div className="col-sm-9">
+                        <Form.Control  type="text"  name='GSONoGen'  className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
+                      </div>
+                    </Form.Group>
+                  </div>
                 </div>
               </div>
             </div>
