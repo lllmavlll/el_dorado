@@ -3,16 +3,16 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Spinner from '../app/shared/Spinner';
 
-const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 // const Buttons = lazy(() => import('./basic-ui/Buttons'));
 // const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 // const Typography = lazy(() => import('./basic-ui/Typography'));
+// const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
+// const BasicTable = lazy(() => import('./tables/BasicTable'));
 
+const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 const Product = lazy(() => import('./form-elements/orderItems'));   
-
-// const BasicTable = lazy(() => import('./tables/BasicTable'));
 
 const Mdi = lazy(() => import('./icons/Mdi'));
 
@@ -32,11 +32,11 @@ const GSOView = lazy(() => import('./screens/GSOView'));
 const BoxFraming = lazy(()=> import('./screens/BoxFraming'))
 
 const OrderForm = lazy(() => import('./form-elements/BasicElements'));
-const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
 
 const GSreceive  = lazy(()=> import('./screens/GSreceive'))
 const GSOrder  = lazy(()=> import('./screens/GSOrder'))
 const GSIssuance  = lazy(()=> import('./screens/GSIssuance'))
+const GSTesting  = lazy(()=> import('./screens/GSTesting'))
 
 
 
@@ -54,6 +54,7 @@ class AppRoutes extends Component {
           <Route path="/gold-smith/receive" component={ GSreceive } />
           <Route path="/gold-smith/order" component={ GSOrder } />
           <Route path="/gold-smith/issuance" component={ GSIssuance } />
+          <Route path="/gold-smith/testing" component={ GSTesting } />
 
           <Route path="/box-framing" component={ BoxFraming } />
 

@@ -110,57 +110,84 @@ const GSOrder = () => {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                            <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 2 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 3 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 4 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 5 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 6 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate"/>
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocated  " />
+                        </td>
                       </tr>
                       <tr>
                         <td> 7 </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
+                        </td>
+                        <td>
+                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocated " />
+                        </td>
                       </tr>
                     </tbody>
                   </table>

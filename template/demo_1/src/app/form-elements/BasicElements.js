@@ -99,13 +99,14 @@ const BasicElements = () => {
         SILSURColoringType,
         surfaceFinish,
         Coat,
+        cfPlan,
         cardType,
         stoneSettingType,
         remarks 
       } = inputValue
 
 
-    const res =await fetch('http://localhost:4000/order-form',{
+    const res =await fetch('http://localhost:4000/CustomerOrderForm/',{
       method:'POST',
       headers:{
         "content-type":"application/json"
@@ -146,6 +147,7 @@ const BasicElements = () => {
         SILSURColoringType,
         surfaceFinish,
         Coat,
+        cfPlan,
         cardType,
         stoneSettingType,
         remarks,

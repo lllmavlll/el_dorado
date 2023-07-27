@@ -54,9 +54,9 @@ const GSreceive = () => {
                     </div>
                   </Form.Group>
                   <Form.Group className='row'>
-                    <label htmlFor="GSONo" className="col-sm-5 col-form-label" > GSO number</label>
+                    <label htmlFor="GSONo" className="col-sm-5 col-form-label" > GSO</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.GSONo} name='GSONo' onChange={handleInputChange} className="form-control" id="GSONo" placeholder=" GSO number" />
+                    <Form.Control type="text"  value={inputValue.GSONo} name='GSONo' onChange={handleInputChange} className="form-control" id="GSONo" placeholder=" GSO" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">
@@ -382,95 +382,7 @@ const GSreceive = () => {
           </div>
 
           {/* div row 3 */} 
-          <div className="col-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Testing</h4>
-                <form className="forms-sample">
-                  <div className='row'>
-                    <div className="col-md-4">
-                      <Form.Group className="row">
-                        <label  htmlFor="issueDate" className="col-sm-4 col-form-label">Issue Date</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="date"  value={inputValue.issueDate} name='issueDate'  onChange={handleInputChange}  className="form-control" id="issueDate" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-4">
-                        <Form.Group className="row">
-                          <label  htmlFor="issueQty" className="col-sm-4 col-form-label">Issue Quantity</label>
-                          <div className="col-sm-8">
-                          <Form.Control  type="text"  value={inputValue.issueQty} name='issueQty'  onChange={handleInputChange}  className="form-control" id="issueQty" placeholder="Issue Quantity" />
-                          </div>
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group className="row">
-                          <label  htmlFor="issueWeight" className="col-sm-4 col-form-label">Issue Weight</label>
-                          <div className="col-sm-8">
-                          <Form.Control  type="text"  value={inputValue.issueWeight} name='issueWeight'  onChange={handleInputChange}  className="form-control" id="issueWeight" placeholder="Issue Weight" />
-                          </div>
-                        </Form.Group>
-                      </div>
-                  </div>
-
-                  <div className='row'>
-                    <div className="col-md-4">
-                      <Form.Group className="row">
-                        <label  htmlFor="issueDate" className="col-sm-4 col-form-label">Issue Date</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="date"  value={inputValue.issueDate} name='issueDate'  onChange={handleInputChange}  className="form-control" id="issueDate" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                      <div className="col-md-4">
-                        <Form.Group className="row">
-                          <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
-                          <div className="col-sm-8">
-                          <Form.Control  type="text"  value={inputValue.testWeight} name='testWeight'  onChange={handleInputChange}  className="form-control" id="testWeight" placeholder="Test Weight" />
-                          </div>
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group className="row">
-                          <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
-                          <div className="col-sm-8">
-                          <Form.Control  type="text"  value={inputValue.testWeight} name='testWeight'  onChange={handleInputChange}  className="form-control" id="testWeight" placeholder="Test Weight" />
-                          </div>
-                        </Form.Group>
-                      </div>
-                  </div>
-                  <div className='row'>
-                     <div className="col-md-4">
-                       <Form.Group className="row">
-                        <label  htmlFor="testWeight" className="col-sm-4 col-form-label">Test Wt</label>
-                        <div className="col-sm-8">
-
-                          <div className='row'>
-                            <div style={{marginRight:"15px"}} className="form-check">
-                              <label className="form-check-label text-muted">
-                                <input type="checkbox" className="form-check-input"/>
-                                <i className="input-helper"></i>
-                                Cmpany A/C 
-                              </label>
-                            </div>
-                            <div className="form-check">
-                              <label className="form-check-label text-muted">
-                                <input type="checkbox" className="form-check-input"/>
-                                <i className="input-helper"></i>
-                                GS A/C 
-                              </label>
-                            </div>
-                          </div>
-
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+          
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
