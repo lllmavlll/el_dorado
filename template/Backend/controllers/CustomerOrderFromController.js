@@ -1,32 +1,33 @@
 const CustOrdModel = require('../models/CustomerOrderFormDBModel')
+const CustModel = require('../models/CustomerDBModel')
 
 const addCustOrd = async (req, res) => {
-    const { customerName, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo, noOfDesign, QuantityPerDesign, itemQuantity, unitWT_UL, unitWT_LL, estimatedWeight, ScrewMake, screwSize, cuttingType, cuttingDesign, stoneBrand, polishType, dimmyColType, SILSURColouringType, surfaceFinish, Coat, cardType, cfPlan, stoneSettingType,remarks } = req.body;
-
+    const { customerName, OrderNo, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo, noOfDesign, QuantityPerDesign, itemQuantity, unitWT_UL, unitWT_LL, estimatedWeight, ScrewMake, screwSize, cuttingType, cuttingDesign, stoneBrand, polishType, dimmyColType, SILSURColouringType, surfaceFinish, Coat, cardType, cfPlan, stoneSettingType,remarks } = req.body;
     try {
 
-        const result = await CustOrdModel.create({
-            customerName, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo, noOfDesign, QuantityPerDesign, itemQuantity, unitWT_UL, unitWT_LL, estimatedWeight, ScrewMake, screwSize, cuttingType, cuttingDesign, stoneBrand, polishType, dimmyColType, SILSURColouringType, surfaceFinish, Coat, cardType, cfPlan, stoneSettingType,remarks        })
+        const result = new CustOrdModel({
+            customerName, OrderNo, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo, noOfDesign, QuantityPerDesign, itemQuantity, unitWT_UL, unitWT_LL, estimatedWeight, ScrewMake, screwSize, cuttingType, cuttingDesign, stoneBrand, polishType, dimmyColType, SILSURColouringType, surfaceFinish, Coat, cardType, cfPlan, stoneSettingType,remarks
+        })
+        await result.save()
         res.status(201).json({ CustomerOrders: result });
     } catch (error) {
         console.log(error);
-        res.status(500);
+        res.status(500).json({message:"something went wrong"});
     }
 
 }
-const getCustOrd = async (req, res) => {
-    const { customerId } = req.body
+const getAllOrders = async (req, res) => {
+    // const { customerName, OrderNo, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo, noOfDesign, QuantityPerDesign, itemQuantity, unitWT_UL, unitWT_LL, estimatedWeight, ScrewMake, screwSize, cuttingType, cuttingDesign, stoneBrand, polishType, dimmyColType, SILSURColouringType, surfaceFinish, Coat, cardFitting, cardType, cfPlan, stoneSettingType } = req.body;
     try {
-        const orders = await CustOrdModel.find({ customerId: CustomerName })
-        res.status(200).json(orders)
+        const jewelries = await CustOrdModel.find();
+        res.json({jewelrie:jewelries});
     } catch (error) {
-        console.log(error);
-        res.status(500);
+        console.error('Error fetching jewelries:', error);
+        res.status(500).json({ error: 'Failed to fetch jewelries' });
     }
-
 }
 
 module.exports = {
     addCustOrd,
-    getCustOrd
+    getAllOrders
 };

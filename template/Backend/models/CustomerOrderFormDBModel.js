@@ -1,159 +1,125 @@
 const mongoose = require('mongoose');
 const CustOrdSchema = mongoose.Schema({
 
-    customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer",
-        required: true
+    customerName: {
+        type: String    
+    },
+    OrderNo: {
+        type: String    
     },
     placedOrderDate: {
-        type: String,
-        required: true
+        type: String    
     },
     requiredDate: {
-        type: String,
-        required: true
+        type: String    
     },
     customerOrderTouch: {
-        type: Number,
-        required: true
+        type: String    
     },
     targetTouch: {
-        type: Number,
-        required: true
+        type: String    
     },
     seal: {
-        type: String,
-        required: true
+        type: String    
     },
     qualitySeries: {
-        type: String,
-        required: true
+        type: String    
     },
     category: {
-        type: String,
-        required: true
+        type: String    
     },
     groupName: {
-        type: String,
-        required: true
+        type: String    
     },
     subGroupName: {
-        type: String,
-        required: true
+        type: String    
     },
     coreProductName: {
-        type: String,
-        required: true
+        type: String    
     },
     modelNo: {
-        type: String,
-        required: true
+        type: String    
     },
     noOfStones: {
-        type: Number,
-        required: false
+        type: String    
     },
     sizeofStone: {
-        type: String,
-        required: false
+        type: String    
     },
     stoneColourPattern: {
-        type: String,
-        required: false
+        type: String    
     },
     screwType: {
-        type: String,
-        required: false
+        type: String    
     },
     saleName: {
-        type: String,
-        required: true
+        type: String    
     },
     itemStage: {
-        type: String,
-        required: true
+        type: String    
     },
-    SKUNo: {},
+    SKUNo: {
+        type:String
+    },
     noOfDesign: {
-        type: String,
-        required: false
+        type: String    
     },
     QuantityPerDesign: {
-        type: String,
-        required: false
+        type: String    
     },
     itemQuantity: {
-        type: String,
-        required: false
+        type: String    
     },
     unitWT_UL: {
-        type: String,
-        required: true
+        type: String    
     },
     unitWT_LL: {
-        type: String,
-        required: true
+        type: String    
     },
     estimatedWeight: {
-        type: String,
-        required: true
+        type: String    
     },
     ScrewMake: {
-        type: String,
-        required: false
+        type: String    
     },
     screwSize: {
-        type: String,
-        required: false
+        type: String    
     },
     cuttingType: {
-        type: String,
-        required: true
+        type: String    
     },
     cuttingDesign: {
-        type: String,
-        required: true
+        type: String    
     },
     stoneBrand: {
-        type: String,
-        required: true
+        type: String    
     },
     polishType: {
-        type: String,
-        required: true
+        type: String    
     },
     dimmyColType: {
-        type: String,
-        required: false
+        type: String    
     },
     SILSURColouringType: {
-        type: String,
-        required: false
+        type: String    
     },
     surfaceFinish: {
-        type: String,
-        required: true
+        type: String    
     },
     Coat: {
-        type: String,
-        required: false
-    },
-    cardFitting: {
-        type: String,
-        required: false
+        type: String    
     },
     cardType: {
-        type: String,
-        required: false
+        type: String    
     },
     cfPlan: {
-        type: String,
-        required: false
+        type: String    
     },
     stoneSettingType: {
-        type: String,
-        required: true
+        type: String    
+    },
+    remarks: {
+        type: String    
     }
 
 }, { timestamps: true });

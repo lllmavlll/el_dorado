@@ -1,7 +1,72 @@
-import React from 'react'
-import  { Form, ProgressBar } from 'react-bootstrap'
+import React, { useState } from 'react'
+import  { Form} from 'react-bootstrap'
 
 const GSOrder = () => {
+
+  const [inputValue,setInputValue] = useState({
+    GSOrderNo:'',
+    OrderNo:'',
+    GSName:'',
+    ItemName:'',
+    OrderedQty:'',
+    allocdQty:'',
+    QtyToBeAllocd:'',
+    allocdWt:'',
+    WtToBeAllocd:'',  })
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setInputValue({
+      ...inputValue, 
+      [name]: value,
+    });
+  };
+
+  const pushToDB= async(e)=>{
+    e.preventDefault()
+    console.log(inputValue)
+
+    // for backend
+
+
+    const {
+      GSOrderNo,
+      OrderNo,
+      GSName,
+      ItemName,
+      OrderedQty,
+      allocdQty,
+      QtyToBeAllocd,
+      allocdWt,
+      WtToBeAllocd, 
+    } = inputValue
+
+    const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
+      method:'POST',
+      headers:{
+        "content-type":"application/json"
+      },
+      body:JSON.stringify({
+        GSOrderNo,
+        OrderNo,
+        GSName,
+        ItemName,
+        OrderedQty,
+        allocdQty,
+        QtyToBeAllocd,
+        allocdWt,
+        WtToBeAllocd, 
+      })
+    })
+    
+    const data = await res.json();
+    // if(data){
+    //   window.location.reload();
+    // }
+    alert('GSO Created Sucessfully!')
+
+  }
+
   return (
     <>
         <div className='row'>
@@ -17,7 +82,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Order Number </label>
                                 <div className="col-sm-8">
-                                  <select className="form-control"    id="stoneBrand">
+                                  <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="stoneBrand">
                                       <option  value=""> Select</option>
                                       <option value="Order Number_1">Order Number_1</option>
                                       <option value="Order Number_2">Order Number_2</option>
@@ -31,7 +96,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='goldSmithName'  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
+                                <Form.Control  type="text"  name='GSName'value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -43,15 +108,15 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"   name='itemName'  className="form-control" id="itemName" placeholder="Item Name" />
+                                <Form.Control  type="text"   name='ItemName' value={inputValue.ItemName} onChange={handleInputChange} className="form-control" id="itemName" placeholder="Item Name" />
                                 </div>
                             </Form.Group>
                         </div>
                         <div className="col-md-6">
                         <Form.Group className="row">
-                            <label  htmlFor="itemQty" className="col-sm-4 col-form-label">Item Quantity</label>
+                            <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Order Quantity</label>
                             <div className="col-sm-8">
-                            <Form.Control  type="text"  name='itemQty'  className="form-control" id="itemQty" placeholder="Item Quantity" />
+                            <Form.Control  type="text"  name='OrderedQty' value={inputValue.OrderedQty} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Order Quantity" />
                             </div>
                         </Form.Group>
                         </div>
@@ -60,9 +125,29 @@ const GSOrder = () => {
                       <div className='row'>
                         <div className="col-md-6">
                             <Form.Group className="row">
+                                <label  htmlFor="allocdWt" className="col-sm-4 col-form-label"> Allocated Weight</label>
+                                <div className="col-sm-8">
+                                <Form.Control  type="text"  name='allocdWt' value={inputValue.allocdWt} onChange={handleInputChange} className="form-control" id="allocdWt" placeholder="Allocated Weight" />
+                                </div>
+                            </Form.Group>
+                        </div>
+                        
+                        <div className="col-md-6">
+                            <Form.Group className="row">
+                                <label  htmlFor="WtToBeAllocd" className="col-sm-4 col-form-label"> weight To Be Alloted</label>
+                                <div className="col-sm-8">
+                                <Form.Control  type="text"  name='WtToBeAllocd' value={inputValue.WtToBeAllocd} onChange={handleInputChange}  className="form-control" id="WtToBeAllocd" placeholder=" Weight To Be Alloted" />
+                                </div>
+                            </Form.Group>
+                        </div>
+                       
+                      </div> 
+                      <div className='row'>
+                      <div className="col-md-6">
+                            <Form.Group className="row">
                                 <label  htmlFor="AlloQty" className="col-sm-4 col-form-label"> Allocated Quantity</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='AlloQty'  className="form-control" id="AlloQty" placeholder="Allocated Quantity" />
+                                <Form.Control  type="text"  name='allocdQty' value={inputValue.allocdQty} onChange={handleInputChange} className="form-control" id="AlloQty" placeholder="Allocated Quantity" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -71,7 +156,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Alloted</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='productQuantity'  className="form-control" id="productQuantity" placeholder=" Quantity To Be Alloted" />
+                                <Form.Control  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Alloted" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -80,7 +165,7 @@ const GSOrder = () => {
                                 <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Save</button>
                             </div>
                         </div>
-                      </div> 
+                      </div>
                    </form>
                 </div>
                 </div>
@@ -200,13 +285,13 @@ const GSOrder = () => {
               <div className="card-body">
                 <div className='row'>
                   <div className="col-md-3">
-                    <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Create Gold Smith Order</button>
+                    <button type="submit" onClick={pushToDB} className="btn btn-primary mr-4">Create Gold Smith Order</button>
                   </div>
                   <div className="col-md-9">
                     <Form.Group className="row">
                       <label  htmlFor="GSONoGen" className="col-sm-3 col-form-label">GSO Number Generated </label>
                       <div className="col-sm-9">
-                        <Form.Control  type="text"  name='GSONoGen'  className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
+                        <Form.Control  type="text"  name='GSOrderNo' value={inputValue.GSOrderNo} onChange={handleInputChange} className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
                       </div>
                     </Form.Group>
                   </div>

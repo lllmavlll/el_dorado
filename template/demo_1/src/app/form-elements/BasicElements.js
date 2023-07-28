@@ -7,44 +7,46 @@ const BasicElements = () => {
 
 
   const [inputValue,setInputValue] = useState({
-    customerName:'',
-    placedOrderDate:'',
-    requiredDate:'',
-    customerOrderTouch:'',
-    targetTouch:'',
-    seal:'',
-    qualitySerires:'',
-    category:'',
-    groupName:"",
-    subGroupName:"",
-    coreProductName:"",
-    modelNo:"",
-    noOfStones:"",
-    sizeofStone:"",
-    stoneColourPattern:"",
-    screwType:"",
-    saleName:'',
-    itemStage:'',
-    SKUNo:'',
-    noOfDesign:'',
-    QuantityPerDesign:'',
-    itemquantity:'',
-    unitWT_UL:'',
-    unitWT_LL:'',
-    estimatedWeight:'',
-    ScrewMake:'',
-    screwSize:'',
-    cuttingType:'',
-    cuttingDesign:'',
-    stoneBrand:'',
-    polishType:'',
-    dimmyColType:'',
-    SILSURColoringType:'',
-    surfaceFinish:'',
-    Coat:'',
-    cardType:'',
-    stoneSettingType:'',
-    remarks:''
+        customerName:'',
+        OrderNo:'',
+        placedOrderDate:'',
+        requiredDate:'',
+        customerOrderTouch:'',
+        targetTouch:'',
+        seal:'',
+        qualitySeries:'',
+        category:'',
+        groupName:'',
+        subGroupName:'',
+        coreProductName:'',
+        modelNo:'',
+        noOfStones:'',
+        sizeofStone:'',
+        stoneColourPattern:'',
+        screwType:'',
+        saleName:'',
+        itemStage:'',
+        SKUNo:'',
+        noOfDesign:'',
+        QuantityPerDesign:'',
+        itemQuantity:'',
+        unitWT_UL:'',
+        unitWT_LL:'',
+        estimatedWeight:'',
+        ScrewMake:'',
+        screwSize:'',
+        cuttingType:'',
+        cuttingDesign:'',
+        stoneBrand:'',
+        polishType:'',
+        dimmyColType:'',
+        SILSURColouringType:'',
+        surfaceFinish:'',
+        Coat:'',
+        cfPlan:'',
+        cardType:'',
+        stoneSettingType:'',
+        remarks:'' 
      
   })
 
@@ -65,12 +67,13 @@ const BasicElements = () => {
     //for banckend
     const {
         customerName,
+        OrderNo,
         placedOrderDate,
         requiredDate,
         customerOrderTouch,
         targetTouch,
         seal,
-        qualitySerires,
+        qualitySeries,
         category,
         groupName,
         subGroupName,
@@ -85,7 +88,7 @@ const BasicElements = () => {
         SKUNo,
         noOfDesign,
         QuantityPerDesign,
-        itemquantity,
+        itemQuantity,
         unitWT_UL,
         unitWT_LL,
         estimatedWeight,
@@ -96,7 +99,7 @@ const BasicElements = () => {
         stoneBrand,
         polishType,
         dimmyColType,
-        SILSURColoringType,
+        SILSURColouringType,
         surfaceFinish,
         Coat,
         cfPlan,
@@ -106,19 +109,20 @@ const BasicElements = () => {
       } = inputValue
 
 
-    const res =await fetch('http://localhost:4000/CustomerOrderForm/',{
+    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
         customerName,
+        OrderNo,
         placedOrderDate,
         requiredDate,
         customerOrderTouch,
         targetTouch,
         seal,
-        qualitySerires,
+        qualitySeries,
         category,
         groupName,
         subGroupName,
@@ -133,7 +137,7 @@ const BasicElements = () => {
         SKUNo,
         noOfDesign,
         QuantityPerDesign,
-        itemquantity,
+        itemQuantity,
         unitWT_UL,
         unitWT_LL,
         estimatedWeight,
@@ -144,7 +148,7 @@ const BasicElements = () => {
         stoneBrand,
         polishType,
         dimmyColType,
-        SILSURColoringType,
+        SILSURColouringType,
         surfaceFinish,
         Coat,
         cfPlan,
@@ -159,7 +163,7 @@ const BasicElements = () => {
     if(data){
       window.location.reload();
     }
-    alert('product name created sucessfully!')
+    alert('Customer Order Created Sucessfully!')
 
 
   }
@@ -182,13 +186,19 @@ const BasicElements = () => {
               <div className="card-body">
                 <h4 className="card-title">Customer Details</h4>
                 <form className="forms-sample">
-                <Form.Group className='row'>
+                  <Form.Group className='row'>
                     <label htmlFor="CustomerName" className="col-sm-5 col-form-label" >Customer Name</label>
                     <div className="col-sm-7">
                     <Form.Control type="text"  value={inputValue.customerName} name='customerName' onChange={handleInputChange} className="form-control" id="CustomerName" placeholder="Customer Name" />
                     </div>
                   </Form.Group>
-                <Form.Group className='row'>
+                  <Form.Group className='row'>
+                    <label htmlFor="OrderNo" className="col-sm-5 col-form-label" >Order Number</label>
+                    <div className="col-sm-7">
+                    <Form.Control type="text"  value={inputValue.OrderNo} name='OrderNo' onChange={handleInputChange} className="form-control" id="OrderNo" placeholder="Order Number" />
+                    </div>
+                  </Form.Group>
+                  <Form.Group className='row'>
                     <label htmlFor="placedOrderDate" className="col-sm-5 col-form-label" >Place Order Date</label>
                     <div className="col-sm-7">
                     <Form.Control type="date"  value={inputValue.placedOrderDate} name='placedOrderDate' onChange={handleInputChange} className="form-control" id="placedOrderDate" />
@@ -201,9 +211,9 @@ const BasicElements = () => {
                     </div>
                   </Form.Group>
                 <Form.Group className='row'>
-                    <label htmlFor="CustomerOrderNo" className="col-sm-5 col-form-label" >Cust order Touch</label>
+                    <label htmlFor="custOrderTouch" className="col-sm-5 col-form-label" >Cust order Touch</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="CustomerOrderNo" placeholder="Cust order Touch" />
+                    <Form.Control type="text"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="custOrderTouch" placeholder="Cust order Touch" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">
@@ -252,7 +262,7 @@ const BasicElements = () => {
                       <Form.Group className="row">
                         <label  htmlFor="qualitySeries" className="col-sm-4 col-form-label">Quality series</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.qualitySerires} name='qualitySerires'  onChange={handleInputChange}  className="form-control" id="qualitySeries" placeholder="Quality series" />
+                        <Form.Control  type="text"  value={inputValue.qualitySeries} name='qualitySeries'  onChange={handleInputChange}  className="form-control" id="qualitySeries" placeholder="Quality series" />
                         </div>
                       </Form.Group>
                     </div>
@@ -416,22 +426,22 @@ const BasicElements = () => {
                     <Form.Group className='col'>
                       <label htmlFor="itemQuantity" className="col-sm-5 col-form-label ">Item Quantity</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.itemquantity}  name='itemquantity' onChange={handleInputChange} className="form-control" id="itemQuantity" placeholder="Item Quantity" />
+                      <Form.Control type="text"  value={inputValue.itemQuantity}  name='itemQuantity' onChange={handleInputChange} className="form-control" id="itemQuantity" placeholder="Item Quantity" />
                       </div>
                     </Form.Group>
                   </div>
                   <div className="row">
                     <Form.Group className='col'>
-                      <label htmlFor="unitWtUL" className="col-sm-5 col-form-label">Unit Weight UL</label>
+                      <label htmlFor="unitWT_UL" className="col-sm-5 col-form-label">Unit Weight UL</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.unitWT_UL}  name='unitWT_UL' onChange={handleInputChange} className="form-control" id="unitWtUL" placeholder="Unit Weight UL" />
+                      <Form.Control type="text"  value={inputValue.unitWT_UL}  name='unitWT_UL' onChange={handleInputChange} className="form-control" id="unitWT_UL" placeholder="Unit Weight UL" />
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="unitWtLL" className=" col-sm-5 col-form-label">Unit Weight LL</label>
+                      <label htmlFor="unitWT_LL" className=" col-sm-5 col-form-label">Unit Weight LL</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.unitWT_LL}  name='unitWT_LL' onChange={handleInputChange} className="form-control" id="unitWtLL" placeholder="Unit Weight LL" />
+                      <Form.Control type="text"  value={inputValue.unitWT_LL}  name='unitWT_LL' onChange={handleInputChange} className="form-control" id="unitWT_LL" placeholder="Unit Weight LL" />
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
 
                       </div>
@@ -545,7 +555,7 @@ const BasicElements = () => {
                     <Form.Group className='col'>
                       <label htmlFor="SILSURColoringType" className="col-sm-5 col-form-label">SILSUR color Type</label>
                       <div className="col">
-                        <select className="form-control"  value={inputValue.SILSURColoringType} name='SILSURColoringType' onChange={handleInputChange}  id="SILSURColoringType">
+                        <select className="form-control"  value={inputValue.SILSURColouringType} name='SILSURColouringType' onChange={handleInputChange}  id="SILSURColoringType">
                           <option value=" ">select</option>
                           <option value="RC-GPC">RC-GPC</option>
                           <option value="1st ONLY-CN">1st ONLY-CN</option>
@@ -595,7 +605,7 @@ const BasicElements = () => {
                     <Form.Group className='col'>
                       <label htmlFor="cfPlan" className="col-sm-5 col-form-label">Card Fittin Plan</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.cfPlan} name='cfPlan' onChange={handleInputChange} className="form-control" id="cfPlan"  />
+                      <Form.Control type="text"  value={inputValue.cfPlan} name='cfPlan' onChange={handleInputChange} className="form-control" id="cfPlan" placeholder='Card Fitting Plan' />
                       </div>
                     </Form.Group>
                   
