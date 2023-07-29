@@ -79,10 +79,9 @@ const OrderFormViews = () => {
                     <tbody>
                       {
                         orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
-                          console.log(result);
                     return <tr  >
                             <td>
-                            
+                            {}
                             </td>
                             <td>{result.customerName}</td>
                             <td>{result.OrderNo}</td>

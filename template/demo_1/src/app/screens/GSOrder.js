@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import  { Form} from 'react-bootstrap'
 
 const GSOrder = () => {
+
+  const[orderFormData,setOrderFormData] = useState([])
 
   const [inputValue,setInputValue] = useState({
     GSOrderNo:'',
@@ -60,12 +62,25 @@ const GSOrder = () => {
     })
     
     const data = await res.json();
-    // if(data){
-    //   window.location.reload();
-    // }
+    if(data){
+      window.location.reload();
+    }
     alert('GSO Created Sucessfully!')
 
   }
+
+  useEffect(()=>{
+
+    fetch('http://localhost:4000/CustomerOrderForm/getAllOrders')
+    .then(response => response.json())
+    .then(data =>
+     {console.log(data);
+     return data
+     })
+    .then(data =>setOrderFormData(data))
+    .catch(err=> console.log(err))
+     // fetchData();
+   },[])
 
   return (
     <>
@@ -80,13 +95,19 @@ const GSOrder = () => {
                         
                         <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Order Number </label>
+                                <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                                 <div className="col-sm-8">
-                                  <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="stoneBrand">
-                                      <option  value=""> Select</option>
-                                      <option value="Order Number_1">Order Number_1</option>
-                                      <option value="Order Number_2">Order Number_2</option>
-                                      <option value="Order Number_3">Order Number_3</option>
+                                  <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
+                                    <option value=''>select</option>
+                                    {
+                                       orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
+                                return  <option value={result.OrderNo}>
+                                          {result.OrderNo}
+                                        </option>
+
+                                       })
+
+                                    }
                                   </select>
                                 </div>
                             </Form.Group>

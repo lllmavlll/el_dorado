@@ -33,7 +33,9 @@ const InameSchema = mongoose.Schema({
     ScrewType: {
         type: String,
     },
-    SKUNo: {},
+    SKUNo: {
+        type: String,
+    },
     FinalIname: {
         type: String
     }

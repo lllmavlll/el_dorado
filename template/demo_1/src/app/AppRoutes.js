@@ -53,6 +53,7 @@ class AppRoutes extends Component {
 
           <Route path="/gold-smith/receive" component={ GSreceive } />
           <Route path="/gold-smith/order" component={ GSOrder } />
+          <Route path="/gold-smith/GSOrder-view" component={ GSOView } />
           <Route path="/gold-smith/issuance" component={ GSIssuance } />
           <Route path="/gold-smith/testing" component={ GSTesting } />
 

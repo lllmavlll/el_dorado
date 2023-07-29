@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import {Form} from 'react-bootstrap'
 import './CustomCssFile.css'
 
 
 const OrderFormViews = () => {
+
+  const[GSOform,setGSOForm] = useState([])
+
+
+  useEffect(()=>{
+
+    fetch('http://localhost:4000/GSO/getAllGSOrders')
+    .then(response => response.json())
+    .then(data =>
+     {console.log(data);
+     return data
+     })
+    .then(data =>setGSOForm(data))
+    .catch(err=> console.log(err))
+     // fetchData();
+   },[])
+
+
   return (
     <>
         <div className='page-header'>
@@ -19,59 +37,35 @@ const OrderFormViews = () => {
                       <tr>
                         <th> SL No. </th>
                           <th>Order Number</th>
+                          <th>GSO Order No.</th>
                           <th>Gold Smith Name</th>
                           <th>Item Name</th>
-                          <th>Item Quantity</th>
+                          <th>order Quantity</th>
                           <th>Allocated Quantity</th>
                           <th>Quantity To Be Allocated</th>
+                          <th>Allocated Weight</th>
+                          <th>Weight To Be Allocated</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
+                     {
+                        GSOform&&GSOform.orders&&GSOform.orders.map(result =>{
+                          return <tr>
+                            <td>1</td>
+                            <td>{result.OrderNo}</td>
+                            <td>{result.GSOrderNo}</td>
+                            <td>{result.GSName}</td>
+                            <td>{result.ItemName}</td>
+                            <td>{result.OrderedQty}</td>
+                            <td>{result.allocdQty}</td>
+                            <td>{result.QtyToBeAllocd}</td>
+                            <td>{result.allocdWt}</td>
+                            <td>{result.WtToBeAllocd}</td>
+                          </tr>
+
+                        })
+
+                     }
                     </tbody>
                   </table>
                 </div>
