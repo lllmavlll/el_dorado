@@ -13,8 +13,7 @@ const GSIssuance = () => {
                     <form className="forms-sample">
                       <div className='row'>
                         <div className="col-md-4">
-                         <h4  className='card-title'>Material  <button style={{marginLeft:"25px"}} type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">add +</button></h4>
-                           
+                             <h4  className='card-title'>Material  <button style={{marginLeft:"25px"}} type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">add +</button></h4>
                         </div>
                        
                         <div className="col-md-4">

@@ -10,7 +10,7 @@ const addIname = async (req, res) => {
         const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType]
         const FinalIname = values.join('_');
         const result = new inameModel({
-            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, FinalIname: FinalIname
+            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo:'DUMMY', FinalIname: FinalIname
         })
         await result.save();
         res.status(201).json({ Iname: result });
