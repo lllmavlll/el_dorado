@@ -30,7 +30,7 @@ const OrderFormViews = () => {
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title"></h4>
+                {/* <h4 className="card-title"></h4> */}
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>

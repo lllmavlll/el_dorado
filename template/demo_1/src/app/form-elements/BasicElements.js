@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
+// import CustomPopUp from '../screens/CustomPopUp';
+import '../screens/CustomCssFile.css'
+
 
 
 
 const BasicElements = () => {
 
-
+  // const [modalShow, setModalShow] = useState(false);
+  const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
+  const [objectArray, setObjectArray] = useState([]); // to push line items in an array
+  
   const [inputValue,setInputValue] = useState({
         customerName:'',
         OrderNo:'',
@@ -50,120 +56,157 @@ const BasicElements = () => {
      
   })
 
+//================= || handles filed input values || ===========================//
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setInputValue({
+    ...inputValue, 
+    [name]: value,
+  });
+};
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputValue({
-      ...inputValue, 
-      [name]: value,
-    });
-  };
+//================= || to bring up the table || ===========================//
+  const newLineItemHandle =(e)=>{
+    e.preventDefault()
+    setItemNameListView(true)
+    const newLineItem = {
+      category:inputValue.category,
+      finalIname:inputValue.SKUNo,
+      saleName:inputValue.saleName,
+      itemStage:inputValue.itemStage,
+      noOfDesign:inputValue.noOfDesign,
+      QuantityPerDesign:inputValue.QuantityPerDesign,
+      itemQuantity:inputValue.itemQuantity,
+      unitWT_UL:inputValue.unitWT_UL,
+      unitWT_LL:inputValue.unitWT_LL,
+      estimatedWeight:inputValue.estimatedWeight,
+      ScrewMake:inputValue.ScrewMake,
+      screwSize:inputValue.screwSize,
+      cuttingType:inputValue.cuttingType,
+      cuttingDesign:inputValue.cuttingDesign,
+      stoneBrand:inputValue.stoneBrand,
+      polishType:inputValue.polishType,
+      dimmyColType:inputValue.dimmyColType,
+      SILSURColouringType:inputValue.SILSURColouringType,
+      surfaceFinish:inputValue.surfaceFinish,
+      Coat:inputValue.Coat,
+      cfPlan:inputValue.cfPlan,
+      cardType:inputValue.cardType,
+      stoneSettingType:inputValue.stoneSettingType,
+      remarks:inputValue.remarks,
+    }
+    setObjectArray([...objectArray, newLineItem]);
+    console.log(objectArray);
+}
+  
 
   const pushToDB= async(e)=>{
     e.preventDefault()
 
-    console.log(inputValue)
+
+    // setModalShow(true) // this is for the popUp
+    // console.log(inputValue)
 
     //for banckend
-    const {
-        customerName,
-        OrderNo,
-        placedOrderDate,
-        requiredDate,
-        customerOrderTouch,
-        targetTouch,
-        seal,
-        qualitySeries,
-        category,
-        groupName,
-        subGroupName,
-        coreProductName,
-        modelNo,
-        noOfStones,
-        sizeofStone,
-        stoneColourPattern,
-        screwType,
-        saleName,
-        itemStage,
-        SKUNo,
-        noOfDesign,
-        QuantityPerDesign,
-        itemQuantity,
-        unitWT_UL,
-        unitWT_LL,
-        estimatedWeight,
-        ScrewMake,
-        screwSize,
-        cuttingType,
-        cuttingDesign,
-        stoneBrand,
-        polishType,
-        dimmyColType,
-        SILSURColouringType,
-        surfaceFinish,
-        Coat,
-        cfPlan,
-        cardType,
-        stoneSettingType,
-        remarks 
-      } = inputValue
+    // const {
+    //     customerName,
+    //     OrderNo,
+    //     placedOrderDate,
+    //     requiredDate,
+    //     customerOrderTouch,
+    //     targetTouch,
+    //     seal,
+    //     qualitySeries,
+    //     category,
+    //     groupName,
+    //     subGroupName,
+    //     coreProductName,
+    //     modelNo,
+    //     noOfStones,
+    //     sizeofStone,
+    //     stoneColourPattern,
+    //     screwType,
+    //     saleName,
+    //     itemStage,
+    //     SKUNo,
+    //     noOfDesign,
+    //     QuantityPerDesign,
+    //     itemQuantity,
+    //     unitWT_UL,
+    //     unitWT_LL,
+    //     estimatedWeight,
+    //     ScrewMake,
+    //     screwSize,
+    //     cuttingType,
+    //     cuttingDesign,
+    //     stoneBrand,
+    //     polishType,
+    //     dimmyColType,
+    //     SILSURColouringType,
+    //     surfaceFinish,
+    //     Coat,
+    //     cfPlan,
+    //     cardType,
+    //     stoneSettingType,
+    //     remarks 
+    //   } = inputValue
 
 
-    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        customerName,
-        OrderNo,
-        placedOrderDate,
-        requiredDate,
-        customerOrderTouch,
-        targetTouch,
-        seal,
-        qualitySeries,
-        category,
-        groupName,
-        subGroupName,
-        coreProductName,
-        modelNo,
-        noOfStones,
-        sizeofStone,
-        stoneColourPattern,
-        screwType,
-        saleName,
-        itemStage,
-        SKUNo,
-        noOfDesign,
-        QuantityPerDesign,
-        itemQuantity,
-        unitWT_UL,
-        unitWT_LL,
-        estimatedWeight,
-        ScrewMake,
-        screwSize,
-        cuttingType,
-        cuttingDesign,
-        stoneBrand,
-        polishType,
-        dimmyColType,
-        SILSURColouringType,
-        surfaceFinish,
-        Coat,
-        cfPlan,
-        cardType,
-        stoneSettingType,
-        remarks,
+    // const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
+    //   method:'POST',
+    //   headers:{
+    //     "content-type":"application/json"
+    //   },
+    //   body:JSON.stringify({
+    //     customerName,
+    //     OrderNo,
+    //     placedOrderDate,
+    //     requiredDate,
+    //     customerOrderTouch,
+    //     targetTouch,
+    //     seal,
+    //     qualitySeries,
+    //     category,
+    //     groupName,
+    //     subGroupName,
+    //     coreProductName,
+    //     modelNo,
+    //     noOfStones,
+    //     sizeofStone,
+    //     stoneColourPattern,
+    //     screwType,
+    //     saleName,
+    //     itemStage,
+    //     SKUNo,
+    //     noOfDesign,
+    //     QuantityPerDesign,
+    //     itemQuantity,
+    //     unitWT_UL,
+    //     unitWT_LL,
+    //     estimatedWeight,
+    //     ScrewMake,
+    //     screwSize,
+    //     cuttingType,
+    //     cuttingDesign,
+    //     stoneBrand,
+    //     polishType,
+    //     dimmyColType,
+    //     SILSURColouringType,
+    //     surfaceFinish,
+    //     Coat,
+    //     cfPlan,
+    //     cardType,
+    //     stoneSettingType,
+    //     remarks,
 
-      })
-    })
+    //   })
+    // })
     
-    const data = await res.json();
-    if(data){
-      window.location.reload();
-    }
-    alert('Customer Order Created Sucessfully!')
+    // const data = await res.json();
+    // if(data){
+    //   window.location.reload();
+    // }
+    // alert('Customer Order Created Sucessfully!')
 
 
   }
@@ -171,7 +214,8 @@ const BasicElements = () => {
   return (
     <>
       <div>
-        <div className="page-header">
+         {/* //================== || Item Name View List per Order || ==============// */}
+         <div className="page-header">
           <h1 className="page-title"> Customer Order Form </h1>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -180,6 +224,79 @@ const BasicElements = () => {
             </ol>
           </nav>
         </div>
+          {
+            itemNameListView?
+            <div className='row'>
+              <div className="col-12 grid-margin stretch-card">
+                <div className="card">
+                  <div className="card-body">
+                    <h4 className="card-title">Line items</h4>
+                    <div className="table-responsive OFtable-res ">
+                      <table className="table table-bordered OFtable ">
+                        <thead>
+                          <th> Category</th>
+                          <th> Final Item Name</th>
+                          <th> Sale Name</th>
+                          <th> Item Stage</th>
+                          <th> No. Of Design</th>
+                          <th> Quantity per Design</th>
+                          <th> Item Quantity</th>
+                          <th> unitWT_UL</th>
+                          <th> unitWT_LL</th>
+                          <th> Estimate Weight</th>
+                          <th> Screw Make</th>
+                          <th> Screw Size</th>
+                          <th> Cutting Type</th>
+                          <th> Cutting Design</th>
+                          <th> Stone Brand</th>
+                          <th> Polish Type</th>
+                          <th> Dimmy Col screwType</th>
+                          <th> SILSURColouringType</th>
+                          <th> Surface Finish</th>
+                          <th> Coat</th>
+                          <th> Card Fitting Plan</th>
+                          <th> Card Type</th>
+                          <th> Stone Setting Type</th>
+                          <th> Remarks</th>
+                        </thead>
+                        {
+                          objectArray.map(result=>{
+                            return <tr>
+                              <td>{result.category}</td>
+                              <td>{result.finalIname}</td>
+                              <td>{result.saleName}</td>
+                              <td>{result.itemStage}</td>
+                              <td>{result.noOfDesign}</td>
+                              <td>{result.QuantityPerDesign}</td>
+                              <td>{result.itemQuantity}</td>
+                              <td>{result.unitWT_UL}</td>
+                              <td>{result.unitWT_LL}</td>
+                              <td>{result.estimatedWeight}</td>
+                              <td>{result.ScrewMake}</td>
+                              <td>{result.screwSize}</td>
+                              <td>{result.cuttingType}</td>
+                              <td>{result.cuttingDesign}</td>
+                              <td>{result.stoneBrand}</td>
+                              <td>{result.polishType}</td>
+                              <td>{result.dimmyColType}</td>
+                              <td>{result.SILSURColouringType}</td>
+                              <td>{result.surfaceFinish}</td>
+                              <td>{result.Coat}</td>
+                              <td>{result.cfPlan}</td>
+                              <td>{result.cardType}</td>
+                              <td>{result.stoneSettingType}</td>
+                              <td>{result.remarks}</td>
+                            </tr>
+                          })
+                        }
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          :''
+          }
         <div className="row">
           <div className="col-md-4 grid-margin stretch-card">
             <div className="card">
@@ -256,7 +373,6 @@ const BasicElements = () => {
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
                 <form className="forms-sample">
-
                   <div className="row">
                     <div className="col-md-6">
                       <Form.Group className="row">
@@ -398,12 +514,13 @@ const BasicElements = () => {
                     </div>
                   </div>
 
-                  {/* <button type="submit"  value={inputValue.}  onChange={handleInputChange} className="btn btn-primary mr-2">Save</button> */}
-                  {/* <button className="btn btn-dark">Cancel</button> */}
+                  {/* <button type="submit"  onChange={handleInputChange} className="btn btn-primary mr-2">Save</button>
+                  <button className="btn btn-dark">Cancel</button> */}
                 </form>
               </div>
             </div>
           </div>
+         
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -453,9 +570,9 @@ const BasicElements = () => {
                       </div>
                     </Form.Group>
                   </div>
-                  <div className='col'>
+                  {/* <div className='col'>
                     <button type="submit"    onClick={''} className="btn btn-primary mr-4">Save</button>
-                  </div>
+                  </div> */}
 
                   {/*  custom image and remarks feild */}
 
@@ -576,7 +693,7 @@ const BasicElements = () => {
                     </Form.Group>
                   </div>
                   <div className="row">
-                  <Form.Group className='col'>
+                    <Form.Group className='col'>
                       <label htmlFor="coat" className="col-sm-5 col-form-label">Coat</label>
                       <div className="col">
                       <select className="form-control"  value={inputValue.Coat} name='Coat' onChange={handleInputChange}  id="coat">
@@ -587,7 +704,7 @@ const BasicElements = () => {
                       </select>
                       </div>
                     </Form.Group>
-                    <Form.Group className='col'>
+                      <Form.Group className='col'>
                       <label htmlFor="cardType" name='cardType' className="col-sm-5 col-form-label">Card Type</label>
                       <div className="col">
                       <select className="form-control" value={inputValue.cardType} onChange={handleInputChange} name='cardType' id="cardType">
@@ -599,8 +716,7 @@ const BasicElements = () => {
                         <option value="6A-PL-B">6A-PL-B</option>
                       </select>
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
-
-                      </div>
+                    </div>
                     </Form.Group>
                     <Form.Group className='col'>
                       <label htmlFor="cfPlan" className="col-sm-5 col-form-label">Card Fittin Plan</label>
@@ -611,7 +727,7 @@ const BasicElements = () => {
                   
                   </div>
                   <div className='row'>
-                  <Form.Group className='col'>
+                    <Form.Group className='col'>
                       <label htmlFor="stoneSettingType" className="col-sm-5 col-form-label">Stone Setting Type</label>
                       <div className="col">
                       <select className="form-control col-sm-4 "  value={inputValue.stoneSettingType} name='stoneSettingType' onChange={handleInputChange}  id="stoneSettingType">
@@ -634,7 +750,6 @@ const BasicElements = () => {
                     </Form.Group> */}
                     
                   </div>
-
                   <div className='col'>
                     <Form.Group>
                       <label htmlFor="Remarks">Remarks</label>
@@ -642,8 +757,23 @@ const BasicElements = () => {
                     </Form.Group>
                   </div>
                   <div className='col'>
-                    <button type="submit"  onClick={pushToDB} className="btn btn-primary mr-4">Save</button>
+                    <div style={{marginTop:'2%'}} className='row'>
+                      <Form.Group className='col'>
+                        <button type="submit"  onClick={newLineItemHandle} className="btn btn-primary">Add New Item</button>
+                      </Form.Group>
+                      <Form.Group className='col'>
+                        <button style={{marginLeft:'82%'}} type="submit"  onClick={pushToDB} className="btn btn-primary">Create Order</button>
+                      </Form.Group>
+                    </div>
                   </div>
+
+
+                  {/* <div className='row'>
+                    <CustomPopUp
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    />
+                  </div> */}
                 </form>
               </div>
             </div>

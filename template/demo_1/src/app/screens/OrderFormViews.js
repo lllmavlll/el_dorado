@@ -43,14 +43,14 @@ const OrderFormViews = () => {
                         <th>seal</th>
                         <th>Quality series</th>
                         <th>category</th>
-                        <th> Group Name</th>
-                        <th> Sub Group Name</th>
-                        <th> Core Product Name</th>
-                        <th> model Number</th>
-                        <th> No.Of Stones</th>
-                        <th> Size Of Stone</th>
-                        <th> Stone Color pattern</th>
-                        <th> Screw Type</th>
+                        <th>Group Name</th>
+                        <th>Sub Group Name</th>
+                        <th>Core Product Name</th>
+                        <th>model Number</th>
+                        <th>No.Of Stones</th>
+                        <th>Size Of Stone</th>
+                        <th>Stone Color pattern</th>
+                        <th>Screw Type</th>
                         <th>Sale Name</th>
                         <th>Item Stage</th>
                         <th>SKUNo</th>
