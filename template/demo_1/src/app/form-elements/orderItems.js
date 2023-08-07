@@ -19,11 +19,12 @@ const OrderItems = () => {
     Size:"",
     StoneColourPattern:"",
     ScrewType:"",
+    
 })
 
 const [show,setShow] = useState(false)
 
-const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
+// const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
 
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,20 +39,22 @@ const handleInputChange = (event) => {
 const inputHandler= async(e)=>{
     e.preventDefault()
     // console.log(inputValue)
-    const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
+    const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType,]
     joinedValue = values.join('_')
     console.log(joinedValue);
+    setShow(true)
     alert(`Iname is: ${joinedValue}`)
+
     // if (joinedValue) {
     //   window.location.reload();
     // }
   }
   
-  const showProductName=(e)=>{
-    e.preventDefault()
-    setShow(true)
+//   const showProductName=(e)=>{
+//     e.preventDefault()
+//     setShow(true)
 
-}
+// }
 const pushToDB= async(e)=>{
     e.preventDefault()
     // console.log(values)
@@ -67,7 +70,7 @@ const pushToDB= async(e)=>{
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo
+        Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo,FinalIname:joinedValue
       })
     })
     
@@ -189,8 +192,8 @@ const pushToDB= async(e)=>{
                       <button type="submit" onClick={inputHandler} className="btn btn-primary mr-4">Submit</button>
                     </div>
                     <div className='col'>
-                      <p></p>
-                      <button type="submit" onClick={showProductName} className="btn btn-primary mr-4">Show Product Name</button>
+                      {/* <p></p> */}
+                      {/* <button type="submit" onClick={showProductName} className="btn btn-primary mr-4">Show Product Name</button> */}
                     </div>
                   </div>
                 </form>
