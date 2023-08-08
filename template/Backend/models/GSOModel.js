@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 const GSOSchema = mongoose.Schema({
     GSOrderNo: {
         type: String,
-        // required: true
+        required: true
     },
     OrderNo: {
         type: String,
-        // required: true
+        required: true
     },
     GSName: {
         type: String,
-        // required: true
+        required: true
     },
     ItemName: {
         type: String,
-        // required: true
+        required: true
     },
     OrderedQty: {
         type: String,
-        // required: true
+        required: true
     },
     allocdQty: {
         type: String

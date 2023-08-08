@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 // import CustomPopUp from '../screens/CustomPopUp';
 import '../screens/CustomCssFile.css'
@@ -11,6 +11,8 @@ const BasicElements = () => {
   // const [modalShow, setModalShow] = useState(false);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [objectArray, setObjectArray] = useState([]); // to push line items in an array
+  const[orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
+
   
   const [inputValue,setInputValue] = useState({
         customerName:'',
@@ -65,18 +67,33 @@ const handleInputChange = (event) => {
   });
 };
 
+//================= || func to convert string into number || ===========================//
+
+const convertToNum =(num)=>{
+  return parseInt(num)
+}
+
+//================= || calculated values for item quantity and estimate weight || ===========================//
+
+const itemQuantity = convertToNum(inputValue.noOfDesign)*convertToNum(inputValue.QuantityPerDesign)
+
+const sumOfUnitWeight = convertToNum(inputValue.unitWT_UL)+convertToNum(inputValue.unitWT_LL)
+const averageWeight =sumOfUnitWeight/2
+console.log(averageWeight);
+const estimatedWeight = averageWeight *itemQuantity
+
 //================= || to bring up the table || ===========================//
-  const newLineItemHandle =(e)=>{
-    e.preventDefault()
-    setItemNameListView(true)
-    const newLineItem = {
-      category:inputValue.category,
+const newLineItemHandle =(e)=>{
+  e.preventDefault()
+  setItemNameListView(true)
+  const newLineItem = {
+    category:inputValue.category,
       finalIname:inputValue.SKUNo,
       saleName:inputValue.saleName,
       itemStage:inputValue.itemStage,
       noOfDesign:inputValue.noOfDesign,
       QuantityPerDesign:inputValue.QuantityPerDesign,
-      itemQuantity:inputValue.itemQuantity,
+      itemQuantity:itemQuantity,
       unitWT_UL:inputValue.unitWT_UL,
       unitWT_LL:inputValue.unitWT_LL,
       estimatedWeight:inputValue.estimatedWeight,
@@ -96,18 +113,32 @@ const handleInputChange = (event) => {
       remarks:inputValue.remarks,
     }
     setObjectArray([...objectArray, newLineItem]);
-    console.log(objectArray);
-}
-  
+    // console.log(objectArray);
+  }
+  //================= || get SKU for Dropdown || ===========================//
 
+  const getSKU = ()=>{
+    fetch('http://localhost:4000/iname/getIname')
+   .then(response => response.json())
+   .then(data =>
+    {console.log(data);
+    return data
+    })
+   .then(data =>setOrderFormData(data))
+   .catch(err=> console.log(err))
+
+  }  
+  
   const pushToDB= async(e)=>{
     e.preventDefault()
-
+    
 
     // setModalShow(true) // this is for the popUp
     // console.log(inputValue)
-
+    
     //for banckend
+
+
     // const {
     //     customerName,
     //     OrderNo,
@@ -209,7 +240,13 @@ const handleInputChange = (event) => {
     // alert('Customer Order Created Sucessfully!')
 
 
+    
   }
+
+
+  useEffect(()=>{
+    getSKU() //fetch func
+  },[])
 
   return (
     <>
@@ -500,7 +537,15 @@ const handleInputChange = (event) => {
                       <Form.Group className="row">
                         <label  htmlFor="SKUNo" className="col-sm-4 col-form-label">SKU No.</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" />
+                        <select    value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo"  >
+                          <option  value=""> Select</option>
+                          {
+                          orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
+                          return  <option  value={result.FinalIname}> {result.FinalIname}</option>
+                          })
+                          }
+                          </select>
+                        {/* <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" /> */}
                         </div>
                       </Form.Group>
                     </div>
@@ -531,19 +576,19 @@ const handleInputChange = (event) => {
                     <Form.Group className='col'>
                       <label htmlFor="NoOfdesign" className="col-sm-5 col-form-label">No. Of Design </label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.noOfDesign}  name='noOfDesign' onChange={handleInputChange} className="form-control" id="NoOfdesign" placeholder="No. Of Design" />
+                      <Form.Control type="number"  value={inputValue.noOfDesign}  name='noOfDesign' onChange={handleInputChange} className="form-control" id="NoOfdesign" placeholder="No. Of Design" />
                       </div>
                     </Form.Group>
-                    <Form.Group className='col'>
+                    <Form.Group className='col cursorNotAll'>
                       <label htmlFor="quantityPerDesign" className=" col-sm-5 col-form-label">Quantity/Design</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.QuantityPerDesign}  name='QuantityPerDesign' onChange={handleInputChange} className="form-control" id="quantityPerDesign" placeholder="Quantity/Design" />
+                      <Form.Control type="number"  value={inputValue.QuantityPerDesign}  name='QuantityPerDesign' onChange={handleInputChange} className="form-control" id="quantityPerDesign" placeholder="Quantity/Design" />
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="itemQuantity" className="col-sm-5 col-form-label ">Item Quantity</label>
-                      <div className="col">
-                      <Form.Control type="text"  value={inputValue.itemQuantity}  name='itemQuantity' onChange={handleInputChange} className="form-control" id="itemQuantity" placeholder="Item Quantity" />
+                      <label htmlFor="itemQuantity" className="col-sm-5 col-form-label">Item Quantity</label>
+                      <div className="col ">
+                      <Form.Control  type="number"  value={itemQuantity}  name='itemQuantity' onChange={handleInputChange} className="form-control cursorDisable" id="itemQuantity" placeholder="Item Quantity" />
                       </div>
                     </Form.Group>
                   </div>
@@ -551,14 +596,14 @@ const handleInputChange = (event) => {
                     <Form.Group className='col'>
                       <label htmlFor="unitWT_UL" className="col-sm-5 col-form-label">Unit Weight UL</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.unitWT_UL}  name='unitWT_UL' onChange={handleInputChange} className="form-control" id="unitWT_UL" placeholder="Unit Weight UL" />
+                      <Form.Control type="number"  value={inputValue.unitWT_UL}  name='unitWT_UL' onChange={handleInputChange} className="form-control" id="unitWT_UL" placeholder="Unit Weight UL" />
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
                       <label htmlFor="unitWT_LL" className=" col-sm-5 col-form-label">Unit Weight LL</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.unitWT_LL}  name='unitWT_LL' onChange={handleInputChange} className="form-control" id="unitWT_LL" placeholder="Unit Weight LL" />
+                      <Form.Control type="number"  value={inputValue.unitWT_LL}  name='unitWT_LL' onChange={handleInputChange} className="form-control" id="unitWT_LL" placeholder="Unit Weight LL" />
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
 
                       </div>
@@ -566,7 +611,7 @@ const handleInputChange = (event) => {
                     <Form.Group className='col'>
                       <label htmlFor="estimatedWeight" className="col-sm-5 col-form-label ">Estimated Weight</label>
                       <div className="col">
-                      <Form.Control type="text"  value={inputValue.estimatedWeight}  name='estimatedWeight' onChange={handleInputChange} className="form-control" id="estimatedWeight" placeholder="Estimated Weight" />
+                      <Form.Control type="number"  value={estimatedWeight}  name='estimatedWeight' onChange={handleInputChange} className="form-control cursorDisable" id="estimatedWeight" placeholder="Estimated Weight" />
                       </div>
                     </Form.Group>
                   </div>

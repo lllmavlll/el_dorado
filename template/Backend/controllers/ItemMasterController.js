@@ -13,4 +13,13 @@ const addItemMaster = async (req, res) => {
         res.status(500);
     }
 }
-module.exports = { addItemMaster };
+const getItemMasters = async (req, res) => {
+    try {
+        const jewelries = await imasterModel.find()
+        res.json({ jewelrie: jewelries })
+    } catch (error) {
+        console.error('Error fetching jewelries:', error);
+        res.status(500).json({ error: 'Failed to fetch jewelries' });
+    }
+}
+module.exports = { addItemMaster, getItemMasters };

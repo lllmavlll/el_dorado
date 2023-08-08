@@ -6,12 +6,12 @@ const custRouter = require('./routes/CustomerRoute');
 const iNameRouter = require('./routes/INameRoute');
 const IMasterRouter = require('./routes/IMasterRoute');
 const CustOrdFormRouter = require('./routes/CustOrdRoute');
+const GSORoute = require('./routes/GSORoute');
 const bodyParser = require('body-parser');
-const GSORoute = require('./routes/GSORoute')
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
 app.use((req, res, next) => {
     console.log("HTTP METHOD - " + req.method + ", URL - " + req.url);
@@ -23,7 +23,7 @@ app.use('/customers', custRouter);
 app.use('/iname', iNameRouter);
 app.use('/itemMasters', IMasterRouter);
 app.use('/CustomerOrderForm', CustOrdFormRouter)
-app.use('/GSO',GSORoute)
+app.use('/GSO', GSORoute)
 
 
 app.get('/', (req, res) => {

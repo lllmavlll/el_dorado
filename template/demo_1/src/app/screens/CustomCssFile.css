@@ -15,3 +15,7 @@
     min-width: 100px; /* Adjust this value as needed */
   }
   
+  /* cursor dsable in order form page for item quantity and estimatedweight*/
+  .cursorDisable:hover{
+    cursor:no-drop;
+  }
