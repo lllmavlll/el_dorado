@@ -3,26 +3,21 @@ const InameSchema = mongoose.Schema({
 
     Category: {
         type: String,
-        required: true
     },
     Group: {
         type: String,
-        required: true
     },
     SubGroup: {
         type: String,
-        required: true
     },
     CoreProductName: {
         type: String,
-        required: true
     },
     ModelNo: {
         type: String,
-        required: true
     },
     Nstone: {
-        type: Number,
+        type: String,
     },
     Size: {
         type: String,

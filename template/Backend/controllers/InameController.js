@@ -3,12 +3,14 @@ const inameModel = require('../models/InamesDBModel')
 const addIname = async (req, res) => {
     const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo } = req.body;
     try {
-        const existingItem = await inameModel.findOne({ Category: Category, Group: Group, CoreProductName: CoreProductName, ModelNo: ModelNo, Nstone: Nstone, Size: Size, StoneColourPattern: StoneColourPattern, ScrewType: ScrewType })
+       
+        const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType]
+        const FinalIname = values.join('_');
+
+        const existingItem = await inameModel.findOne({ FinalIname:FinalIname})
         if (existingItem) {
             return res.status(400).json({ message: "Item already exists" });
         }
-        const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType]
-        const FinalIname = values.join('_');
         
 
 

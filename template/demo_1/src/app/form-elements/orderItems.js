@@ -8,7 +8,6 @@ var joinedValue
 
 
 const OrderItems = () => {
-
   const [inputValue,setInputValue] = useState({
     Category:'',
     Group:"",
@@ -19,9 +18,7 @@ const OrderItems = () => {
     Size:"",
     StoneColourPattern:"",
     ScrewType:"",
-    
 })
-
 const [show,setShow] = useState(false)
 
 // const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
@@ -43,11 +40,9 @@ const inputHandler= async(e)=>{
     joinedValue = values.join('_')
     console.log(joinedValue);
     setShow(true)
-    alert(`Iname is: ${joinedValue}`)
+    // alert(`Iname is: ${joinedValue}`)
 
-    // if (joinedValue) {
-    //   window.location.reload();
-    // }
+  
   }
   
 //   const showProductName=(e)=>{
@@ -59,18 +54,19 @@ const pushToDB= async(e)=>{
     e.preventDefault()
     // console.log(values)
     // console.log(inputValue)
-  
-  
+    
+    
+    
     //for banckend
-
-    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo} = inputValue
+    
+    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,} = inputValue
     const res =await fetch('http://localhost:4000/iname/createIname',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo,FinalIname:joinedValue
+        Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,
       })
     })
     
@@ -78,7 +74,13 @@ const pushToDB= async(e)=>{
     if(data){
       window.location.reload();
     }
-    alert('product name created sucessfully!')
+    if(res.status===400 || !data){
+      window.alert(`already exist`)
+    }
+    else{
+       alert('product name created sucessfully!')
+      
+       }
 
 }
 
