@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 // import CustomPopUp from '../screens/CustomPopUp';
 import '../screens/CustomCssFile.css'
+import {dependentDropDown} from '../screens/rawDataFortest'
 
 
 
@@ -11,9 +12,8 @@ const BasicElements = () => {
   // const [modalShow, setModalShow] = useState(false);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [objectArray, setObjectArray] = useState([]); // to push line items in an array
-  const[orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
-
-  
+  const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
+  const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
   const [inputValue,setInputValue] = useState({
         customerName:'',
         OrderNo:'',
@@ -59,6 +59,14 @@ const BasicElements = () => {
   })
 
 //================= || handles filed input values || ===========================//
+const dropDownHandle =(event)=>{
+  const { name, value } = event.target;
+  setInputValue({
+    ...inputValue, 
+    [name]: value,
+  });
+setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
+}
 const handleInputChange = (event) => {
   const { name, value } = event.target;
   setInputValue({
@@ -75,12 +83,11 @@ const convertToNum =(num)=>{
 
 //================= || calculated values for item quantity and estimate weight || ===========================//
 
-const itemQuantity = convertToNum(inputValue.noOfDesign)*convertToNum(inputValue.QuantityPerDesign)
+const calcItemQuantity = convertToNum(inputValue.noOfDesign)*convertToNum(inputValue.QuantityPerDesign)
 
 const sumOfUnitWeight = convertToNum(inputValue.unitWT_UL)+convertToNum(inputValue.unitWT_LL)
 const averageWeight =sumOfUnitWeight/2
-console.log(averageWeight);
-const estimatedWeight = averageWeight *itemQuantity
+const calcEstimatedWeight = averageWeight *calcItemQuantity
 
 //================= || to bring up the table || ===========================//
 const newLineItemHandle =(e)=>{
@@ -93,10 +100,10 @@ const newLineItemHandle =(e)=>{
       itemStage:inputValue.itemStage,
       noOfDesign:inputValue.noOfDesign,
       QuantityPerDesign:inputValue.QuantityPerDesign,
-      itemQuantity:itemQuantity,
+      calcItemQuantity,
       unitWT_UL:inputValue.unitWT_UL,
       unitWT_LL:inputValue.unitWT_LL,
-      estimatedWeight:inputValue.estimatedWeight,
+      calcEstimatedWeight,
       ScrewMake:inputValue.ScrewMake,
       screwSize:inputValue.screwSize,
       cuttingType:inputValue.cuttingType,
@@ -113,7 +120,7 @@ const newLineItemHandle =(e)=>{
       remarks:inputValue.remarks,
     }
     setObjectArray([...objectArray, newLineItem]);
-    // console.log(objectArray);
+    console.log(objectArray);
   }
   //================= || get SKU for Dropdown || ===========================//
 
@@ -134,7 +141,7 @@ const newLineItemHandle =(e)=>{
     
 
     // setModalShow(true) // this is for the popUp
-    // console.log(inputValue)
+    console.log(inputValue)
     
     //for banckend
 
@@ -271,6 +278,7 @@ const newLineItemHandle =(e)=>{
                     <div className="table-responsive OFtable-res ">
                       <table className="table table-bordered OFtable ">
                         <thead>
+                          <th> SL.NO</th>
                           <th> Category</th>
                           <th> Final Item Name</th>
                           <th> Sale Name</th>
@@ -297,18 +305,19 @@ const newLineItemHandle =(e)=>{
                           <th> Remarks</th>
                         </thead>
                         {
-                          objectArray.map(result=>{
+                          objectArray.map((result,index)=>{
                             return <tr>
+                              <td>{index+1}</td>
                               <td>{result.category}</td>
                               <td>{result.finalIname}</td>
                               <td>{result.saleName}</td>
                               <td>{result.itemStage}</td>
                               <td>{result.noOfDesign}</td>
                               <td>{result.QuantityPerDesign}</td>
-                              <td>{result.itemQuantity}</td>
+                              <td>{result.calcItemQuantity}</td>
                               <td>{result.unitWT_UL}</td>
                               <td>{result.unitWT_LL}</td>
-                              <td>{result.estimatedWeight}</td>
+                              <td>{result.calcEstimatedWeight}</td>
                               <td>{result.ScrewMake}</td>
                               <td>{result.screwSize}</td>
                               <td>{result.cuttingType}</td>
@@ -430,19 +439,49 @@ const newLineItemHandle =(e)=>{
                   </div>
 
                   <div className="row">
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <Form.Group className="row">
                         <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
                         <div className="col-sm-8">
                         <Form.Control  type="text"  value={inputValue.groupName} name='groupName' onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
                         </div>
                       </Form.Group>
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
+                      <Form.Group className="row">
+                        <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
+                        <div className="col-sm-8">
+                          <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
+                            <option  value=""> Select</option>
+                            {
+                              dependentDropDown.map( gname =>{
+                               return <option key={gname.toString()} value={gname.groupName}>{gname.groupName}</option>
+                              })
+                            }
+                          </select>
+                        </div>
+                      </Form.Group>
+                    </div>
+                    {/* <div className="col-md-6">
                       <Form.Group className="row">
                         <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
                         <div className="col-sm-8">
                         <Form.Control  type="text"  value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder="Sub Group Name" />
+                        </div>
+                      </Form.Group>
+                    </div> */}
+                    <div className="col-md-6">
+                      <Form.Group className="row">
+                        <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
+                        <div className="col-sm-8">
+                           <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
+                          <option  value=""> Select</option>
+                          {
+                            subGroupNameDD.map(subGName =>{
+                              return <option value={subGName}>{subGName}</option>
+                            })
+                          }
+                        </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -588,7 +627,7 @@ const newLineItemHandle =(e)=>{
                     <Form.Group className='col'>
                       <label htmlFor="itemQuantity" className="col-sm-5 col-form-label">Item Quantity</label>
                       <div className="col ">
-                      <Form.Control  type="number"  value={itemQuantity}  name='itemQuantity' onChange={handleInputChange} className="form-control cursorDisable" id="itemQuantity" placeholder="Item Quantity" />
+                      <Form.Control  type="number"  value={calcItemQuantity}  name='itemQuantity' onChange={handleInputChange} className="form-control cursorDisable" id="itemQuantity" placeholder="Item Quantity" />
                       </div>
                     </Form.Group>
                   </div>
@@ -611,7 +650,7 @@ const newLineItemHandle =(e)=>{
                     <Form.Group className='col'>
                       <label htmlFor="estimatedWeight" className="col-sm-5 col-form-label ">Estimated Weight</label>
                       <div className="col">
-                      <Form.Control type="number"  value={estimatedWeight}  name='estimatedWeight' onChange={handleInputChange} className="form-control cursorDisable" id="estimatedWeight" placeholder="Estimated Weight" />
+                      <Form.Control type="number"  value={calcEstimatedWeight}  name='estimatedWeight' onChange={handleInputChange} className="form-control cursorDisable" id="estimatedWeight" placeholder="Estimated Weight" />
                       </div>
                     </Form.Group>
                   </div>

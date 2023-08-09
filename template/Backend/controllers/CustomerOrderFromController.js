@@ -29,21 +29,7 @@ const getAllOrders = async (req, res) => {
     }
 }
 
-//to get iname in custOrdForm
-const getiname = async (req, res) => {
-    const productId = req.params.ItemName;
-    try {
-        const product = await CustOrdModel.findById(productId);
-        const productDetails = CustOrdModel.ItemName;
-        res.json(productDetails);
-    } catch (error) {
-        console.error('Error fetching Iname in Order Forms:', error);
-        res.status(500).json({ error: 'Failed to fetch Iname' });
-    }
-}
-
 module.exports = {
     addCustOrd,
     getAllOrders,
-    getiname
 };
