@@ -9,11 +9,13 @@ import {dependentDropDown} from '../screens/rawDataFortest'
 
 const BasicElements = () => {
 
+
   // const [modalShow, setModalShow] = useState(false);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
   const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
   const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
+  const [clearInput,setClearInput] = useState([]) // to clear input
   const [inputValue,setInputValue] = useState({
         customerName:'',
         OrderNo:'',
@@ -61,6 +63,7 @@ const BasicElements = () => {
 //================= || handles filed input values || ===========================//
 const dropDownHandle =(event)=>{
   const { name, value } = event.target;
+  setClearInput(event.target.value)
   setInputValue({
     ...inputValue, 
     [name]: value,
@@ -69,10 +72,12 @@ setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGr
 }
 const handleInputChange = (event) => {
   const { name, value } = event.target;
+  setClearInput(event.target.value)
   setInputValue({
     ...inputValue, 
     [name]: value,
   });
+  console.log('Input Value:', clearInput);
 };
 
 //================= || func to convert string into number || ===========================//
@@ -125,7 +130,7 @@ const newLineItemHandle =(e)=>{
       remarks:inputValue.remarks,
     }
     setLineItem([...lineItem, newLineItem]);
-    console.log(lineItem);
+    setClearInput('');
   }
   //================= || get SKU for Dropdown || ===========================//
 
@@ -140,6 +145,29 @@ const newLineItemHandle =(e)=>{
    .catch(err=> console.log(err))
 
   }  
+
+
+
+
+
+  //=================|| for SKU populate ||=======================//
+const skuFunc =async(e)=>{
+  e.preventDefault()
+
+
+  const value =inputValue.subGroupName
+
+  fetch(`http://localhost:4000/iname/getSKU/:${value}`,{
+    method:"GET"
+  })
+  .then(response => response.json())
+  .then(data =>
+   {console.log(data);
+   return data
+   })
+  .then(data =>setOrderFormData(data))
+  .catch(err=> console.log(err))
+}
   
   const pushToDB= async(e)=>{
     e.preventDefault()
@@ -147,12 +175,10 @@ const newLineItemHandle =(e)=>{
 
     // setModalShow(true) // this is for the popUp
     // console.log(inputValue)
-    
-    //for banckend
 
+    //=================|| for backend ||=======================//
 
     const {customerName,OrderNo,} = inputValue
-
 
     const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
       method:'POST',
@@ -171,9 +197,6 @@ const newLineItemHandle =(e)=>{
       window.location.reload();
     }
     alert('Customer Order Created Sucessfully!')
-
-
-    
   }
 
 
@@ -187,12 +210,6 @@ const newLineItemHandle =(e)=>{
          {/* //================== || Item Name View List per Order || ==============// */}
          <div className="page-header">
           <h1 className="page-title"> Customer Order Form </h1>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              {/* <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Forms</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Form elements</li> */}
-            </ol>
-          </nav>
         </div>
           {
             itemNameListView?
@@ -279,12 +296,13 @@ const newLineItemHandle =(e)=>{
             </div>
           :''
           }
-        <div className="row">
+        <Form >
+          <div className="row">
           <div className="col-md-4 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Customer Details</h4>
-                <form className="forms-sample">
+                {/* <form className="forms-sample"> */}
                   <Form.Group className='row'>
                     <label htmlFor="CustomerName" className="col-sm-5 col-form-label" >Customer Name</label>
                     <div className="col-sm-7">
@@ -303,13 +321,13 @@ const newLineItemHandle =(e)=>{
                     <Form.Control type="date"  value={inputValue.placedOrderDate} name='placedOrderDate' onChange={handleInputChange} className="form-control" id="placedOrderDate" />
                     </div>
                   </Form.Group>
-                <Form.Group className='row'>
+                  <Form.Group className='row'>
                     <label htmlFor="requiredDate" className="col-sm-5 col-form-label" >Required Date</label>
                     <div className="col-sm-7">
                     <Form.Control type="date"  value={inputValue.requiredDate} name='requiredDate' onChange={handleInputChange} className="form-control" id="requiredDate"  />
                     </div>
                   </Form.Group>
-                <Form.Group className='row'>
+                  <Form.Group className='row'>
                     <label htmlFor="custOrderTouch" className="col-sm-5 col-form-label" >Cust order Touch</label>
                     <div className="col-sm-7">
                     <Form.Control type="number"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="custOrderTouch" placeholder="Cust order Touch" />
@@ -346,7 +364,7 @@ const newLineItemHandle =(e)=>{
                   </div>
                   <button type="submit" className="btn btn-primary mr-2">Submit</button>
                   <button className="btn btn-dark">Cancel</button> */}
-                </form>
+                {/* </form> */}
               </div>
             </div>
           </div>
@@ -354,7 +372,7 @@ const newLineItemHandle =(e)=>{
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
-                <form className="forms-sample">
+                {/* <form className="forms-sample"> */}
                   <div className="row">
                     <div className="col-md-6">
                       <Form.Group className="row">
@@ -512,7 +530,7 @@ const newLineItemHandle =(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="SKUNo" className="col-sm-4 col-form-label">SKU No.</label>
                         <div className="col-sm-8">
-                        <select    value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo"  >
+                        <select    value={inputValue.SKUNo} name='SKUNo'  onChange={handleInputChange} className="form-control" id="SKUNo"  >
                           <option  value=""> Select</option>
                           {
                           orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
@@ -536,7 +554,7 @@ const newLineItemHandle =(e)=>{
 
                   {/* <button type="submit"  onChange={handleInputChange} className="btn btn-primary mr-2">Save</button>
                   <button className="btn btn-dark">Cancel</button> */}
-                </form>
+                {/* </form> */}
               </div>
             </div>
           </div>
@@ -546,7 +564,7 @@ const newLineItemHandle =(e)=>{
               <div className="card-body">
                 <h4 className="card-title">Quantity Details</h4>
                 {/* <p className="card-description"> Basic form elements </p> */}
-                <form className="forms-sample">
+                {/* <form className="forms-sample"> */}
                   <div className="row">
                     <Form.Group className='col'>
                       <label htmlFor="NoOfdesign" className="col-sm-5 col-form-label">No. Of Design </label>
@@ -609,7 +627,7 @@ const newLineItemHandle =(e)=>{
                   </Form.Group>
                   <button type="submit"  value={inputValue.}  onChange={handleInputChange} className="btn btn-primary mr-2">Submit</button>
                   <button className="btn btn-dark">Cancel</button> */}
-                </form>
+                {/* </form> */}
               </div>
             </div>
           </div>
@@ -619,7 +637,7 @@ const newLineItemHandle =(e)=>{
               <div className="card-body">
                 <h4 className="card-title">Other Attributes</h4>
                 {/* <p className="card-description"> Basic form elements </p> */}
-                <form className="forms-sample">
+                {/* <form className="forms-sample"> */}
                   <div className="row">
                     <Form.Group className='col'>
                       <label htmlFor="screwMake" className="col-sm-5 col-form-label">Screw Make </label>
@@ -779,7 +797,7 @@ const newLineItemHandle =(e)=>{
                   <div className='col'>
                     <div style={{marginTop:'2%'}} className='row'>
                       <Form.Group className='col'>
-                        <button type="submit"  onClick={newLineItemHandle} className="btn btn-primary">Add New Item</button>
+                        <button type="submit"  onClick={newLineItemHandle} className="btn btn-primary">Save and Add New Item</button>
                       </Form.Group>
                       <Form.Group className='col'>
                         <button style={{marginLeft:'82%'}} type="submit"  onClick={pushToDB} className="btn btn-primary">Create Order</button>
@@ -794,11 +812,12 @@ const newLineItemHandle =(e)=>{
                     onHide={() => setModalShow(false)}
                     />
                   </div> */}
-                </form>
+                {/* </form> */}
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </Form>
       </div>
     </>
   )
