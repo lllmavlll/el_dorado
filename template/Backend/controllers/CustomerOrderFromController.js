@@ -1,14 +1,14 @@
 const CustOrdModel = require('../models/CustomerOrderFormDBModel')
 
 const addCustOrd = async (req, res) => {
-    const { customerName, OrderNo, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, lineItem } = req.body;
+    const { customerName, OrderNo, lineItem } = req.body;
     // if (!customerName || !OrderNo || !placedOrderDate || !requiredDate || !customerOrderTouch || !targetTouch || !seal || !qualitySeries || !category || !groupName || !subGroupName || !coreProductName || !modelNo || !noOfStones || !sizeofStone || !stoneColourPattern || !screwType || !saleName || !itemStage || !SKUNo || !noOfDesign || !QuantityPerDesign || !itemQuantity || !unitWT_UL || !unitWT_LL || !estimatedWeight || !ScrewMake || !screwSize || !cuttingType || !cuttingDesign || !stoneBrand || !polishType || !dimmyColType || !SILSURColouringType || !surfaceFinish || !Coat || !cardType || !cfPlan || !stoneSettingType || !remarks) {
     //     return res.status(422).json({ error: "please fill all the fields" })
     // }
     //category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo,
     try {
         const jewelries = await CustOrdModel.create({
-            customerName, OrderNo, placedOrderDate, requiredDate, customerOrderTouch, targetTouch, seal, qualitySeries, lineItem
+            customerName, OrderNo, lineItem
             //: [{ category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo }], 
         })
         res.status(201).json({ CustomerOrders: jewelries });

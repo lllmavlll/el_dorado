@@ -11,7 +11,7 @@ const BasicElements = () => {
 
   // const [modalShow, setModalShow] = useState(false);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
-  const [objectArray, setObjectArray] = useState([]); // to push line items in an array
+  const [lineItem, setLineItem] = useState([]); // to push line items in an array
   const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
   const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
   const [inputValue,setInputValue] = useState({
@@ -94,16 +94,21 @@ const newLineItemHandle =(e)=>{
   e.preventDefault()
   setItemNameListView(true)
   const newLineItem = {
-    category:inputValue.category,
+      placedOrderDate:inputValue.placedOrderDate,
+      requiredDate:inputValue.requiredDate,
+      customerOrderTouch:inputValue.customerOrderTouch,
+      targetTouch:inputValue.targetTouch,
+      seal:inputValue.seal,
+      qualitySeries:inputValue.qualitySeries,
       finalIname:inputValue.SKUNo,
       saleName:inputValue.saleName,
       itemStage:inputValue.itemStage,
       noOfDesign:inputValue.noOfDesign,
       QuantityPerDesign:inputValue.QuantityPerDesign,
-      calcItemQuantity,
+      itemQuantity:calcItemQuantity,
       unitWT_UL:inputValue.unitWT_UL,
       unitWT_LL:inputValue.unitWT_LL,
-      calcEstimatedWeight,
+      estimatedWeight:calcEstimatedWeight,
       ScrewMake:inputValue.ScrewMake,
       screwSize:inputValue.screwSize,
       cuttingType:inputValue.cuttingType,
@@ -119,8 +124,8 @@ const newLineItemHandle =(e)=>{
       stoneSettingType:inputValue.stoneSettingType,
       remarks:inputValue.remarks,
     }
-    setObjectArray([...objectArray, newLineItem]);
-    console.log(objectArray);
+    setLineItem([...lineItem, newLineItem]);
+    console.log(lineItem);
   }
   //================= || get SKU for Dropdown || ===========================//
 
@@ -141,110 +146,31 @@ const newLineItemHandle =(e)=>{
     
 
     // setModalShow(true) // this is for the popUp
-    console.log(inputValue)
+    // console.log(inputValue)
     
     //for banckend
 
 
-    // const {
-    //     customerName,
-    //     OrderNo,
-    //     placedOrderDate,
-    //     requiredDate,
-    //     customerOrderTouch,
-    //     targetTouch,
-    //     seal,
-    //     qualitySeries,
-    //     category,
-    //     groupName,
-    //     subGroupName,
-    //     coreProductName,
-    //     modelNo,
-    //     noOfStones,
-    //     sizeofStone,
-    //     stoneColourPattern,
-    //     screwType,
-    //     saleName,
-    //     itemStage,
-    //     SKUNo,
-    //     noOfDesign,
-    //     QuantityPerDesign,
-    //     itemQuantity,
-    //     unitWT_UL,
-    //     unitWT_LL,
-    //     estimatedWeight,
-    //     ScrewMake,
-    //     screwSize,
-    //     cuttingType,
-    //     cuttingDesign,
-    //     stoneBrand,
-    //     polishType,
-    //     dimmyColType,
-    //     SILSURColouringType,
-    //     surfaceFinish,
-    //     Coat,
-    //     cfPlan,
-    //     cardType,
-    //     stoneSettingType,
-    //     remarks 
-    //   } = inputValue
+    const {customerName,OrderNo,} = inputValue
 
 
-    // const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
-    //   method:'POST',
-    //   headers:{
-    //     "content-type":"application/json"
-    //   },
-    //   body:JSON.stringify({
-    //     customerName,
-    //     OrderNo,
-    //     placedOrderDate,
-    //     requiredDate,
-    //     customerOrderTouch,
-    //     targetTouch,
-    //     seal,
-    //     qualitySeries,
-    //     category,
-    //     groupName,
-    //     subGroupName,
-    //     coreProductName,
-    //     modelNo,
-    //     noOfStones,
-    //     sizeofStone,
-    //     stoneColourPattern,
-    //     screwType,
-    //     saleName,
-    //     itemStage,
-    //     SKUNo,
-    //     noOfDesign,
-    //     QuantityPerDesign,
-    //     itemQuantity,
-    //     unitWT_UL,
-    //     unitWT_LL,
-    //     estimatedWeight,
-    //     ScrewMake,
-    //     screwSize,
-    //     cuttingType,
-    //     cuttingDesign,
-    //     stoneBrand,
-    //     polishType,
-    //     dimmyColType,
-    //     SILSURColouringType,
-    //     surfaceFinish,
-    //     Coat,
-    //     cfPlan,
-    //     cardType,
-    //     stoneSettingType,
-    //     remarks,
-
-    //   })
-    // })
+    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
+      method:'POST',
+      headers:{
+        "content-type":"application/json"
+      },
+      body:JSON.stringify({
+        customerName,
+        OrderNo,
+        lineItem:lineItem
+      })
+    })
     
-    // const data = await res.json();
-    // if(data){
-    //   window.location.reload();
-    // }
-    // alert('Customer Order Created Sucessfully!')
+    const data = await res.json();
+    if(data){
+      window.location.reload();
+    }
+    alert('Customer Order Created Sucessfully!')
 
 
     
@@ -278,46 +204,56 @@ const newLineItemHandle =(e)=>{
                     <div className="table-responsive OFtable-res ">
                       <table className="table table-bordered OFtable ">
                         <thead>
-                          <th> SL.NO</th>
-                          <th> Category</th>
-                          <th> Final Item Name</th>
-                          <th> Sale Name</th>
-                          <th> Item Stage</th>
-                          <th> No. Of Design</th>
-                          <th> Quantity per Design</th>
-                          <th> Item Quantity</th>
-                          <th> unitWT_UL</th>
-                          <th> unitWT_LL</th>
-                          <th> Estimate Weight</th>
-                          <th> Screw Make</th>
-                          <th> Screw Size</th>
-                          <th> Cutting Type</th>
-                          <th> Cutting Design</th>
-                          <th> Stone Brand</th>
-                          <th> Polish Type</th>
-                          <th> Dimmy Col screwType</th>
-                          <th> SILSURColouringType</th>
-                          <th> Surface Finish</th>
-                          <th> Coat</th>
-                          <th> Card Fitting Plan</th>
-                          <th> Card Type</th>
-                          <th> Stone Setting Type</th>
-                          <th> Remarks</th>
+                          <th>SL.NO</th>
+                          <th>PLaced Order Date</th>
+                          <th>Required Date</th>
+                          <th>Cust OrderTouch</th>
+                          <th>Target Touch</th>
+                          <th>Seal</th>
+                          <th>Quality Series</th>
+                          <th>Final Item Name</th>
+                          <th>Sale Name</th>
+                          <th>Item Stage</th>
+                          <th>No. Of Design</th>
+                          <th>Quantity per Design</th>
+                          <th>Item Quantity</th>
+                          <th>unitWT_UL</th>
+                          <th>unitWT_LL</th>
+                          <th>Estimate Weight</th>
+                          <th>Screw Make</th>
+                          <th>Screw Size</th>
+                          <th>Cutting Type</th>
+                          <th>Cutting Design</th>
+                          <th>Stone Brand</th>
+                          <th>Polish Type</th>
+                          <th>Dimmy Col screwType</th>
+                          <th>SILSURColouringType</th>
+                          <th>Surface Finish</th>
+                          <th>Coat</th>
+                          <th>Card Fitting Plan</th>
+                          <th>Card Type</th>
+                          <th>Stone Setting Type</th>
+                          <th>Remarks</th>
                         </thead>
                         {
-                          objectArray.map((result,index)=>{
+                          lineItem.map((result,index)=>{
                             return <tr>
                               <td>{index+1}</td>
-                              <td>{result.category}</td>
+                              <td>{result.placedOrderDate}</td>
+                              <td>{result.requiredDate}</td>
+                              <td>{result.customerOrderTouch}</td>
+                              <td>{result.targetTouch}</td>
+                              <td>{result.seal}</td>
+                              <td>{result.qualitySeries}</td>
                               <td>{result.finalIname}</td>
                               <td>{result.saleName}</td>
                               <td>{result.itemStage}</td>
                               <td>{result.noOfDesign}</td>
                               <td>{result.QuantityPerDesign}</td>
-                              <td>{result.calcItemQuantity}</td>
+                              <td>{result.itemQuantity}</td>
                               <td>{result.unitWT_UL}</td>
                               <td>{result.unitWT_LL}</td>
-                              <td>{result.calcEstimatedWeight}</td>
+                              <td>{result.estimatedWeight}</td>
                               <td>{result.ScrewMake}</td>
                               <td>{result.screwSize}</td>
                               <td>{result.cuttingType}</td>
@@ -376,13 +312,13 @@ const newLineItemHandle =(e)=>{
                 <Form.Group className='row'>
                     <label htmlFor="custOrderTouch" className="col-sm-5 col-form-label" >Cust order Touch</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="custOrderTouch" placeholder="Cust order Touch" />
+                    <Form.Control type="number"  value={inputValue.customerOrderTouch} name='customerOrderTouch' onChange={handleInputChange} className="form-control" id="custOrderTouch" placeholder="Cust order Touch" />
                     </div>
                   </Form.Group>
                   <Form.Group className="row">
                     <label htmlFor="targetTouch" className="col-sm-5 col-form-label">Target Touch</label>
                     <div className="col-sm-7">
-                    <Form.Control type="text"  value={inputValue.targetTouch} name='targetTouch' onChange={handleInputChange} className="form-control" id="targetTouch" placeholder="Target Touch" />
+                    <Form.Control type="number"  value={inputValue.targetTouch} name='targetTouch' onChange={handleInputChange} className="form-control" id="targetTouch" placeholder="Target Touch" />
                     </div>
                   </Form.Group>
 
@@ -619,7 +555,7 @@ const newLineItemHandle =(e)=>{
                       </div>
                     </Form.Group>
                     <Form.Group className='col cursorNotAll'>
-                      <label htmlFor="quantityPerDesign" className=" col-sm-5 col-form-label">Quantity/Design</label>
+                      <label htmlFor="quantityPerDesign" className=" col-sm-5 col-form-label">Quantity per Design</label>
                       <div className="col">
                       <Form.Control type="number"  value={inputValue.QuantityPerDesign}  name='QuantityPerDesign' onChange={handleInputChange} className="form-control" id="quantityPerDesign" placeholder="Quantity/Design" />
                       </div>
