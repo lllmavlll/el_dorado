@@ -1,12 +1,12 @@
 const GSOModel = require('../models/GSOModel')
 
 const addGSOrder = async (req, res) => {
-    const { GSOrderNo, OrderNo, GSName, ItemName, OrderedQty, allocdQty, QtyToBeAllocd, allocdWt, WtToBeAllocd } = req.body
+    const { OrderNo, OrderedQty, subOrder } = req.body
     try {
         const result = await GSOModel.create({
-            GSOrderNo, OrderNo, GSName, ItemName, OrderedQty, allocdQty, QtyToBeAllocd, allocdWt, WtToBeAllocd
+            OrderNo, OrderedQty, subOrder
         })
-        res.status(201).json({ GSOrders: result });
+        res.status(201).json({ GSOrder: result });
     } catch (error) {
         console.log(error);
         res.status(500);

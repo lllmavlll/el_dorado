@@ -156,7 +156,7 @@ const newLineItemHandle =(e)=>{
   
     }
     const handleYesPopUP=()=>{
-      const data ={lineItem:'lineItem',orderNo:inputValue.OrderNo}
+      const data ={lineItem,orderNo:inputValue.OrderNo}
       navigate.push('/gold-smith/order',{state:data})
   
     }

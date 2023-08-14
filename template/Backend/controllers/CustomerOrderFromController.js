@@ -29,7 +29,21 @@ const getAllOrders = async (req, res) => {
     }
 }
 
+const getIQ = async (req, res) => {
+
+    const OrderNo = req.params.OrderNo
+
+    try {
+        const data = await CustOrdModel.findOne({ OrderNo: OrderNo })
+        res.json({ key: data.lineItem });
+    }
+    catch (error) {
+        console.error('Error finding product by FinalIname:', error);
+    }
+}
+
 module.exports = {
     addCustOrd,
     getAllOrders,
+    getIQ
 };

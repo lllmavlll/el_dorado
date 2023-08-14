@@ -5,11 +5,8 @@ import './CustomCssFile.css'
 
 
 const GSOrder = () => {
-  
-  const location = useLocation()
-  const data =location.state
-
   const[orderFormData,setOrderFormData] = useState([])
+  // const[lineItemDD,setLineItemDD] = useState([])
   const[subOrderTable,setSubOrderTable] = useState(false)
   const[Suborder,setSuborder] = useState([])
   
@@ -23,6 +20,10 @@ const GSOrder = () => {
     QtyToBeAllocd:'',
     allocdWt:'',
     WtToBeAllocd:'',  })
+
+    const location = useLocation()
+    const data =location.state
+    console.log(location.state);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -39,14 +40,14 @@ const GSOrder = () => {
     e.preventDefault()
     setSubOrderTable(true)
     const newGSSO ={
-      orderNo:"123",
-      goldSmithName:"123",
-      itemName:"123",
-      orderQuantity:"123",
-      allocatedWeight:"123",
-      allocatedQuantity:"123",
-      WeightToBeAllocated:"123",
-      quantityToBeAllocated:"123",
+      orderNo:data.state.orderNo,
+      goldSmithName:inputValue.GSName,
+      itemName:inputValue.ItemName,
+      orderQuantity:inputValue.OrderedQty,
+      allocatedWeight:inputValue.allocdWt,
+      allocatedQuantity:inputValue.allocdQty,
+      WeightToBeAllocated:inputValue.WtToBeAllocd,
+      quantityToBeAllocated:inputValue.QtyToBeAllocd,
     }
     setSuborder([...Suborder,newGSSO])
 
@@ -60,15 +61,9 @@ const GSOrder = () => {
 
 
     const {
-      GSOrderNo,
       OrderNo,
-      GSName,
-      ItemName,
       OrderedQty,
-      allocdQty,
-      QtyToBeAllocd,
-      allocdWt,
-      WtToBeAllocd, 
+      
     } = inputValue
 
     const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
@@ -77,15 +72,7 @@ const GSOrder = () => {
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        GSOrderNo,
-        OrderNo,
-        GSName,
-        ItemName,
-        OrderedQty,
-        allocdQty,
-        QtyToBeAllocd,
-        allocdWt,
-        WtToBeAllocd, 
+        OrderNo, OrderedQty, subOrder:Suborder
       })
     })
     
@@ -125,7 +112,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                                 <div className="col-sm-8">
-                                  <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
+                                  {/* <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
                                     <option value=''>select</option>
                                     {
                                        orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
@@ -136,7 +123,9 @@ const GSOrder = () => {
                                        })
 
                                     }
-                                  </select>
+                                  </select> */}
+                                  <Form.Control  type="text"  name='orderNO' value={inputValue.OrderNo || data.state.orderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+
                                 </div>
                             </Form.Group>
                         </div>
@@ -144,7 +133,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='GSName'value={data.lineItem} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
+                                  <Form.Control  type="text"  name='GSName' value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -156,7 +145,15 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"   name='ItemName' value={inputValue.ItemName} onChange={handleInputChange} className="form-control" id="itemName" placeholder="Item Name" />
+                                <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
+                                    <option value=''>select</option>
+                                  {
+                                    data.state.lineItem.map((list)=>{
+                                      return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
+                                    })
+                                  }
+                                  </select>
+                                {/* <Form.Control  type="text"   name='ItemName' value={inputValue.ItemName} onChange={handleInputChange} className="form-control" id="itemName" placeholder="Item Name" /> */}
                                 </div>
                             </Form.Group>
                         </div>
@@ -244,17 +241,17 @@ const GSOrder = () => {
                     </thead>
                     <tbody>
                     {
-                      Suborder.map((result, index)=>{
+                      Suborder.map((result,index)=>{
                         return<tr>
                           <td>{index+1}</td>
-                          <td>{result.data}</td>
-                          <td>{result.data1}</td>
-                          <td>{result.data2}</td>
-                          <td>{result.data3}</td>
-                          <td>{result.data4}</td>
-                          <td>{result.data}</td>
-                          <td>{result.data1}</td>
-                          <td>{result.data2}</td>
+                          <td>{result.orderNo}</td>
+                          <td>{result.itemName}</td>
+                          <td>{result.orderQuantity}</td>
+                          <td>{result.allocatedQuantity}</td>
+                          <td>{result.allocatedWeight}</td>
+                          <td>{result.goldSmithName}</td>
+                          <td>{result.quantityToBeAllocated}</td>
+                          <td>{result.WeightToBeAllocated}</td>
                         </tr>
                       })
                     }
