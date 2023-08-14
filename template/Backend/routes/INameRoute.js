@@ -1,21 +1,23 @@
 const express = require('express');
+const inameModel = require('../models/InamesDBModel');
 const { addIname, getIname } = require('../controllers/InameController');
 const iNameRouter = express.Router();
 
 iNameRouter.post('/createIname', addIname)
 iNameRouter.get('/getIname', getIname)
-iNameRouter.get('/getSKU/:FinalIname', async(req,res)=>{
-    const FinalIname =req.params.FinalIname
-    if(FinalIname){
-        try {
-            const jewelrie = await inameModel.find()
-            res.status(200).json({ jewelrie })
-        } catch (error) {
-            console.error('Error fetching IName:', error);
-            res.status(500).json({ error: 'Failed to fetch IName' });
-        }
-    }
 
+iNameRouter.get('/getViaFinalIname/:FinalIname', async (req, res) => {
+
+    const FinalIname =req.params.FinalIname
+
+    try {
+        const data = await inameModel.findOne({ FinalIname: FinalIname })
+        res.json({ data });
+    }
+    catch (error) {
+        console.error('Error finding product by FinalIname:', error);
+    }
 })
+
 
 module.exports = iNameRouter;

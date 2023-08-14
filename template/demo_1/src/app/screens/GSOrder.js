@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import  { Form} from 'react-bootstrap'
+import { useLocation } from "react-router-dom";
+import './CustomCssFile.css'
+
 
 const GSOrder = () => {
+  
+  const location = useLocation()
+  const data =location.state
 
   const[orderFormData,setOrderFormData] = useState([])
-
+  const[subOrderTable,setSubOrderTable] = useState(false)
+  const[Suborder,setSuborder] = useState([])
+  
   const [inputValue,setInputValue] = useState({
     GSOrderNo:'',
     OrderNo:'',
@@ -23,6 +31,26 @@ const GSOrder = () => {
       [name]: value,
     });
   };
+
+
+  //======== for sub order table =====//
+
+  const handleSubOrder =(e)=>{
+    e.preventDefault()
+    setSubOrderTable(true)
+    const newGSSO ={
+      orderNo:"123",
+      goldSmithName:"123",
+      itemName:"123",
+      orderQuantity:"123",
+      allocatedWeight:"123",
+      allocatedQuantity:"123",
+      WeightToBeAllocated:"123",
+      quantityToBeAllocated:"123",
+    }
+    setSuborder([...Suborder,newGSSO])
+
+  }
 
   const pushToDB= async(e)=>{
     e.preventDefault()
@@ -112,12 +140,11 @@ const GSOrder = () => {
                                 </div>
                             </Form.Group>
                         </div>
-
                         <div className="col-md-6">
                             <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='GSName'value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
+                                <Form.Control  type="text"  name='GSName'value={data.lineItem} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -183,7 +210,7 @@ const GSOrder = () => {
                         </div>
                         <div className="col-md-6">
                             <div className='col'>
-                                <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Save</button>
+                                <button type="submit" onClick={handleSubOrder} className="btn btn-primary mr-4">Save</button>
                             </div>
                         </div>
                       </div>
@@ -194,113 +221,52 @@ const GSOrder = () => {
 
 
             {/* table */}
-          <div className="col-lg-12 grid-margin stretch-card">
+            {
+              subOrderTable? 
+              <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title"> Order List</h4>
-                <div className="table-responsive">
-                  <table className="table table-bordered">
+                <h4 className="card-title">Gold Smith Sub Orders</h4>
+                <div className="table-responsive OFtable-res">
+                  <table className="table table-bordered OFtable">
                     <thead>
                       <tr>
                         <th> SL No. </th>
-                        <th> Order Number </th>
+                        <th> GSO No.</th>
                         <th> Item Name </th>
-                        <th> Item Qty </th>
-                        <th> Allocated Qty </th>
-                        <th> Qty to be Allocated </th>
+                        <th> Item Quantity </th>
+                        <th> Allocated Quantity </th>
+                        <th> Allocated weight </th>
+                        <th> Gold Smith Name </th>
+                        <th> Quantity to be Allocated </th>
+                        <th> Weight to be Allocated </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td> 1 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                            <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 2 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 3 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 4 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 5 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 6 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocate"/>
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocated  " />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 7 </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Allocated Qty " />
-                        </td>
-                        <td>
-                          <Form.Control type="text"  className="form-control" id="CustomerName" placeholder="Qty To Be Allocated " />
-                        </td>
-                      </tr>
+                    {
+                      Suborder.map((result, index)=>{
+                        return<tr>
+                          <td>{index+1}</td>
+                          <td>{result.data}</td>
+                          <td>{result.data1}</td>
+                          <td>{result.data2}</td>
+                          <td>{result.data3}</td>
+                          <td>{result.data4}</td>
+                          <td>{result.data}</td>
+                          <td>{result.data1}</td>
+                          <td>{result.data2}</td>
+                        </tr>
+                      })
+                    }
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
+              :""
+            }
+          
           <div className="col-md-12 grid-margin">
              <div className="card">
               <div className="card-body">
