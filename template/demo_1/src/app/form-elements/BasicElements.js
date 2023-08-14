@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-// import CustomPopUp from '../screens/CustomPopUp';
+import { useHistory } from "react-router-dom";
 import '../screens/CustomCssFile.css'
-import {dependentDropDown} from '../screens/rawDataFortest'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+// import CustomPOP2 from '../screens/CustomPOP2';
+// import {dependentDropDown} from '../screens/rawDataFortest'
 
 
 
 
 const BasicElements = () => {
 
+  const navigate =useHistory()
 
-  // const [modalShow, setModalShow] = useState(false);
+
+  const [modalShow, setModalShow] = useState(false);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
+  const [isIname, setIsIname] = useState(false); // to view table of line items 
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
   const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
-  const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
-  const [clearInput,setClearInput] = useState([]) // to clear input
+  // const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
+  const [inmaeDD,setInmaeDD] = useState([]) // for sub groupname  dropdown
+  // const [clearInput,setClearInput] = useState([]) // to clear input
   const [inputValue,setInputValue] = useState({
         customerName:'',
         OrderNo:'',
@@ -37,6 +44,7 @@ const BasicElements = () => {
         saleName:'',
         itemStage:'',
         SKUNo:'',
+        FinalIname:'',
         noOfDesign:'',
         QuantityPerDesign:'',
         itemQuantity:'',
@@ -60,24 +68,30 @@ const BasicElements = () => {
      
   })
 
+
+
+
 //================= || handles filed input values || ===========================//
-const dropDownHandle =(event)=>{
-  const { name, value } = event.target;
-  setClearInput(event.target.value)
-  setInputValue({
-    ...inputValue, 
-    [name]: value,
-  });
-setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
-}
+// const dropDownHandle =(event)=>{
+//   const { name, value } = event.target;
+//   // setClearInput(event.target.value)
+//   setInputValue({
+//     ...inputValue, 
+//     [name]: value,
+//   });
+// setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
+// }
+
+
+
 const handleInputChange = (event) => {
   const { name, value } = event.target;
-  setClearInput(event.target.value)
+  // setClearInput(event.target.value)
   setInputValue({
     ...inputValue, 
     [name]: value,
   });
-  console.log('Input Value:', clearInput);
+  // console.log('Input Value:', clearIsnput);
 };
 
 //================= || func to convert string into number || ===========================//
@@ -92,7 +106,7 @@ const calcItemQuantity = convertToNum(inputValue.noOfDesign)*convertToNum(inputV
 
 const sumOfUnitWeight = convertToNum(inputValue.unitWT_UL)+convertToNum(inputValue.unitWT_LL)
 const averageWeight =sumOfUnitWeight/2
-const calcEstimatedWeight = averageWeight *calcItemQuantity
+const calcEstimatedWeight = (averageWeight *calcItemQuantity)
 
 //================= || to bring up the table || ===========================//
 const newLineItemHandle =(e)=>{
@@ -105,7 +119,7 @@ const newLineItemHandle =(e)=>{
       targetTouch:inputValue.targetTouch,
       seal:inputValue.seal,
       qualitySeries:inputValue.qualitySeries,
-      finalIname:inputValue.SKUNo,
+      finalIname:inputValue.FinalIname,
       saleName:inputValue.saleName,
       itemStage:inputValue.itemStage,
       noOfDesign:inputValue.noOfDesign,
@@ -130,8 +144,24 @@ const newLineItemHandle =(e)=>{
       remarks:inputValue.remarks,
     }
     setLineItem([...lineItem, newLineItem]);
-    setClearInput('');
+    // setClearInput('');
   }
+
+
+    //================= || POP UP handle function || ===========================//
+    const handleClosePopUp = () => {
+      // setModalShow(false);
+      window.location.reload();
+  
+  
+    }
+    const handleYesPopUP=()=>{
+      const data ={lineItem:'lineItem',orderNo:inputValue.OrderNo}
+      navigate.push('/gold-smith/order',{state:data})
+  
+    }
+
+
   //================= || get SKU for Dropdown || ===========================//
 
   const getSKU = ()=>{
@@ -146,40 +176,33 @@ const newLineItemHandle =(e)=>{
 
   }  
 
-
-
-
-
-  //=================|| for SKU populate ||=======================//
-const skuFunc =async(e)=>{
+  //=================|| for SKU auto populate ||=======================//
+const skuFuncToAutoPopulate =async(e)=>{
   e.preventDefault()
-
-
-  const value =inputValue.subGroupName
-
-  fetch(`http://localhost:4000/iname/getSKU/:${value}`,{
-    method:"GET"
-  })
-  .then(response => response.json())
-  .then(data =>
-   {console.log(data);
-   return data
-   })
-  .then(data =>setOrderFormData(data))
-  .catch(err=> console.log(err))
+  const FinalIname = inputValue.FinalIname
+    // Fetch user data by id
+    fetch(`http://localhost:4000/iname/getViaFinalIname/`+FinalIname)
+      .then(response => response.json())
+     .then(data =>{
+      setInmaeDD(data.data)
+      console.log(inmaeDD)
+    })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+      setIsIname(true)
 }
   
   const pushToDB= async(e)=>{
     e.preventDefault()
     
-
-    // setModalShow(true) // this is for the popUp
+    
     // console.log(inputValue)
-
+    
     //=================|| for backend ||=======================//
-
+    
     const {customerName,OrderNo,} = inputValue
-
+    
     const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
       method:'POST',
       headers:{
@@ -193,16 +216,17 @@ const skuFunc =async(e)=>{
     })
     
     const data = await res.json();
-    if(data){
-      window.location.reload();
-    }
-    alert('Customer Order Created Sucessfully!')
+    
+    setModalShow(true) // this is for the popUp
+
   }
 
 
   useEffect(()=>{
     getSKU() //fetch func
   },[])
+
+  //=================|| to populate via SKU ||=============//
 
   return (
     <>
@@ -373,6 +397,27 @@ const skuFunc =async(e)=>{
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
                 {/* <form className="forms-sample"> */}
+                <div className="row">
+                    <div className="col-md-6">
+                      <Form.Group className="row">
+                        <label  htmlFor="FinalIname" className="col-sm-4 col-form-label">Final Iname</label>
+                        <div className="col-sm-8">
+                        <select value={inputValue.FinalIname} name='FinalIname' onChange={handleInputChange} className="form-control" id="FinalIname"  >
+                          <option  value=""> Select</option>
+                          {
+                          orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
+                          return  <option  value={result.FinalIname}> {result.FinalIname}</option>
+                          })
+                          }
+                          </select>
+                        {/* <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" /> */}
+                        </div>
+                      </Form.Group>
+                    </div>
+                    <div className="col-md-6">
+                     <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-md-6">
                       <Form.Group className="row">
@@ -386,7 +431,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="category" className="col-sm-4 col-form-label">Category</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
+                        <Form.Control  type="text"  value={inmaeDD.Category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
                         </div>
                       </Form.Group>
                     </div>
@@ -405,14 +450,15 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
                         <div className="col-sm-8">
-                          <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
+                          {/* <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
                             <option  value=""> Select</option>
                             {
                               dependentDropDown.map( gname =>{
                                return <option key={gname.toString()} value={gname.groupName}>{gname.groupName}</option>
                               })
                             }
-                          </select>
+                          </select> */}
+                        <Form.Control  type="text"  value={inmaeDD.Group} name='groupName' onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
                         </div>
                       </Form.Group>
                     </div>
@@ -428,14 +474,15 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
                         <div className="col-sm-8">
-                           <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
-                          <option  value=""> Select</option>
-                          {
-                            subGroupNameDD.map(subGName =>{
-                              return <option value={subGName}>{subGName}</option>
-                            })
-                          }
-                        </select>
+                           {/* <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
+                            <option  value=""> Select</option>
+                            {
+                              subGroupNameDD.map(subGName =>{
+                                return <option value={subGName}>{subGName}</option>
+                              })
+                            }
+                          </select> */}
+                          <Form.Control  type="text"  value={inmaeDD.SubGroup} name='subGrpName' onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder=" Sub Group Name" />
                         </div>
                       </Form.Group>
                     </div>
@@ -446,7 +493,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="CoreProdName" className="col-sm-4 col-form-label">Core Prdt Name</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.coreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
+                        <Form.Control  type="text"  value={inmaeDD.CoreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
                         </div>
                       </Form.Group>
                     </div>
@@ -454,7 +501,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="modelNo" className="col-sm-4 col-form-label">Model No.</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.modelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
+                        <Form.Control  type="text"  value={inmaeDD.ModelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
                         </div>
                       </Form.Group>
                     </div>
@@ -465,7 +512,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="noOfStones" className="col-sm-4 col-form-label">No. Of Stones</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.noOfStones} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
+                        <Form.Control  type="text"  value={inmaeDD.Nstone} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
                         </div>
                       </Form.Group>
                     </div>
@@ -473,7 +520,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="size" className="col-sm-4 col-form-label">Size</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.sizeofStone} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" />
+                        <Form.Control  type="text"  value={inmaeDD.Size} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" />
                         </div>
                       </Form.Group>
                     </div>
@@ -484,7 +531,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="stoneClrPattren" className="col-sm-4 col-form-label">Stn Clr pattern</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.stoneColourPattern} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
+                        <Form.Control  type="text"  value={inmaeDD.StoneColourPattern} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
                         </div>
                       </Form.Group>
                     </div>
@@ -492,7 +539,7 @@ const skuFunc =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="screwType" className="col-sm-4 col-form-label">Screw Type </label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.screwType} name='screwType' onChange={handleInputChange}  className="form-control" id="screwType" placeholder="Screw Type " />
+                        <Form.Control  type="text"  value={inmaeDD.ScrewType} name='screwType' onChange={handleInputChange}  className="form-control" id="screwType" placeholder="Screw Type " />
                         </div>
                       </Form.Group>
                     </div>
@@ -526,11 +573,11 @@ const skuFunc =async(e)=>{
                   </div>
                   
                   <div className="row">
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <Form.Group className="row">
-                        <label  htmlFor="SKUNo" className="col-sm-4 col-form-label">SKU No.</label>
+                        <label  htmlFor="FinalIname" className="col-sm-4 col-form-label">Final Iname</label>
                         <div className="col-sm-8">
-                        <select    value={inputValue.SKUNo} name='SKUNo'  onChange={handleInputChange} className="form-control" id="SKUNo"  >
+                        <select value={inputValue.FinalIname} name='FinalIname' onChange={handleInputChange} className="form-control" id="FinalIname"  >
                           <option  value=""> Select</option>
                           {
                           orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
@@ -538,23 +585,35 @@ const skuFunc =async(e)=>{
                           })
                           }
                           </select>
-                        {/* <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" /> */}
+                        <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" />
                         </div>
                       </Form.Group>
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
                       <Form.Group className="row">
-                        <label  htmlFor="targetTouch" className="col-sm-4 col-form-label">Image</label>
+                        <label  htmlFor="SKUNo" className="col-sm-4 col-form-label">SKU No.</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="d"  name='' onChange={''}  className="form-control" id="targetTouch"  />
+                        <Form.Control  type="text"  value={inmaeDD.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo"  placeholder='SKU No.'/>
                         </div>
                       </Form.Group>
                     </div>
                   </div>
 
-                  {/* <button type="submit"  onChange={handleInputChange} className="btn btn-primary mr-2">Save</button>
-                  <button className="btn btn-dark">Cancel</button> */}
+                  {/* <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button> */}
+                  {/* <button className="btn btn-dark">Cancel</button> */}
                 {/* </form> */}
+                {isIname?
+                <div className="row">
+                  <div className="col-md-12">
+                    <Form.Group className="row">
+                      <label  htmlFor="finalImg" className="col-sm-2 col-form-label">Image</label>
+                      <div className="col-sm-10">
+                      </div>
+                    </Form.Group>
+                  </div>
+                </div>
+              :""
+              }
               </div>
             </div>
           </div>
@@ -602,7 +661,7 @@ const skuFunc =async(e)=>{
                       </div>
                     </Form.Group>
                     <Form.Group className='col'>
-                      <label htmlFor="estimatedWeight" className="col-sm-5 col-form-label ">Estimated Weight</label>
+                      <label htmlFor="estimatedWeight" className="col-sm-6 col-form-label ">Estimated Weight in Grams</label>
                       <div className="col">
                       <Form.Control type="number"  value={calcEstimatedWeight}  name='estimatedWeight' onChange={handleInputChange} className="form-control cursorDisable" id="estimatedWeight" placeholder="Estimated Weight" />
                       </div>
@@ -804,10 +863,8 @@ const skuFunc =async(e)=>{
                       </Form.Group>
                     </div>
                   </div>
-
-
                   {/* <div className='row'>
-                    <CustomPopUp
+                    <CustomPOP2
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     />
@@ -815,8 +872,27 @@ const skuFunc =async(e)=>{
                 {/* </form> */}
               </div>
             </div>
+            </div>
           </div>
-          </div>
+          <Modal
+            show={modalShow}
+            onHide={handleClosePopUp}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Order created sucessfully..!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Proceed to Split The Order?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleYesPopUP}>Yes</Button>
+              <Button variant="secondary" onClick={handleClosePopUp}>
+               No, Create New Order
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Form>
       </div>
     </>
