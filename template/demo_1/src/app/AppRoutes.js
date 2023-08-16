@@ -8,7 +8,7 @@ import Spinner from '../app/shared/Spinner';
 // const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 // const Typography = lazy(() => import('./basic-ui/Typography'));
 // const SubOrderForm  = lazy(()=> import('./screens/subOrderForm'))
-// const BasicTable = lazy(() => import('./tables/BasicTable'));
+const BasicTable = lazy(() => import('./tables/BasicTable'));
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
@@ -62,7 +62,7 @@ class AppRoutes extends Component {
           {/* path */}
           <Route path="/product" component={ Product } /> 
 
-          <Route path="/tables/basic-table" component={ GSreceive } />
+          <Route path="/tables/basic-table" component={ BasicTable } />
 
           <Route path="/views/order-form-view" component={ OrderFormView } />
           <Route path="/views/GSOrder-view" component={ GSOView } />

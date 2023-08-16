@@ -8,14 +8,8 @@ const OrderFormViews = () => {
 
   const navigate =useHistory()
 
-  const [orderNO, setOrderNo] =useState('')
+  const [orderNO, setOrderNo] =useState([])
   const[orderFormData,setOrderFormData] = useState([])
-  // const [collapse,setCollapse] =useState(true)
-
-  // const collapseBtnHandler = ()=>{
-  //   setCollapse(!collapse)
-  // }
-
 
    const onClickHandler =(e)=>{
   const hiddenElement = e.currentTarget.nextSibling;
@@ -27,14 +21,12 @@ const OrderFormViews = () => {
  //==============|| to reroute to gso ||===================//
  
  const reRouteFunc =(orno)=>{
-  // console.log(orno);
   fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/`+orno)
   .then(response => response.json())
   .then(data =>{
-    // setOrderNo({OrderNo:orno,...data})
-    setOrderNo(data.data)
-    console.log(orderNO);
-        navigate.push('/gold-smith/order',{state:orderNO})
+    // setOrderNo()
+        // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
+        navigate.push('/gold-smith/order',{state:data.data})
 
     // return data
     }) 
@@ -82,7 +74,7 @@ const OrderFormViews = () => {
                         {
                              orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map((result,index) =>{
                               return<>
-                              <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > GSO</button>
+                              <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Split This Order</button>
                               <tr className='collapseRow' onClick={onClickHandler}>
                               {/* <tr className='collapseRow'> */}
                                 <td>{index+1}</td>
@@ -159,9 +151,7 @@ const OrderFormViews = () => {
                                         <td>{lineItem.cfPlan}</td>
                                         <td>{lineItem.stoneSettingType}</td>
                                         <td>{lineItem.remarks}</td>
-                                      
                                       </tr>
-
                                       })
                                     }
                                    
@@ -179,116 +169,6 @@ const OrderFormViews = () => {
               </div>
             </div>
           </div>
-    {/* </>
-  ) */}
-{/* 
-    <div className="col-lg-6">
-    <div className="panel panel-default">
-        <div className="panel-heading">
-            <h3>Object Store</h3></div>
-        <div className="panel-body">
-            <table className="table table-condensed" style={{borderCollapse:"collapse"}}>
-
-                <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>Job Name</th>
-                        <th>Description</th>
-                        <th>Provider Name</th>
-                        <th>Region</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                  <tbody>
-                    <tr data-toggle="collapse" data-target="#demo1" className="accordion-toggle">
-                        <td>
-                            <button className="btn btn-default btn-xs">ok</button>
-                        </td>
-                        <td>OBS Name</td>
-                        <td>OBS Description</td>
-                        <td>hpcloud</td>
-                        <td>nova</td>
-                        <td> created</td>
-
-                    </tr>
-                    <tr>
-                        <td colspan="12" className="hiddenRow">
-                            <div className="accordian-body collapse" id="demo1">
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td><a href="WorkloadURL">Workload link</a></td>
-                                            <td>Bandwidth: Dandwidth Details</td>
-                                            <td>OBS Endpoint: end point</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Access Key</th>
-                                            <th>Secret Key</th>
-                                            <th>Status </th>
-                                            <th> Created</th>
-                                            <th> Expires</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>access-key-1</td>
-                                            <td>secretKey-1</td>
-                                            <td>Status</td>
-                                            <td>some date</td>
-                                            <td>some date</td>
-                                            <td>
-                                                <button> click</button>
-                                            </td>
-                                        </tr>
-
-
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-toggle="collapse" data-target="#demo2" className="accordion-toggle">
-                        <td>
-                            <button className="btn btn-default btn-xs">ok</button>
-                        </td>
-                        <td>OBS Name</td>
-                        <td>OBS Description</td>
-                        <td>hpcloud</td>
-                        <td>nova</td>
-                        <td> created</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" className="hiddenRow">
-                            <div id="demo2" className="accordian-body collapse">Demo2</div>
-                        </td>
-                    </tr>
-                    <tr data-toggle="collapse" data-target="#demo3" className="accordion-toggle">
-                        <td>
-                            <button className="btn btn-default btn-xs">ok</button>
-                        </td>
-                        <td>OBS Name</td>
-                        <td>OBS Description</td>
-                        <td>hpcloud</td>
-                        <td>nova</td>
-                        <td> created</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" className="hiddenRow">
-                            <div id="demo3" className="accordian-body collapse">Demo3</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-
-</div> */}
-{/* <> */}
 </>
 )
 }
