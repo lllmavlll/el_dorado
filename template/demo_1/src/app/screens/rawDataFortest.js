@@ -1,3 +1,14 @@
+
+fetch(`http://localhost:4000/iname/getGname`)
+.then(response => response.json())
+.then(data =>{
+    console.log(data);
+  
+})
+.catch(error => {
+    console.error('Error fetching user data:', error);
+});
+
 export const dependentDropDown =[
     {
         groupName:"ADG",

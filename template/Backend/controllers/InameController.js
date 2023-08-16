@@ -37,4 +37,22 @@ const getIname = async (req, res) => {
     }
 }
 
-module.exports = { addIname, getIname };
+const getGname = async (req, res) => {
+
+    // const OrderNo = req.params.OrderNo
+
+    try {
+        const data = await inameModel.find()
+        const arrayOfGroupNames = []
+        data.forEach((item) => {
+            // console.log(JSON.stringify(item))
+            arrayOfGroupNames.push(item.Group)
+        });
+        res.json({ GroupNames: arrayOfGroupNames });
+    }
+    catch (error) {
+        console.error('Error finding product by FinalIname:', error);
+    }
+}
+
+module.exports = { addIname, getIname, getGname};

@@ -13,10 +13,21 @@
   .OFtable th,
   .OFtable td {
     min-width: 100px; /* Adjust this value as needed */
-    max-width: 500px;
+    max-width: 600px;
+  }
+  .rowBtn{
+    min-width: 100px
+  }
+  .absBtn{
+    position: absolute;
+    right: 0;
   }
   
   /* cursor dsable in order form page for item quantity and estimatedweight*/
   .cursorDisable:hover{
     cursor:no-drop;
   }
+  /* cursor ponter for the table in COF view table */
+.collapseRow{
+  cursor: pointer;
+}

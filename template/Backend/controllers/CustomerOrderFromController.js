@@ -41,9 +41,23 @@ const getIQ = async (req, res) => {
         console.error('Error finding product by FinalIname:', error);
     }
 }
+const GetOrderNo =async (req, res) => {
+
+    const OrderNo = req.params.OrderNo
+
+    try {
+        const data = await CustOrdModel.findOne({ OrderNo: OrderNo })
+        // res.json({ key: data.lineItem[1].itemQuantity });
+        //res.json({ key: data.lineItem });
+        res.json({ data });
+    }
+    catch (error) {
+        console.error('Error finding product by FinalIname:', error);
+    }
+}
 
 module.exports = {
     addCustOrd,
     getAllOrders,
-    getIQ
+    getIQ,GetOrderNo
 };
