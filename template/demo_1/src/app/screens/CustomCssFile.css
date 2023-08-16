@@ -13,6 +13,7 @@
   .OFtable th,
   .OFtable td {
     min-width: 100px; /* Adjust this value as needed */
+    max-width: 500px;
   }
   
   /* cursor dsable in order form page for item quantity and estimatedweight*/

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import '../screens/CustomCssFile.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -12,7 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 
 const BasicElements = () => {
 
-  const navigate =useHistory()
+  // const navigate =useHistory()
 
 
   const [modalShow, setModalShow] = useState(false);
@@ -113,6 +113,7 @@ const newLineItemHandle =(e)=>{
   e.preventDefault()
   setItemNameListView(true)
   const newLineItem = {
+      orderNo:inputValue.OrderNo,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
       customerOrderTouch:inputValue.customerOrderTouch,
@@ -155,11 +156,11 @@ const newLineItemHandle =(e)=>{
   
   
     }
-    const handleYesPopUP=()=>{
-      const data ={lineItem,orderNo:inputValue.OrderNo}
-      navigate.push('/gold-smith/order',{state:data})
+    // const handleYesPopUP=()=>{
+    //   const data ={lineItem,orderNo:inputValue.OrderNo}
+    //   navigate.push('/gold-smith/order',{state:data})
   
-    }
+    // }
 
 
   //================= || get SKU for Dropdown || ===========================//
@@ -216,6 +217,7 @@ const skuFuncToAutoPopulate =async(e)=>{
     })
     
     const data = await res.json();
+    console.log(data)
     
     setModalShow(true) // this is for the popUp
 
@@ -246,6 +248,8 @@ const skuFuncToAutoPopulate =async(e)=>{
                       <table className="table table-bordered OFtable ">
                         <thead>
                           <th>SL.NO</th>
+                          <th>Order Number</th>
+                          <th>Order reference Number</th>
                           <th>PLaced Order Date</th>
                           <th>Required Date</th>
                           <th>Cust OrderTouch</th>
@@ -280,6 +284,8 @@ const skuFuncToAutoPopulate =async(e)=>{
                           lineItem.map((result,index)=>{
                             return <tr>
                               <td>{index+1}</td>
+                              <td>{result.orderNo}</td>
+                              <td>{`${result.orderNo}/ ${index+1}`}</td>
                               <td>{result.placedOrderDate}</td>
                               <td>{result.requiredDate}</td>
                               <td>{result.customerOrderTouch}</td>
@@ -881,15 +887,15 @@ const skuFuncToAutoPopulate =async(e)=>{
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Order created sucessfully..!</Modal.Title>
+              <Modal.Title>Note</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Proceed to Split The Order?
+              Order created sucessfully..!
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="primary" onClick={handleYesPopUP}>Yes</Button>
-              <Button variant="secondary" onClick={handleClosePopUp}>
-               No, Create New Order
+              {/* <Button variant="primary" onClick={handleYesPopUP}>Yes</Button> */}
+              <Button variant="primary" onClick={handleClosePopUp}>
+               OK!
               </Button>
             </Modal.Footer>
           </Modal>

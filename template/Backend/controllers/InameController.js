@@ -7,10 +7,10 @@ const addIname = async (req, res) => {
         const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType]
         const FinalIname = values.join('_');
 
-        const existingItem = await inameModel.findOne({ FinalIname:FinalIname})
-        if (existingItem) {
-            return res.status(400).json({ message: "Item already exists" });
-        }
+        // const existingItem = await inameModel.findOne({ FinalIname:FinalIname})
+        // if (existingItem) {
+        //     return res.status(400).json({ message: "Item already exists" });
+        // }
         
 
 

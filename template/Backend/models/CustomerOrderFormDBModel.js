@@ -7,26 +7,13 @@ const CustOrdSchema = mongoose.Schema({
     OrderNo: {
         type: String,
     },
-    placedOrderDate: {
-        type: String,
-    },
-    requiredDate: {
-        type: String,
-    },
-    customerOrderTouch: {
-        type: Number,
-    },
-    targetTouch: {
-        type: Number,
-    },
-    seal: {
-        type: String,
-    },
-    qualitySeries: {
-        type: String,
-    },
-    // Item: String,
     lineItem: [{
+        placedOrderDate: String,
+        requiredDate: String,
+        customerOrderTouch: String,
+        targetTouch: String,
+        seal: String,
+        qualitySeries: String,
         finalIname: String,
         saleName: String,
         itemStage: String,
@@ -53,4 +40,4 @@ const CustOrdSchema = mongoose.Schema({
     }]
 }, { timestamps: true });
 
-module.exports = mongoose.model("Customer Order", CustOrdSchema);
+module.exports = mongoose.model("Customer_Order", CustOrdSchema);

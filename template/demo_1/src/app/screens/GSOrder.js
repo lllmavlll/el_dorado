@@ -6,6 +6,7 @@ import './CustomCssFile.css'
 
 const GSOrder = () => {
   const[orderFormData,setOrderFormData] = useState([])
+  // const[itemQty,setItemQty] = useState([])
   // const[lineItemDD,setLineItemDD] = useState([])
   const[subOrderTable,setSubOrderTable] = useState(false)
   const[Suborder,setSuborder] = useState([])
@@ -21,9 +22,9 @@ const GSOrder = () => {
     allocdWt:'',
     WtToBeAllocd:'',  })
 
-    const location = useLocation()
-    const data =location.state
-    console.log(location.state);
+    // const location = useLocation()
+    // const data =location.state
+    // console.log(location.state);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -40,7 +41,7 @@ const GSOrder = () => {
     e.preventDefault()
     setSubOrderTable(true)
     const newGSSO ={
-      orderNo:data.state.orderNo,
+      orderNo:inputValue.OrderNo,
       goldSmithName:inputValue.GSName,
       itemName:inputValue.ItemName,
       orderQuantity:inputValue.OrderedQty,
@@ -50,29 +51,51 @@ const GSOrder = () => {
       quantityToBeAllocated:inputValue.QtyToBeAllocd,
     }
     setSuborder([...Suborder,newGSSO])
+    console.log(Suborder.orderNo);
 
   }
+
+
+  // const getitemQty =(event)=>{
+  //   const { name, value } = event.target;
+  //   setInputValue({
+  //     ...inputValue, 
+  //     [name]: value,
+  //   });
+  //   event.preventDefault()
+  //   const orderNumber = data.state.orderNo
+  //     // Fetch user data by id
+  //     fetch(`localhost:4000/CustomerOrderForm/getIQ/25`+orderNumber)
+  //       .then(response => response.json())
+  //      .then(data =>{
+  //       setItemQty(data.data)
+  //       console.log(itemQty)
+  //     })
+  //       .catch(error => {
+  //         console.error('Error fetching user data:', error);
+  //     });
+  // }
 
   const pushToDB= async(e)=>{
     e.preventDefault()
     console.log(inputValue)
 
     // for backend
-
-
+    
     const {
       OrderNo,
-      OrderedQty,
+      // OrderedQty,
       
     } = inputValue
-
+    
+    // const OrderNo=location.state.orderNo
     const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        OrderNo, OrderedQty, subOrder:Suborder
+        OrderNo, subOrder:Suborder
       })
     })
     
@@ -88,10 +111,10 @@ const GSOrder = () => {
 
     fetch('http://localhost:4000/CustomerOrderForm/getAllOrders')
     .then(response => response.json())
-    .then(data =>
-     {console.log(data);
-     return data
-     })
+    // .then(data =>
+    //  {console.log(data);
+    //  return data
+    //  })
     .then(data =>setOrderFormData(data))
     .catch(err=> console.log(err))
      // fetchData();
@@ -112,7 +135,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                                 <div className="col-sm-8">
-                                  {/* <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
+                                  <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
                                     <option value=''>select</option>
                                     {
                                        orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
@@ -123,8 +146,8 @@ const GSOrder = () => {
                                        })
 
                                     }
-                                  </select> */}
-                                  <Form.Control  type="text"  name='orderNO' value={inputValue.OrderNo || data.state.orderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                                  </select>
+                                  {/* <Form.Control  type="text"  name='orderNO' value={data.state.orderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" /> */}
 
                                 </div>
                             </Form.Group>
@@ -145,21 +168,21 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                                 <div className="col-sm-8">
-                                <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
+                                {/* <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
                                     <option value=''>select</option>
                                   {
                                     data.state.lineItem.map((list)=>{
                                       return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
                                     })
                                   }
-                                  </select>
-                                {/* <Form.Control  type="text"   name='ItemName' value={inputValue.ItemName} onChange={handleInputChange} className="form-control" id="itemName" placeholder="Item Name" /> */}
+                                  </select> */}
+                                <Form.Control  type="text"   name='ItemName' value={inputValue.ItemName} onChange={handleInputChange} className="form-control" id="itemName" placeholder="Item Name" />
                                 </div>
                             </Form.Group>
                         </div>
                         <div className="col-md-6">
                         <Form.Group className="row">
-                            <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Order Quantity</label>
+                            <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Item Quantity</label>
                             <div className="col-sm-8">
                             <Form.Control  type="text"  name='OrderedQty' value={inputValue.OrderedQty} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Order Quantity" />
                             </div>
@@ -271,14 +294,14 @@ const GSOrder = () => {
                   <div className="col-md-3">
                     <button type="submit" onClick={pushToDB} className="btn btn-primary mr-4">Create Gold Smith Order</button>
                   </div>
-                  <div className="col-md-9">
+                  {/* <div className="col-md-9">
                     <Form.Group className="row">
                       <label  htmlFor="GSONoGen" className="col-sm-3 col-form-label">GSO Number Generated </label>
                       <div className="col-sm-9">
                         <Form.Control  type="text"  name='GSOrderNo' value={inputValue.GSOrderNo} onChange={handleInputChange} className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
                       </div>
                     </Form.Group>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

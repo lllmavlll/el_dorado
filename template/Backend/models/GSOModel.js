@@ -3,17 +3,15 @@ const GSOSchema = mongoose.Schema({
     OrderNo: {
         type: String,
     },
-    OrderedQty: {
-        type: String,
-    },
     subOrder: [{
-        ItemName: String,
+        orderQuantity:String,
+        itemName: String,
         GSOrderNo: String,
-        allocdQty: String,
-        allocdWt: String,
-        QtyToBeAllocd: String,
-        WtToBeAllocd: String,
-        GSName: String,
+        allocatedQuantity: String,
+        allocatedWeight: String,
+        quantityToBeAllocated: String,
+        WeightToBeAllocated: String,
+        goldSmithName: String,
     }]
 }, { timestamps: true });
 module.exports = mongoose.model("GoldSmith Order", GSOSchema);
