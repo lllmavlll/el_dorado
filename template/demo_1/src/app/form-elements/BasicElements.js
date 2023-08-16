@@ -5,7 +5,7 @@ import '../screens/CustomCssFile.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 // import CustomPOP2 from '../screens/CustomPOP2';
-// import {dependentDropDown} from '../screens/rawDataFortest'
+import {dependentDropDown} from '../screens/rawDataFortest'
 
 
 
@@ -20,7 +20,7 @@ const BasicElements = () => {
   const [isIname, setIsIname] = useState(false); // to view table of line items 
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
   const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
-  // const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
+  const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
   const [inmaeDD,setInmaeDD] = useState([]) // for sub groupname  dropdown
   // const [clearInput,setClearInput] = useState([]) // to clear input
   const [inputValue,setInputValue] = useState({
@@ -72,15 +72,15 @@ const BasicElements = () => {
 
 
 //================= || handles filed input values || ===========================//
-// const dropDownHandle =(event)=>{
-//   const { name, value } = event.target;
-//   // setClearInput(event.target.value)
-//   setInputValue({
-//     ...inputValue, 
-//     [name]: value,
-//   });
-// setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
-// }
+const dropDownHandle =(event)=>{
+  const { name, value } = event.target;
+  // setClearInput(event.target.value)
+  setInputValue({
+    ...inputValue, 
+    [name]: value,
+  });
+setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
+}
 
 
 
@@ -183,7 +183,7 @@ const skuFuncToAutoPopulate =async(e)=>{
   const FinalIname = inputValue.FinalIname
     // Fetch user data by id
     fetch(`http://localhost:4000/iname/getViaFinalIname/`+FinalIname)
-      .then(response => response.json())
+    .then(response => response.json())
      .then(data =>{
       setInmaeDD(data.data)
       console.log(inmaeDD)
@@ -444,51 +444,33 @@ const skuFuncToAutoPopulate =async(e)=>{
                   </div>
 
                   <div className="row">
-                    {/* <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.groupName} name='groupName' onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
-                        </div>
-                      </Form.Group>
-                    </div> */}
                     <div className="col-md-6">
                       <Form.Group className="row">
                         <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
                         <div className="col-sm-8">
-                          {/* <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
+                          <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
                             <option  value=""> Select</option>
                             {
                               dependentDropDown.map( gname =>{
                                return <option key={gname.toString()} value={gname.groupName}>{gname.groupName}</option>
                               })
                             }
-                          </select> */}
-                        <Form.Control  type="text"  value={inmaeDD.Group} name='groupName' onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
-                    {/* <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder="Sub Group Name" />
-                        </div>
-                      </Form.Group>
-                    </div> */}
                     <div className="col-md-6">
                       <Form.Group className="row">
                         <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
                         <div className="col-sm-8">
-                           {/* <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
+                           <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
                             <option  value=""> Select</option>
                             {
                               subGroupNameDD.map(subGName =>{
                                 return <option value={subGName}>{subGName}</option>
                               })
                             }
-                          </select> */}
-                          <Form.Control  type="text"  value={inmaeDD.SubGroup} name='subGrpName' onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder=" Sub Group Name" />
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
