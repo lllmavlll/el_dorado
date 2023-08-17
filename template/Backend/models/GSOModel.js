@@ -14,4 +14,4 @@ const GSOSchema = mongoose.Schema({
         goldSmithName: String,
     }]
 }, { timestamps: true });
-module.exports = mongoose.model("GoldSmith Order", GSOSchema);
+module.exports = mongoose.model("GoldSmith_Order", GSOSchema);

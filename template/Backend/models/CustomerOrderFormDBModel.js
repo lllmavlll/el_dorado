@@ -8,6 +8,7 @@ const CustOrdSchema = mongoose.Schema({
         type: String,
     },
     lineItem: [{
+        orderRefNo: String,
         placedOrderDate: String,
         requiredDate: String,
         customerOrderTouch: String,
@@ -20,6 +21,7 @@ const CustOrdSchema = mongoose.Schema({
         noOfDesign: String,
         QuantityPerDesign: String,
         itemQuantity: String,
+        availQuantity: String,
         unitWT_UL: String,
         unitWT_LL: String,
         estimatedWeight: String,

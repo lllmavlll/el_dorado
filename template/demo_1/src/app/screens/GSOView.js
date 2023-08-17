@@ -14,17 +14,21 @@ const OrderFormViews = () => {
 //  }
 
 
+const onClickHandler =(e)=>{
+  const hiddenElement = e.currentTarget.nextSibling;
+  hiddenElement.className.indexOf("collapse show") > -1 ? hiddenElement.classList.remove("show") : hiddenElement.classList.add("show");
+ }
+
   useEffect(()=>{
 
     fetch('http://localhost:4000/GSO/getAllGSOrders')
-    .then(response => response.json())
-    .then(data =>
-     {console.log(data);
-     return data
-     })
-    .then(data =>setGSOForm(data))
-    .catch(err=> console.log(err))
-     // fetchData();
+   .then(response => response.json())
+   .then(data =>
+    {console.log(data);
+    return data
+    })
+   .then(data =>setGSOForm(data))
+   .catch(err=> console.log(err))
    },[])
 
 
@@ -42,35 +46,55 @@ const OrderFormViews = () => {
                     <thead>
                       <tr>
                         <th> SL No. </th>
-                          <th>Order Number</th>
-                          <th>GSO Order No.</th>
-                          <th>Gold Smith Name</th>
-                          <th>Item Name</th>
-                          <th>order Quantity</th>
-                          <th>Allocated Quantity</th>
-                          <th>Quantity To Be Allocated</th>
-                          <th>Allocated Weight</th>
-                          <th>Weight To Be Allocated</th>
+                        <th>GSO Order No.</th>
+                        <th>GSO Order No.</th>
                       </tr>
                     </thead>
                     <tbody>
                      {
-                        GSOform&&GSOform.orders&&GSOform.orders.map(result =>{
-                          return <tr>
-                            <td>1</td>
-                            <td>{result.OrderNo}</td>
-                            <td>{result.GSOrderNo}</td>
-                            <td>{result.GSName}</td>
-                            <td>{result.ItemName}</td>
-                            <td>{result.OrderedQty}</td>
-                            <td>{result.allocdQty}</td>
-                            <td>{result.QtyToBeAllocd}</td>
-                            <td>{result.allocdWt}</td>
-                            <td>{result.WtToBeAllocd}</td>
-                          </tr>
-
+                        GSOform.map((result,index) =>{
+                          return <>
+                            <tr className='collapseRow' onClick={onClickHandler}>
+                              <td>{index+1}</td>
+                              <td>{result.OrderNo}</td>
+                              <td>{result.OrderNo}</td>
+                            </tr>
+                            <tr className="collapse">
+                              <td colSpan="6">
+                                <div className="table-responsive OFtable-res ">
+                                  <table className="table table-bordered OFtable ">
+                                    <thead>
+                                      <tr>
+                                        <th>Item Name</th>
+                                        <th>Item Quantity</th>
+                                        <th>Allocated Quantity</th>
+                                        <th>Allocated Weight</th>
+                                        <th>Gold Smith Name </th>
+                                        <th>Quantity to be Allocated</th>
+                                        <th>Weight to be Allocated</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {
+                                        result.subOrder.map((result, index)=>{
+                                          return<tr>
+                                            <td>{result.itemName}</td>
+                                            <td>{result.orderQuantity}</td>
+                                            <td>{result.allocatedQuantity}</td>
+                                            <td>{result.allocatedWeight}</td>
+                                            <td>{result.goldSmithName}</td>
+                                            <td>{result.quantityToBeAllocated}</td>
+                                            <td>{result.WeightToBeAllocated}</td>
+                                          </tr>
+                                        })
+                                      }
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                          </>
                         })
-
                      }
                    </tbody>
                   </table>

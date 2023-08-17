@@ -16,6 +16,7 @@ const BasicElements = () => {
 
 
   const [modalShow, setModalShow] = useState(false);
+  const [refNO, setRefNo] = useState(1);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [isIname, setIsIname] = useState(false); // to view table of line items 
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
@@ -114,6 +115,7 @@ const newLineItemHandle =(e)=>{
   setItemNameListView(true)
   const newLineItem = {
       orderNo:inputValue.OrderNo,
+      orderRefNo:`${inputValue.OrderNo}-${refNO}`,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
       customerOrderTouch:inputValue.customerOrderTouch,
@@ -126,6 +128,7 @@ const newLineItemHandle =(e)=>{
       noOfDesign:inputValue.noOfDesign,
       QuantityPerDesign:inputValue.QuantityPerDesign,
       itemQuantity:calcItemQuantity,
+      availQuantity:calcItemQuantity,
       unitWT_UL:inputValue.unitWT_UL,
       unitWT_LL:inputValue.unitWT_LL,
       estimatedWeight:calcEstimatedWeight,
@@ -146,6 +149,7 @@ const newLineItemHandle =(e)=>{
     }
     setLineItem([...lineItem, newLineItem]);
     // setClearInput('');
+    setRefNo(refNO+1)
   }
 
 

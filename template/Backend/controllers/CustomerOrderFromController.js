@@ -55,9 +55,35 @@ const GetOrderNo =async (req, res) => {
         console.error('Error finding product by FinalIname:', error);
     }
 }
+const UpdateIQ =async (req, res) => {
+
+    const OrderNo = req.params.OrderNo
+    // const orderRefNo = req.params.orderRefNo
+
+    // const {availQuantity }=req.body;
+
+    try {
+        const orderNo = await CustOrdModel.findOne({ OrderNo: OrderNo })
+        console.log(orderNo.lineItem)
+        res.json({ orderNo });
+        // const refNO =await CustOrdModel.findOne({orderRefNo:orderRefNo})
+        // res.json({ refNO });
+
+        // await newAvailQty.save();
+        // res.status(200).json(newNote)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"something went wrong!"})
+
+        
+    }
+
+}
 
 module.exports = {
     addCustOrd,
     getAllOrders,
-    getIQ,GetOrderNo
+    getIQ,
+    GetOrderNo,
+    UpdateIQ
 };

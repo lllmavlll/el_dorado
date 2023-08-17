@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import  { Form} from 'react-bootstrap'
 import { useLocation } from "react-router-dom";
 import './CustomCssFile.css'
 
 
 const GSOrder = () => {
-  const[orderFormData,setOrderFormData] = useState([])
+  // const[orderFormData,setOrderFormData] = useState([])
   // const[itemQty,setItemQty] = useState([])
   // const[lineItemDD,setLineItemDD] = useState([])
   const[subOrderTable,setSubOrderTable] = useState(false)
   const[Suborder,setSuborder] = useState([])
-  
   const [inputValue,setInputValue] = useState({
     GSOrderNo:'',
     OrderNo:'',
@@ -57,39 +56,15 @@ const GSOrder = () => {
     console.log(Suborder.orderNo);
 
   }
-
-
-  // const getitemQty =(event)=>{
-  //   const { name, value } = event.target;
-  //   setInputValue({
-  //     ...inputValue, 
-  //     [name]: value,
-  //   });
-  //   event.preventDefault()
-  //   const orderNumber = data.state.orderNo
-  //     // Fetch user data by id
-  //     fetch(`localhost:4000/CustomerOrderForm/getIQ/25`+orderNumber)
-  //       .then(response => response.json())
-  //      .then(data =>{
-  //       setItemQty(data.data)
-  //       console.log(itemQty)
-  //     })
-  //       .catch(error => {
-  //         console.error('Error fetching user data:', error);
-  //     });
-  // }
-
   const pushToDB= async(e)=>{
     e.preventDefault()
     console.log(inputValue)
 
     // for backend
-    
-    const {
-      OrderNo,
-      // OrderedQty,
-      
-    } = inputValue
+
+
+    const orno =location.state.state
+
     
     // const OrderNo=location.state.orderNo
     const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
@@ -98,7 +73,7 @@ const GSOrder = () => {
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        OrderNo, subOrder:Suborder
+        OrderNo:orno.OrderNo, subOrder:Suborder
       })
     })
     
@@ -109,28 +84,14 @@ const GSOrder = () => {
     alert('GSO Created Sucessfully!')
 
   }
-
-  useEffect(()=>{
-
-    fetch('http://localhost:4000/CustomerOrderForm/getAllOrders')
-    .then(response => response.json())
-    // .then(data =>
-    //  {console.log(data);
-    //  return data
-    //  })
-    .then(data =>setOrderFormData(data))
-    .catch(err=> console.log(err))
-     // fetchData();
-   },[])
-
   return (
-    <>
+      <>
         <div className='row'>
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Order Number: <span className=''>{data.OrderNo}</span></h5>
-                <p className="card-description">Customer Name<code>{data.customerName}</code></p>
+                <p className="card-description">Customer Name <span className='text-danger'>{data.customerName}</span></p>
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>
@@ -168,103 +129,86 @@ const GSOrder = () => {
                         <th>Remarks</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {
-                        data.lineItem.map((lineItem, index)=>{
-                          return<tr>
-                            <td>{index+1}</td>
-                            <td>{`${data.OrderNo}/${index+1}`}</td>
-                            <td>{lineItem.placedOrderDate}</td>
-                            <td>{lineItem.requiredDate}</td>
-                            <td>{lineItem.customerOrderTouch}</td>
-                            <td>{lineItem.targetTouch}</td>
-                            <td>{lineItem.seal}</td>
-                            <td>{lineItem.qualitySeries}</td>
-                            <td>{lineItem.finalIname}</td>
-                            <td>{lineItem.saleName}</td>
-                            <td>{lineItem.itemStage}</td>
-                            <td>{lineItem.noOfDesign}</td>
-                            <td>{lineItem.QuantityPerDesign}</td>
-                            <td>{lineItem.itemQuantity}</td>
-                            <td>{lineItem.unitWT_UL}</td>
-                            <td>{lineItem.unitWT_LL}</td>
-                            <td>{lineItem.estimatedWeight}</td>
-                            <td>{lineItem.ScrewMake}</td>
-                            <td>{lineItem.screwSize}</td>
-                            <td>{lineItem.cuttingType}</td>
-                            <td>{lineItem.cuttingDesign}</td>
-                            <td>{lineItem.stoneBrand}</td>
-                            <td>{lineItem.polishType}</td>
-                            <td>{lineItem.dimmyColType}</td>
-                            <td>{lineItem.SILSURColouringType}</td>
-                            <td>{lineItem.surfaceFinish}</td>
-                            <td>{lineItem.Coat}</td>
-                            <td>{lineItem.cardType}</td>
-                            <td>{lineItem.cfPlan}</td>
-                            <td>{lineItem.stoneSettingType}</td>
-                            <td>{lineItem.remarks}</td>
-                          </tr>
-                        })
-                      }
-                    </tbody>
+                      <tbody>
+                        {
+                          data.lineItem.map((lineItem, index)=>{
+                            return<tr>
+                              <td>{index+1}</td>
+                              <td>{`${data.OrderNo}/${index+1}`}</td>
+                              <td>{lineItem.placedOrderDate}</td>
+                              <td>{lineItem.requiredDate}</td>
+                              <td>{lineItem.customerOrderTouch}</td>
+                              <td>{lineItem.targetTouch}</td>
+                              <td>{lineItem.seal}</td>
+                              <td>{lineItem.qualitySeries}</td>
+                              <td>{lineItem.finalIname}</td>
+                              <td>{lineItem.saleName}</td>
+                              <td>{lineItem.itemStage}</td>
+                              <td>{lineItem.noOfDesign}</td>
+                              <td>{lineItem.QuantityPerDesign}</td>
+                              <td>{lineItem.itemQuantity}</td>
+                              <td>{lineItem.unitWT_UL}</td>
+                              <td>{lineItem.unitWT_LL}</td>
+                              <td>{lineItem.estimatedWeight}</td>
+                              <td>{lineItem.ScrewMake}</td>
+                              <td>{lineItem.screwSize}</td>
+                              <td>{lineItem.cuttingType}</td>
+                              <td>{lineItem.cuttingDesign}</td>
+                              <td>{lineItem.stoneBrand}</td>
+                              <td>{lineItem.polishType}</td>
+                              <td>{lineItem.dimmyColType}</td>
+                              <td>{lineItem.SILSURColouringType}</td>
+                              <td>{lineItem.surfaceFinish}</td>
+                              <td>{lineItem.Coat}</td>
+                              <td>{lineItem.cardType}</td>
+                              <td>{lineItem.cfPlan}</td>
+                              <td>{lineItem.stoneSettingType}</td>
+                              <td>{lineItem.remarks}</td>
+                            </tr>
+                          })
+                        }
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-md-12 grid-margin stretch-card">
-             <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Gold Smith Order</h4>
+              <div className="card">
+                <div className="card-body">
+                  <h4 className="card-title">Gold Smith Order</h4>
                     <form className="forms-sample">
-
                       <div className='row'>
-                        
                         <div className="col-md-6">
-                            <Form.Group className="row">
-                                <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
-                                <div className="col-sm-8">
-                                  {/* <select className="form-control" name='OrderNo' value={inputValue.OrderNo} onChange={handleInputChange}    id="orderNO">
-                                    <option value=''>select</option>
-                                    {
-                                       orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
-                                return  <option value={result.OrderNo}>
-                                          {result.OrderNo}
-                                        </option>
-
-                                       })
-
-                                    }
-                                  </select> */}
-                                  <Form.Control  type="text"  name='orderNO' value={data.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
-
-                                </div>
-                            </Form.Group>
+                          <Form.Group className="row">
+                            <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
+                            <div className="col-sm-8">
+                              <Form.Control  type="text"  name='orderNO' value={data.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                            </div>
+                          </Form.Group>
                         </div>
                         <div className="col-md-6">
-                            <Form.Group className="row">
+                          <Form.Group className="row">
+                            <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
+                            <div className="col-sm-8">
+                              <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
+                                <option value=''>select</option>
+                                {
+                                  data.lineItem.map((list)=>{
+                                    return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
+                                  })
+                                }
+                              </select>
+                            </div>
+                          </Form.Group>
+                        </div>
+                      </div> 
+                      <div className='row'>
+                        <div className="col-md-6">
+                        <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
                                 <div className="col-sm-8">
                                   <Form.Control  type="text"  name='GSName' value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
-                                </div>
-                            </Form.Group>
-                        </div>
-
-                      </div> 
-
-                      <div className='row'>
-                        <div className="col-md-6">
-                            <Form.Group className="row">
-                                <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
-                                <div className="col-sm-8">
-                                <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
-                                    <option value=''>select</option>
-                                  {
-                                    data.lineItem.map((list)=>{
-                                      return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
-                                    })
-                                  }
-                                  </select>
                                 </div>
                             </Form.Group>
                         </div>
@@ -277,7 +221,6 @@ const GSOrder = () => {
                         </Form.Group>
                         </div>
                      </div> 
-
                       <div className='row'>
                         <div className="col-md-6">
                             <Form.Group className="row">
@@ -287,19 +230,17 @@ const GSOrder = () => {
                                 </div>
                             </Form.Group>
                         </div>
-                        
                         <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="WtToBeAllocd" className="col-sm-4 col-form-label"> weight To Be Alloted</label>
+                                <label  htmlFor="WtToBeAllocd" className="col-sm-4 col-form-label"> weight To Be Allocated</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='WtToBeAllocd' value={inputValue.WtToBeAllocd} onChange={handleInputChange}  className="form-control" id="WtToBeAllocd" placeholder=" Weight To Be Alloted" />
+                                <Form.Control  type="text"  name='WtToBeAllocd' value={inputValue.WtToBeAllocd} onChange={handleInputChange}  className="form-control" id="WtToBeAllocd" placeholder=" Weight To Be Allocated" />
                                 </div>
                             </Form.Group>
                         </div>
-                       
                       </div> 
                       <div className='row'>
-                      <div className="col-md-6">
+                        <div className="col-md-6">
                             <Form.Group className="row">
                                 <label  htmlFor="AlloQty" className="col-sm-4 col-form-label"> Allocated Quantity</label>
                                 <div className="col-sm-8">
@@ -310,9 +251,9 @@ const GSOrder = () => {
                         
                         <div className="col-md-6">
                             <Form.Group className="row">
-                                <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Alloted</label>
+                                <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Allocated</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Alloted" />
+                                <Form.Control  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Allocated" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -340,7 +281,6 @@ const GSOrder = () => {
                     <thead>
                       <tr>
                         <th> SL No. </th>
-                        <th> GSO No.</th>
                         <th> Item Name </th>
                         <th> Item Quantity </th>
                         <th> Allocated Quantity </th>
@@ -355,7 +295,6 @@ const GSOrder = () => {
                       Suborder.map((result,index)=>{
                         return<tr>
                           <td>{index+1}</td>
-                          <td>{result.orderNo}</td>
                           <td>{result.itemName}</td>
                           <td>{result.orderQuantity}</td>
                           <td>{result.allocatedQuantity}</td>
@@ -396,7 +335,7 @@ const GSOrder = () => {
           </div>
         
         </div>
-    </>
+      </>
   )
 }
 

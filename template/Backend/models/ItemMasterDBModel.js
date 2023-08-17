@@ -117,4 +117,4 @@ const ItemMasterSchema = mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model("Item Master", ItemMasterSchema);
+module.exports = mongoose.model("Item_Master", ItemMasterSchema);

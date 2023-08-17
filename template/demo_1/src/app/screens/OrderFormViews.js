@@ -8,14 +8,11 @@ const OrderFormViews = () => {
 
   const navigate =useHistory()
 
-  const [orderNO, setOrderNo] =useState([])
   const[orderFormData,setOrderFormData] = useState([])
 
-   const onClickHandler =(e)=>{
+const onClickHandler =(e)=>{
   const hiddenElement = e.currentTarget.nextSibling;
   hiddenElement.className.indexOf("collapse show") > -1 ? hiddenElement.classList.remove("show") : hiddenElement.classList.add("show");
-  // setCollapse(!collapse);
-
  }
 
  //==============|| to reroute to gso ||===================//
@@ -56,7 +53,9 @@ const OrderFormViews = () => {
 
   return (
     <>
-        <h1>Order Form View</h1>
+        <div className='page-header'>
+          <h1 className='page-title'>Order Form View</h1>
+        </div>
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -74,7 +73,7 @@ const OrderFormViews = () => {
                         {
                              orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map((result,index) =>{
                               return<>
-                              <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Split This Order</button>
+                              <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Create GSO</button>
                               <tr className='collapseRow' onClick={onClickHandler}>
                               {/* <tr className='collapseRow'> */}
                                 <td>{index+1}</td>
@@ -99,6 +98,7 @@ const OrderFormViews = () => {
                                     <th>No. Of Design</th>
                                     <th>Quantity/Design</th>
                                     <th>Item Quantity</th>
+                                    <th>Available Quantity</th>
                                     <th>Unit Weight UL</th>
                                     <th>Unit Weight LL</th>
                                     <th>Estimated Weight</th>
@@ -121,7 +121,7 @@ const OrderFormViews = () => {
                                   <tbody>
                                     {
                                       result.lineItem.map((lineItem)=>{
-                                        return <tr>
+                                        return <tr >
                                         <td>{lineItem.placedOrderDate}</td>
                                         <td>{lineItem.requiredDate}</td>
                                         <td>{lineItem.customerOrderTouch}</td>
@@ -134,6 +134,7 @@ const OrderFormViews = () => {
                                         <td>{lineItem.noOfDesign}</td>
                                         <td>{lineItem.QuantityPerDesign}</td>
                                         <td>{lineItem.itemQuantity}</td>
+                                        <td className='text-success'>{lineItem.availQuantity}</td>
                                         <td>{lineItem.unitWT_UL}</td>
                                         <td>{lineItem.unitWT_LL}</td>
                                         <td>{lineItem.estimatedWeight}</td>
