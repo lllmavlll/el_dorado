@@ -57,28 +57,66 @@ const GetOrderNo =async (req, res) => {
 }
 const UpdateIQ =async (req, res) => {
 
-    const OrderNo = req.params.OrderNo
-    // const orderRefNo = req.params.orderRefNo
-
-    // const {availQuantity }=req.body;
+    const {orderRefNo, OrderNo} = req.params.orderRefNo
+    const { availQuantity} = req.body
 
     try {
-        const orderNo = await CustOrdModel.findOne({ OrderNo: OrderNo })
-        console.log(orderNo.lineItem)
-        res.json({ orderNo });
-        // const refNO =await CustOrdModel.findOne({orderRefNo:orderRefNo})
-        // res.json({ refNO });
-
-        // await newAvailQty.save();
-        // res.status(200).json(newNote)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({message:"something went wrong!"})
-
+        const updateQty = await CustOrdModel.findOneAndUpdate(
+            {OrderNo:OrderNo, "lineItem.orderRefNo":orderRefNo },
+            {
+                $set:{
+                    "lineItem.$.availQuantity":availQuantity
+                }
+            },
+            { returnOriginal: false }
+        )
+        res.json({message:"item quantity updated successfully", updateQty})
         
+    } catch (error) {
+        console.log(error);
     }
 
-}
+//     try {
+        
+        
+//         // const ordertoUpdate = await CustOrdModel.findOneAndUpdate({ OrderNo },{$set:{customerName}}, { returnOriginal: false })
+//         const ordertoUpdate = await CustOrdModel.find().then ((orno) =>{ 
+//             console.log(orno);
+//             orno.OrderNo === OrderNo
+//             console.log(orno.OrderNo);
+//         });
+//     if (!ordertoUpdate) {
+//         return res.status(404).json({ message: `order not found of Order number: ${OrderNo}` });
+//       }
+
+//     // const lineItemToUpdate = ordertoUpdate.lineItem.findOneAndUpdate({ orderRefNo },{$set:{availQuantity}}, { returnOriginal: false });
+//     const lineItemToUpdate = ordertoUpdate.lineItem.find().then ((item) =>{ item.orderRefNo===orderRefNo});
+//     if (!lineItemToUpdate) {
+//       return res.status(404).json({ message: `lineItem not found in the order ${OrderNo}`  });
+//     }
+//     lineItemToUpdate.availQuantity = availQuantity
+    
+//     res.json({ message: "Player score updated successfully", team: ordertoUpdate });
+// } catch (error) {
+//     console.log(error);    
+// }
+    // try {
+    //     const orderNo = await CustOrdModel.findOne({ OrderNo: OrderNo })
+    //     console.log(orderNo.lineItem)
+    //     res.json({ orderNo });
+    //     // const refNO =await CustOrdModel.findOne({orderRefNo:orderRefNo})
+    //     // res.json({ refNO });
+
+    //     // await newAvailQty.save();
+    //     // res.status(200).json(newNote)
+    // } catch (error) {
+        //     console.log(error)
+        //     res.status(500).json({message:"something went wrong!"})
+        
+        
+        // }
+        
+    }
 
 module.exports = {
     addCustOrd,
