@@ -18,8 +18,11 @@ const OrderItems = () => {
     Size:"",
     StoneColourPattern:"",
     ScrewType:"",
+    image:''
 })
 const [show,setShow] = useState(false)
+const [selectedFile, setSelectedFile] = useState(null);
+
 
 // const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
 
@@ -31,7 +34,18 @@ const handleInputChange = (event) => {
     });
   };
 
+const handleFileChange = (event) => {
+  setSelectedFile(event.target.files[0]);
+};
 
+const handleUpload =()=>{
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+}
+
+const uploadImage = ()=>{
+  
+}
 
 const inputHandler= async(e)=>{
     e.preventDefault()
@@ -186,6 +200,15 @@ const pushToDB= async(e)=>{
                         </div>
                       </Form.Group>
                     </div>
+                    {/* <div className="col-md-12"> */}
+                      <Form.Group className='customFileLang'>
+                      <label  htmlFor="ScrewType" className="col-sm-4 col-form-label">Upload Image</label>
+                      <div className="custom-file col-sm-8">
+                        <Form.Control type="file" className="form-control visibility-hidden" onChange={handleFileChange} name='image' id="customFileLang" lang="es"/>
+                        <label className="custom-file-label" onChange={handleUpload} htmlFor="customFileLang">Upload image</label>
+                      </div>
+                      </Form.Group>
+                    {/* </div> */}
 
                   {/* </div> */}
                   <div className='row'>

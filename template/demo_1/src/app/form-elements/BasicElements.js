@@ -441,7 +441,20 @@ const skuFuncToAutoPopulate =async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="category" className="col-sm-4 col-form-label">Category</label>
                         <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.Category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
+                        <select type="text"  value={inmaeDD.Category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" >
+                          <option value=""> Select</option>
+                          <option value="BAALI">BAALI </option>
+                          <option value="BRING">BRING </option>
+                          <option value="BUKUDI">BUKUDI </option>
+                          <option value="CHAIN">CHAIN </option>
+                          <option value="COMP">COMP </option>
+                          <option value="LOLAK">LOLAK </option>
+                          <option value="LRING">LRING </option>
+                          <option value="MATTI">MATTI </option>
+                          <option value="NP">NP </option>
+                          <option value="PENDENT">PENDENT </option>
+                          <option value="TOPS">TOPS </option>
+                        </select>
                         </div>
                       </Form.Group>
                     </div>
