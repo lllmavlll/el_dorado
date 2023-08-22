@@ -265,7 +265,7 @@ const pushToDB= async(e)=>{
                         <>
                         <h4>Iname Photo Preview:</h4>
                         <div>
-                          <img src={selectedFile} alt='photo not found'/>
+                          <img src={selectedFile} alt='data not found'/>
                         </div>
                         </>
                       :''
