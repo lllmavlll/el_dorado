@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
+import axios from 'axios'
 // import DatePicker from "react-datepicker";
 
 
@@ -8,6 +9,8 @@ var joinedValue
 
 
 const OrderItems = () => {
+
+  const [showPhoto, setShowPhoto]= useState(false)
   const [inputValue,setInputValue] = useState({
     Category:'',
     Group:"",
@@ -21,7 +24,7 @@ const OrderItems = () => {
     image:''
 })
 const [show,setShow] = useState(false)
-const [selectedFile, setSelectedFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState('');
 
 
 // const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
@@ -34,28 +37,39 @@ const handleInputChange = (event) => {
     });
   };
 
-const handleFileChange = (event) => {
-  setSelectedFile(event.target.files[0]);
-};
 
-const handleUpload =()=>{
-  const formData = new FormData();
-  formData.append('file', selectedFile);
-}
-
-const uploadImage = ()=>{
+  const handleUpload = async(newImage)=>{
+    try {
+     await axios.post('http://localhost:4000/iname/uploadImage',newImage)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const fileUploadhandle = async(e)=>{
+    const file =e.target.files[0]
+    const Base64 = await converToBase64(file)
+    console.log(Base64);
+    setSelectedFile(Base64)
+  }
+  // const handleUpload =()=>{
+  //   const formData = new FormData();
+  //   formData.append('file', selectedFile);
+  //   axios.post('http://localhost:4000/iname/uploadImage',formData)
+  //   .then( res=>{})
+  //   .catch(error => console.log(error))
+  // }
   
-}
 
 const inputHandler= async(e)=>{
-    e.preventDefault()
-    // console.log(inputValue)
-    const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType,]
-    joinedValue = values.join('_')
-    console.log(joinedValue);
-    setShow(true)
-    // alert(`Iname is: ${joinedValue}`)
-
+  e.preventDefault()
+  // console.log(inputValue)
+  const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType,]
+  joinedValue = values.join('_')
+  console.log(joinedValue);
+  setShow(true)
+  setShowPhoto(true)
+  // alert(`Iname is: ${joinedValue}`)
+ 
   
   }
   
@@ -65,37 +79,37 @@ const inputHandler= async(e)=>{
 
 // }
 const pushToDB= async(e)=>{
-    e.preventDefault()
-    // console.log(values)
-    // console.log(inputValue)
-    
-    
-    
-    //for banckend
-    
-    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,} = inputValue
-    const res =await fetch('http://localhost:4000/iname/createIname',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,
-      })
+  e.preventDefault()
+  // console.log(values)
+  // console.log(inputValue)
+  
+  
+  
+  //for banckend
+  
+  const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,} = inputValue
+  const res =await fetch('http://localhost:4000/iname/createIname',{
+    method:'POST',
+    headers:{
+      "content-type":"application/json"
+    },
+    body:JSON.stringify({
+      Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, image:selectedFile
     })
-    
-    const data = await res.json();
-    if(data){
-      window.location.reload();
-    }
-    if(res.status===400 || !data){
-      window.alert(`already exist`)
-    }
-    else{
-       alert('product name created sucessfully!')
-      
-       }
-
+  })
+  
+  const data = await res.json();
+  // if(data){
+  //   window.location.reload();
+  // }
+  if(res.status===400 || !data){
+    window.alert(`already exist`)
+  }
+  else{
+    alert('product name created sucessfully!')
+  }
+  handleUpload(selectedFile)
+  console.log(selectedFile)
 }
 
   return (
@@ -200,15 +214,25 @@ const pushToDB= async(e)=>{
                         </div>
                       </Form.Group>
                     </div>
-                    {/* <div className="col-md-12"> */}
-                      <Form.Group className='customFileLang'>
-                      <label  htmlFor="ScrewType" className="col-sm-4 col-form-label">Upload Image</label>
+                    <div className="col-md-12">
+                      {/* <Form.Group>
+                      <label  htmlFor="customFileLang" className="col-sm-4 col-form-label">Upload Image</label>
                       <div className="custom-file col-sm-8">
-                        <Form.Control type="file" className="form-control visibility-hidden" onChange={handleFileChange} name='image' id="customFileLang" lang="es"/>
-                        <label className="custom-file-label" onChange={handleUpload} htmlFor="customFileLang">Upload image</label>
+                        <Form.Control type="file" className="form-control visibility-hidden" onChange={(e)=>setSelectedFile(e.target.files[0])} id="customFileLang" lang="es"/>
+                        <label className="custom-file-label"  htmlFor="customFileLang">Upload image</label>
                       </div>
-                      </Form.Group>
-                    {/* </div> */}
+                      </Form.Group> */}
+                        {/* <Form.Group>
+                          <label>File upload</label>
+                          <div className="custom-file">
+                            <Form.Control type="file" className="form-control visibility-hidden" id="customFileLang" lang="es"/>
+                            <label className="custom-file-label" htmlFor="customFileLang">Upload image</label>
+                          </div>
+                        </Form.Group> */}
+                        <Form.Group>
+                          <Form.Control type='file' accept='.jpeg, .png, .jpg' name ='image' lable='Image' onChange={(e)=>fileUploadhandle(e)} />
+                        </Form.Group>
+                    </div>
 
                   {/* </div> */}
                   <div className='row'>
@@ -235,8 +259,19 @@ const pushToDB= async(e)=>{
                       <h4 className='col'>
                         <label>Final Product Name: </label>{show && <p name='productIName' value={joinedValue} onChange={handleInputChange}>{joinedValue}</p>}  
                       </h4>
+                      <br/>
+                      {
+                        showPhoto?
+                        <>
+                        <h4>Iname Photo Preview:</h4>
+                        <div>
+                          <img src={selectedFile} alt='photo not found'/>
+                        </div>
+                        </>
+                      :''
+                      }
+                      <br/>
                       <div className='row'>
-
                       <Form.Group id='#col1' className='col'>
                           <div className="col">
                           <button type="submit" onClick={pushToDB} className="btn btn-primary mr-4">submit the data</button>
@@ -259,36 +294,16 @@ const pushToDB= async(e)=>{
 export default OrderItems
 
 
-// export class orderItems extends Component {
-//   state = {
-//     startDate: new Date()
-//   };
- 
-//   handleChange = date => {
-//     this.setState({
-//       startDate: date
-//     });
-//   };
+const converToBase64 =(file)=>{
+  return new Promise((resolve,reject)=>{
+    const fileReader =new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () =>{
+      resolve(fileReader.result)
+    };
+    fileReader.onerror =(error)=>{
+      reject(error)
+    }
+  })
+}
 
-//   componentDidMount() {
-//     bsCustomFileInput.init()
-//   }
-
-
-
-//   render() {
-
-//     const showStoneProperties = document.querySelector( '.showStoneProperties')
-//     const showPropBtn = document.querySelector('.showBtn')
-
-//   //  const onClickHandler=(e)=>{
-//   //       e.preventDefault()
-//   //     }
-
-//     return (
-      
-//     )
-//   }
-// }
-
-// export default orderItems

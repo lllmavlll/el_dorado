@@ -1,10 +1,12 @@
 const inameModel = require('../models/InamesDBModel')
+const multer = require('multer')
+
 
 const addIname = async (req, res) => {
-    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo } = req.body;
+    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, image} = req.body;
     try {
        
-        const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType]
+        const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,]
         const FinalIname = values.join('_');
 
         // const existingItem = await inameModel.findOne({ FinalIname:FinalIname})
@@ -15,7 +17,7 @@ const addIname = async (req, res) => {
 
 
         const result = new inameModel({
-            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, FinalIname, 
+            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, FinalIname,image
         })
         await result.save();
         res.status(201).json({ Iname: result });
@@ -55,4 +57,5 @@ const getGname = async (req, res) => {
     }
 }
 
-module.exports = { addIname, getIname, getGname};
+
+module.exports = { addIname, getIname, getGname,};

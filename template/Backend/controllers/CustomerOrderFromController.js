@@ -57,64 +57,26 @@ const GetOrderNo =async (req, res) => {
 }
 const UpdateIQ =async (req, res) => {
 
-    const {orderRefNo, OrderNo} = req.params.orderRefNo
-    const { availQuantity} = req.body
+    const orderRefNo = req.params.orderRefNo
 
     try {
-        const updateQty = await CustOrdModel.findOneAndUpdate(
-            {OrderNo:OrderNo, "lineItem.orderRefNo":orderRefNo },
-            {
-                $set:{
-                    "lineItem.$.availQuantity":availQuantity
-                }
-            },
-            { returnOriginal: false }
-        )
-        res.json({message:"item quantity updated successfully", updateQty})
-        
+        const data = await CustOrdModel.findOneAndUpdate(
+            { 'lineItem.orderRefNo': orderRefNo },  // grab the specific lineitem, which will return the order
+            { $set: { 'lineItem.$': req.body } },  //this will set the new value
+            { new: true }
+        );
+        console.log(data);
+        if (data) {
+            res.json(data)
+        } else {
+            res.status(404).json({ error: 'errors' })
+        }
     } catch (error) {
-        console.log(error);
+        console.error('Error fetching Order Forms:', error);
+        res.status(500).json({ error: 'Failed to fetch Order Forms' });
     }
 
-//     try {
-        
-        
-//         // const ordertoUpdate = await CustOrdModel.findOneAndUpdate({ OrderNo },{$set:{customerName}}, { returnOriginal: false })
-//         const ordertoUpdate = await CustOrdModel.find().then ((orno) =>{ 
-//             console.log(orno);
-//             orno.OrderNo === OrderNo
-//             console.log(orno.OrderNo);
-//         });
-//     if (!ordertoUpdate) {
-//         return res.status(404).json({ message: `order not found of Order number: ${OrderNo}` });
-//       }
 
-//     // const lineItemToUpdate = ordertoUpdate.lineItem.findOneAndUpdate({ orderRefNo },{$set:{availQuantity}}, { returnOriginal: false });
-//     const lineItemToUpdate = ordertoUpdate.lineItem.find().then ((item) =>{ item.orderRefNo===orderRefNo});
-//     if (!lineItemToUpdate) {
-//       return res.status(404).json({ message: `lineItem not found in the order ${OrderNo}`  });
-//     }
-//     lineItemToUpdate.availQuantity = availQuantity
-    
-//     res.json({ message: "Player score updated successfully", team: ordertoUpdate });
-// } catch (error) {
-//     console.log(error);    
-// }
-    // try {
-    //     const orderNo = await CustOrdModel.findOne({ OrderNo: OrderNo })
-    //     console.log(orderNo.lineItem)
-    //     res.json({ orderNo });
-    //     // const refNO =await CustOrdModel.findOne({orderRefNo:orderRefNo})
-    //     // res.json({ refNO });
-
-    //     // await newAvailQty.save();
-    //     // res.status(200).json(newNote)
-    // } catch (error) {
-        //     console.log(error)
-        //     res.status(500).json({message:"something went wrong!"})
-        
-        
-        // }
         
     }
 

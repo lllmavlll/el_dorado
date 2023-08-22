@@ -116,6 +116,7 @@ const newLineItemHandle =(e)=>{
   const newLineItem = {
       orderNo:inputValue.OrderNo,
       orderRefNo:`${inputValue.OrderNo}-${refNO}`,
+      itemIndex:refNO,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
       customerOrderTouch:inputValue.customerOrderTouch,
@@ -613,6 +614,7 @@ const skuFuncToAutoPopulate =async(e)=>{
                     <Form.Group className="row">
                       <label  htmlFor="finalImg" className="col-sm-2 col-form-label">Image</label>
                       <div className="col-sm-10">
+                        <img src={inmaeDD.image} alt='NO DATA FOUND'/>
                       </div>
                     </Form.Group>
                   </div>

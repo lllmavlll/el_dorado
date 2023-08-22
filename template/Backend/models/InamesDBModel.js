@@ -31,7 +31,10 @@ const InameSchema = mongoose.Schema({
     SKUNo: {},
     FinalIname: {
         type: String
+    },
+    image:{
+        type:String
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Iname", InameSchema);
+module.exports = mongoose.model("testIname", InameSchema);
