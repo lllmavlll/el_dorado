@@ -344,12 +344,12 @@ const skuFuncToAutoPopulate =async(e)=>{
                     <Form.Control type="text"  value={inputValue.customerName} name='customerName' onChange={handleInputChange} className="form-control" id="CustomerName" placeholder="Customer Name" />
                     </div>
                   </Form.Group>
-                  <Form.Group className='row'>
+                  {/* <Form.Group className='row'>
                     <label htmlFor="OrderNo" className="col-sm-5 col-form-label" >Order Number</label>
                     <div className="col-sm-7">
                     <Form.Control type="text"  value={inputValue.OrderNo} name='OrderNo' onChange={handleInputChange} className="form-control" id="OrderNo" placeholder="Order Number" />
                     </div>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group className='row'>
                     <label htmlFor="placedOrderDate" className="col-sm-5 col-form-label" >Place Order Date</label>
                     <div className="col-sm-7">

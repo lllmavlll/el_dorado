@@ -7,6 +7,7 @@ const iNameRouter = require('./routes/INameRoute');
 const IMasterRouter = require('./routes/IMasterRoute');
 const CustOrdFormRouter = require('./routes/CustOrdRoute');
 const GSORoute = require('./routes/GSORoute');
+const GSIRoute = require('./routes/GSIRoute')
 const bodyParser = require('body-parser');
 
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use('/iname', iNameRouter);
 app.use('/itemMasters', IMasterRouter);
 app.use('/CustomerOrderForm', CustOrdFormRouter)
 app.use('/GSO', GSORoute)
+app.use('/GSI', GSIRoute);
 
 
 app.get('/', (req, res) => {

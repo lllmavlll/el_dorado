@@ -35,12 +35,12 @@ const onClickHandler =(e)=>{
   return (
     <>
         <div className='page-header'>
-          <h1 className='page-title'>GSO View</h1>
+          <h1 className='page-title'>Gold Smith Order View</h1>
         </div>
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                {/* <h4 className="card-title"></h4> */}
+                {/* <h4 className="card-title"> GSO View</h4> */}
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>
