@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react'
 // import {Form} from 'react-bootstrap'
 import './CustomCssFile.css'
+import { useHistory } from "react-router-dom";
 
 
 const OrderFormViews = () => {
 
+  const navigate =useHistory()
+
+
   const[GSOform,setGSOForm] = useState([])
 
 
-//  const onClickHandler =(e)=>{
-//   const hiddenElement = e.currentTarget.nextSibling;
-//   hiddenElement.className.indexOf("collapse show") > -1 ? hiddenElement.classList.remove("show") : hiddenElement.classList.add("show");
-//  }
+const reRouteFunc=(GSOno)=>{
+  // fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/`+GSOno)
+  // .then(response => response.json())
+  // .then(data =>{
+  //   // setOrderNo()
+  //       // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
+  //       navigate.push('/gold-smith/issuance',{state:data.data})
+
+  //   // return data
+  //   }) 
+  //   .catch(error => {
+  //   console.error('Error fetching user data:', error);
+  // });
+}
 
 
 const onClickHandler =(e)=>{
@@ -47,17 +61,18 @@ const onClickHandler =(e)=>{
                       <tr>
                         <th> SL No. </th>
                         <th>GSO Order No.</th>
-                        <th>GSO Order No.</th>
+                        {/* <th>GSO Order No.</th> */}
                       </tr>
                     </thead>
                     <tbody>
                      {
                         GSOform.map((result,index) =>{
                           return <>
+                            <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" >Issue material</button>
                             <tr className='collapseRow' onClick={onClickHandler}>
                               <td>{index+1}</td>
                               <td>{result.OrderNo}</td>
-                              <td>{result.OrderNo}</td>
+                              {/* <td>{result.OrderNo}</td> */}
                             </tr>
                             <tr className="collapse">
                               <td colSpan="6">

@@ -143,9 +143,9 @@ const pushToDB= async(e)=>{
                     </div>
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="subGrpName" className="col-sm-5 col-form-label">Sub Group Nmae</label>
+                        <label  htmlFor="subGrpName" className="col-sm-5 col-form-label">Sub Group Name</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.SubGroup} onChange={handleInputChange}    name='SubGroup'  className="form-control" id="subGrpName" placeholder="Sub Group Nmae" />
+                          <Form.Control  type="text" value={inputValue.SubGroup} onChange={handleInputChange}    name='SubGroup'  className="form-control" id="subGrpName" placeholder="Sub Group Name" />
                         </div>
                       </Form.Group>
                     </div>

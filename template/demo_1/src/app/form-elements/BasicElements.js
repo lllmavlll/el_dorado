@@ -253,8 +253,8 @@ const skuFuncToAutoPopulate =async(e)=>{
                       <table className="table table-bordered OFtable ">
                         <thead>
                           <th>SL.NO</th>
-                          <th>Order Number</th>
-                          <th>Order reference Number</th>
+                          {/* <th>Order Number</th>
+                          <th>Order reference Number</th> */}
                           <th>PLaced Order Date</th>
                           <th>Required Date</th>
                           <th>Cust OrderTouch</th>
@@ -289,8 +289,8 @@ const skuFuncToAutoPopulate =async(e)=>{
                           lineItem.map((result,index)=>{
                             return <tr>
                               <td>{index+1}</td>
-                              <td>{result.orderNo}</td>
-                              <td>{`${result.orderNo}/ ${index+1}`}</td>
+                              {/* <td>{result.orderNo}</td>
+                              <td>{`${result.orderNo}/ ${index+1}`}</td> */}
                               <td>{result.placedOrderDate}</td>
                               <td>{result.requiredDate}</td>
                               <td>{result.customerOrderTouch}</td>
@@ -408,27 +408,7 @@ const skuFuncToAutoPopulate =async(e)=>{
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
                 {/* <form className="forms-sample"> */}
-                <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="FinalIname" className="col-sm-4 col-form-label">Final Iname</label>
-                        <div className="col-sm-8">
-                        <select value={inputValue.FinalIname} name='FinalIname' onChange={handleInputChange} className="form-control" id="FinalIname"  >
-                          <option  value=""> Select</option>
-                          {
-                          orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
-                          return  <option  value={result.FinalIname}> {result.FinalIname}</option>
-                          })
-                          }
-                          </select>
-                        {/* <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" /> */}
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                     <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button>
-                    </div>
-                  </div>
+                  
                   <div className="row">
                     <div className="col-md-6">
                       <Form.Group className="row">
@@ -603,6 +583,27 @@ const skuFuncToAutoPopulate =async(e)=>{
                         </div>
                       </Form.Group>
                     </div>
+                    <div className="col-md-6">
+                      <Form.Group className="row">
+                        <label  htmlFor="FinalIname" className="col-sm-4 col-form-label">Final Iname</label>
+                        <div className="col-sm-8">
+                        <select value={inputValue.FinalIname} name='FinalIname' onChange={handleInputChange} className="form-control" id="FinalIname"  >
+                          <option  value=""> Select</option>
+                          {
+                          orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map(result =>{
+                          return  <option  value={result.FinalIname}> {result.FinalIname}</option>
+                          })
+                          }
+                          </select>
+                        {/* <Form.Control  type="text"  value={inputValue.SKUNo} name='SKUNo' onChange={handleInputChange}  className="form-control" id="SKUNo" placeholder="Enter/scan for SKU" /> */}
+                        </div>
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                     <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button>
+                    </div>
                   </div>
 
                   {/* <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button> */}
@@ -739,10 +740,10 @@ const skuFuncToAutoPopulate =async(e)=>{
                       <label htmlFor="stoneBrand" className="col-sm-5 col-form-label">Stone Brand</label>
                       <div className="col">
                       <select className="form-control"  value={inputValue.stoneBrand} name='stoneBrand' onChange={handleInputChange}  id="stoneBrand">
-                        <option  value=""> Select</option>
-                        <option value="STONE_BRAND_1">STONE_BRAND_1</option>
-                        <option value="STONE_BRAND_2">STONE_BRAND_2</option>
-                        <option value="STONE_BRAND_3">STONE_BRAND_3</option>
+                        <option value=""> Select</option>
+                        <option value="SHINE">SHINE</option>
+                        <option value="EURO-H">EURO-H</option>
+                        <option value="NA">NA</option>
                       </select>
                       <span style={{color:'khaki',fontSize:'14px'}}><i>(dependent on quality series & touch band)</i></span>
 

@@ -31,8 +31,6 @@ const onClickHandler =(e)=>{
     console.error('Error fetching user data:', error);
   });
   
- 
-
  }
 
   useEffect(()=>{
@@ -82,10 +80,13 @@ const onClickHandler =(e)=>{
                               </tr>
                               <tr className="collapse">
                                 <td colSpan="6">
+                                <h5 className="card-title">line item for Order No: {result.OrderNo}</h5>
                                 <div className="table-responsive OFtable-res ">
                                 <table className="table table-bordered OFtable ">
                                   <thead>
                                   <tr>
+                                    <th>SL.No</th>
+                                    <th>Order Ref No</th>
                                     <th>Placed Order Date</th>
                                     <th>required Date</th>
                                     <th>Cust order Touch</th>
@@ -120,8 +121,10 @@ const onClickHandler =(e)=>{
                                   </thead>
                                   <tbody>
                                     {
-                                      result.lineItem.map((lineItem)=>{
+                                      result.lineItem.map((lineItem,index)=>{
                                         return <tr >
+                                        <td>{index+1}</td>
+                                        <td>{lineItem.orderRefNo}</td>
                                         <td>{lineItem.placedOrderDate}</td>
                                         <td>{lineItem.requiredDate}</td>
                                         <td>{lineItem.customerOrderTouch}</td>

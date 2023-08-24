@@ -110,6 +110,7 @@ const GSOrder = () => {
                         <th>No. Of Design</th>
                         <th>Quantity/Design</th>
                         <th>Item Quantity</th>
+                        <th>Item Availability</th>
                         <th>Unit Weight UL</th>
                         <th>Unit Weight LL</th>
                         <th>Estimated Weight</th>
@@ -147,6 +148,7 @@ const GSOrder = () => {
                               <td>{lineItem.noOfDesign}</td>
                               <td>{lineItem.QuantityPerDesign}</td>
                               <td>{lineItem.itemQuantity}</td>
+                              <td>{lineItem.availQuantity}</td>
                               <td>{lineItem.unitWT_UL}</td>
                               <td>{lineItem.unitWT_LL}</td>
                               <td>{lineItem.estimatedWeight}</td>

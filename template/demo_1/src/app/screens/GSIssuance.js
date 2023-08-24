@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import  { Form } from 'react-bootstrap'
+// import { useLocation } from "react-router-dom";
+import './CustomCssFile.css'
+
 
 
 const GSIssuance = () => {
@@ -14,6 +17,9 @@ const GSIssuance = () => {
     compQnty:'',
     compAmt:'',
   })
+
+//   const location = useLocation()
+// const data =location.state.state
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -30,7 +36,7 @@ const GSIssuance = () => {
       compType:inputValue.compType,
       compName:inputValue.compName,
       compQnty:inputValue.compQnty,
-      compQnty:inputValue.compAmt,
+      compAmt:inputValue.compAmt,
     }
     setCompList([...compList, arrayOfComponents])
   }
@@ -61,7 +67,8 @@ const GSIssuance = () => {
     return(
         <>
         <div className="page-header">
-          <h3 className="page-title"> Gold Smith Issuance</h3>
+          {/* <h3 className="page-title"> Gold Smith Issuance for GSO NO: {data.OrderNo}</h3> */}
+          <h3 className="page-title"> Gold Smith Issuance </h3>
         </div>
         <div className="row">                       
           <div className="col-12 grid-margin stretch-card">
