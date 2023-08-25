@@ -75,9 +75,24 @@ const UpdateIQ =async (req, res) => {
         console.error('Error fetching Order Forms:', error);
         res.status(500).json({ error: 'Failed to fetch Order Forms' });
     }
-
+    
 
         
+    }
+
+    const getSpecificLineItem = async (req, res) => {
+        // const OrderNo = req.params.OrderNo
+        // const index = req.params.index
+        const orderRefNo = req.params.orderRefNo
+        const itemIndex = req.params.itemIndex
+    
+        try {
+            const data = await CustOrdModel.findOne({ "lineItem.orderRefNo": orderRefNo })
+            res.json( data.lineItem[itemIndex] )
+            // res.json({ data })
+        } catch (error) {
+            console.error('Error ', error);
+        }
     }
 
 module.exports = {
@@ -85,5 +100,6 @@ module.exports = {
     getAllOrders,
     getIQ,
     GetOrderNo,
-    UpdateIQ
+    UpdateIQ,
+    getSpecificLineItem
 };

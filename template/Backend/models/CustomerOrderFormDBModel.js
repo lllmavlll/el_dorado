@@ -8,6 +8,7 @@ const CustOrdSchema = mongoose.Schema({
         type: String,
     },
     lineItem: [{
+        OrderNo: String,
         orderRefNo: String,
         itemIndex:String,
         placedOrderDate: String,

@@ -9,27 +9,48 @@ const OrderFormViews = () => {
   const navigate =useHistory()
 
   const[orderFormData,setOrderFormData] = useState([])
+  const[lineItemList,setLineItemList] = useState([])
 
 const onClickHandler =(e)=>{
   const hiddenElement = e.currentTarget.nextSibling;
   hiddenElement.className.indexOf("collapse show") > -1 ? hiddenElement.classList.remove("show") : hiddenElement.classList.add("show");
  }
 
- //==============|| to reroute to gso ||===================//
- 
- const reRouteFunc =(orno)=>{
-  fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/`+orno)
+ //==============|| to reroute to gso  via checkBox ||===================//
+
+const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
+  fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
   .then(response => response.json())
   .then(data =>{
-    // setOrderNo()
-        // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
-        navigate.push('/gold-smith/order',{state:data.data})
-
-    // return data
+    console.log(data);
+    return data
     }) 
+    .then(data=>{
+      setLineItemList([...lineItemList,data])
+      console.log(lineItemList);
+    })
     .catch(error => {
     console.error('Error fetching user data:', error);
   });
+}
+
+ //==============|| to reroute to gso ||===================//
+ 
+ const reRouteFunc =()=>{
+  // fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/`+orno)
+  // .then(response => response.json())
+  // .then(data =>{
+  //   // setOrderNo()
+  //       // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
+  //       navigate.push('/gold-smith/order',{state:data.data})
+
+  //   // return data
+  //   }) 
+  //   .catch(error => {
+  //   console.error('Error fetching user data:', error);
+  // });
+        navigate.push('/gold-smith/order',{state:lineItemList})
+
   
  }
 
@@ -71,7 +92,7 @@ const onClickHandler =(e)=>{
                         {
                              orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map((result,index) =>{
                               return<>
-                              <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Create GSO</button>
+                              {/* <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Create GSO</button> */}
                               <tr className='collapseRow' onClick={onClickHandler}>
                               {/* <tr className='collapseRow'> */}
                                 <td>{index+1}</td>
@@ -85,6 +106,7 @@ const onClickHandler =(e)=>{
                                 <table className="table table-bordered OFtable ">
                                   <thead>
                                   <tr>
+                                    <th>Select</th>
                                     <th>SL.No</th>
                                     <th>Order Ref No</th>
                                     <th>Placed Order Date</th>
@@ -123,6 +145,14 @@ const onClickHandler =(e)=>{
                                     {
                                       result.lineItem.map((lineItem,index)=>{
                                         return <tr >
+                                        <td>
+                                          <div className="form-check form-check-muted m-0">
+                                            <label className="form-check-label">
+                                              <input type="checkbox" className="form-check-input"  onClick={()=>{reRouteViaCheckBox(lineItem.orderRefNo,index)}}/>
+                                              <i className="input-helper"></i>
+                                            </label>
+                                          </div>
+                                        </td>
                                         <td>{index+1}</td>
                                         <td>{lineItem.orderRefNo}</td>
                                         <td>{lineItem.placedOrderDate}</td>
@@ -169,6 +199,17 @@ const onClickHandler =(e)=>{
                         }
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <div className='row'>
+                  <div className="col-md-3">
+                    <button type="submit" onClick={reRouteFunc} className="btn btn-primary mr-4">Create Gold Smith Order</button>
+                  </div>
                 </div>
               </div>
             </div>

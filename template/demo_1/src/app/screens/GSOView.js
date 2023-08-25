@@ -13,18 +13,18 @@ const OrderFormViews = () => {
 
 
 const reRouteFunc=(GSOno)=>{
-  // fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/`+GSOno)
-  // .then(response => response.json())
-  // .then(data =>{
-  //   // setOrderNo()
-  //       // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
-  //       navigate.push('/gold-smith/issuance',{state:data.data})
+  fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/`+GSOno)
+  .then(response => response.json())
+  .then(data =>{
+    // setOrderNo()
+        // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
+        navigate.push('/gold-smith/issuance',{state:data.data})
 
-  //   // return data
-  //   }) 
-  //   .catch(error => {
-  //   console.error('Error fetching user data:', error);
-  // });
+    // return data
+    }) 
+    .catch(error => {
+    console.error('Error fetching user data:', error);
+  });
 }
 
 

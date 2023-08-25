@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import  { Form} from 'react-bootstrap'
 import { useLocation } from "react-router-dom";
 import './CustomCssFile.css'
@@ -8,6 +8,7 @@ const GSOrder = () => {
   // const[orderFormData,setOrderFormData] = useState([])
   // const[itemQty,setItemQty] = useState([])
   // const[lineItemDD,setLineItemDD] = useState([])
+  const[isOpen,setIsOpen] = useState(true)
   const[subOrderTable,setSubOrderTable] = useState(false)
   const[Suborder,setSuborder] = useState([])
   const [inputValue,setInputValue] = useState({
@@ -19,12 +20,13 @@ const GSOrder = () => {
     allocdQty:'',
     QtyToBeAllocd:'',
     allocdWt:'',
-    WtToBeAllocd:'',  })
+    WtToBeAllocd:'',  
+  })
 
     //=============|| useLocation ||===================//
-
+    
     const location = useLocation()
-    const data =location.state.state
+    const data = location.state.state
     
     //=============|| inputHandler ||===================//
 
@@ -36,14 +38,13 @@ const GSOrder = () => {
     });
   };
 
-
   //======== for sub order table =====//
 
   const handleSubOrder =(e)=>{
     e.preventDefault()
     setSubOrderTable(true)
     const newGSSO ={
-      orderNo:data.OrderNo,
+      // orderNo:data.OrderNo,
       goldSmithName:inputValue.GSName,
       itemName:inputValue.ItemName,
       orderQuantity:inputValue.OrderedQty,
@@ -62,11 +63,7 @@ const GSOrder = () => {
 
     // for backend
 
-
     const orno =location.state.state
-
-    
-    // const OrderNo=location.state.orderNo
     const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
       method:'POST',
       headers:{
@@ -84,9 +81,21 @@ const GSOrder = () => {
     alert('GSO Created Sucessfully!')
 
   }
+  useEffect(()=>{
+    if(location.state.state){
+      setIsOpen(false)
+    }
+  },[])
+
   return (
-      <>
-        <div className='row'>
+    <>
+    {
+      // location&&location.state===undefined?(
+        isOpen?(
+        <div>
+          <p>manual open</p>
+        </div>
+      ):(<div className='row'>
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -110,7 +119,7 @@ const GSOrder = () => {
                         <th>No. Of Design</th>
                         <th>Quantity/Design</th>
                         <th>Item Quantity</th>
-                        <th>Item Availability</th>
+                        <th>Available Quantity</th>
                         <th>Unit Weight UL</th>
                         <th>Unit Weight LL</th>
                         <th>Estimated Weight</th>
@@ -132,10 +141,10 @@ const GSOrder = () => {
                     </thead>
                       <tbody>
                         {
-                          data.lineItem.map((lineItem, index)=>{
+                          data.map((lineItem, index)=>{
                             return<tr>
                               <td>{index+1}</td>
-                              <td>{`${data.OrderNo}/${index+1}`}</td>
+                              <td>{lineItem.orderRefNo}</td>
                               <td>{lineItem.placedOrderDate}</td>
                               <td>{lineItem.requiredDate}</td>
                               <td>{lineItem.customerOrderTouch}</td>
@@ -148,7 +157,7 @@ const GSOrder = () => {
                               <td>{lineItem.noOfDesign}</td>
                               <td>{lineItem.QuantityPerDesign}</td>
                               <td>{lineItem.itemQuantity}</td>
-                              <td>{lineItem.availQuantity}</td>
+                              <td className='text-success'>{lineItem.availQuantity}</td>
                               <td>{lineItem.unitWT_UL}</td>
                               <td>{lineItem.unitWT_LL}</td>
                               <td>{lineItem.estimatedWeight}</td>
@@ -185,7 +194,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                             <div className="col-sm-8">
-                              <Form.Control  type="text"  name='orderNO' value={data.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                              <Form.Control  type="text"  name='orderNO' value={inputValue.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
                             </div>
                           </Form.Group>
                         </div>
@@ -196,7 +205,7 @@ const GSOrder = () => {
                               <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
                                 <option value=''>select</option>
                                 {
-                                  data.lineItem.map((list)=>{
+                                  data.map((list)=>{
                                     return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
                                   })
                                 }
@@ -261,7 +270,7 @@ const GSOrder = () => {
                         </div>
                         <div className="col-md-6">
                             <div className='col'>
-                                <button type="submit" onClick={handleSubOrder} className="btn btn-primary mr-4">Save</button>
+                                <button type="submit" onClick={handleSubOrder} className="btn btn-outline-primary mr-4">Save</button>
                             </div>
                         </div>
                       </div>
@@ -335,8 +344,13 @@ const GSOrder = () => {
               </div>
             </div>
           </div>
-        
-        </div>
+        </div>)
+        // (
+        //   <div>
+        //      from COFview  use
+        //   </div>
+        // )
+                }
       </>
   )
 }

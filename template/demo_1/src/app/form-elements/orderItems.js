@@ -238,7 +238,7 @@ const pushToDB= async(e)=>{
                   <div className='row'>
                     <div className='col'>
                       <p></p>
-                      <button type="submit" onClick={inputHandler} className="btn btn-primary mr-4">Submit</button>
+                      <button type="submit" onClick={inputHandler} className="btn btn-outline-primary mr-4">Submit</button>
                     </div>
                     <div className='col'>
                       {/* <p></p> */}

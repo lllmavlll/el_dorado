@@ -13,7 +13,7 @@
   .OFtable th,
   .OFtable td {
     min-width: 100px; /* Adjust this value as needed */
-    max-width: 600px;
+    max-width: 1000px;
   }
   .rowBtn{
     min-width: 100px
