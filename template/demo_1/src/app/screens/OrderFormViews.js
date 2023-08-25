@@ -1,12 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 // import {Form} from 'react-bootstrap'
 import './CustomCssFile.css'
 import { useHistory } from "react-router-dom";
 
 
+const initialState ={
+  loading:true,
+  error:'',
+  fetchData:{}
+}
+
+const reducer =(state,action)=>{
+  switch(action.type){
+    case 'FETCH_SUCCESS':
+      return{
+        loading:false,
+        fetchData:action.payload,
+        error:''
+      }
+    case 'FETCH_FAILED':
+      return{
+        loading:true,
+        fetchData:{},
+        error:'Sometihing went Wrong'
+      }
+      default:
+        return state
+  }
+}
 const OrderFormViews = () => {
 
   const navigate =useHistory()
+
+  const [state, dispatch]=useReducer(reducer,initialState)
 
   const[orderFormData,setOrderFormData] = useState([])
   const[lineItemList,setLineItemList] = useState([])
@@ -18,21 +44,37 @@ const onClickHandler =(e)=>{
 
  //==============|| to reroute to gso  via checkBox ||===================//
 
+// const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
+//   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
+//   .then(response => response.json())
+//   .then(data =>{
+//     console.log(data);
+//     return data
+//   }) 
+//   .then(data=>{
+//     setLineItemList([...lineItemList,data])
+//   })
+//   .catch(error => {
+//     console.error('Error fetching user data:', error);
+//   });
+// }
 const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
   .then(response => response.json())
   .then(data =>{
-    console.log(data);
-    return data
-    }) 
-    .then(data=>{
-      setLineItemList([...lineItemList,data])
-      console.log(lineItemList);
-    })
-    .catch(error => {
+    dispatch({type:'FETCH_SUCCESS',payload:data})
+  }) 
+  .then(data=>{
+    setLineItemList([...lineItemList,data])
+  })
+  .catch(error => {
+    dispatch({type:'FETCH_FAILED',})
     console.error('Error fetching user data:', error);
   });
 }
+
+
+
 
  //==============|| to reroute to gso ||===================//
  
