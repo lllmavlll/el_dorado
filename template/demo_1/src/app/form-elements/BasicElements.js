@@ -115,7 +115,7 @@ const newLineItemHandle =(e)=>{
   setItemNameListView(true)
   const newLineItem = {
       orderNo:inputValue.OrderNo,
-      orderRefNo:`${inputValue.OrderNo}-${refNO}`,
+      // orderRefNo:`${inputValue.OrderNo}-${refNO}`,
       itemIndex:refNO,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
@@ -209,14 +209,14 @@ const skuFuncToAutoPopulate =async(e)=>{
     
     const {customerName,OrderNo,} = inputValue
     
-    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrder',{
+    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrdernew',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
         customerName,
-        OrderNo,
+        // OrderNo,
         lineItem:lineItem
       })
     })

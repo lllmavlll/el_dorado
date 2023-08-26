@@ -18,6 +18,38 @@ const addCustOrd = async (req, res) => {
     }
 
 }
+const testCFO = async (req, res) => {
+    const { customerName, lineItem } = req.body;
+
+    function skuno() {
+        const characters = '0123456789';
+        let result = '';
+
+        for (let i = 0; i < 5; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters.charAt(randomIndex);
+        }
+        return result;
+    }
+    const OrderNO = skuno();
+
+        const lineItemWithrefNO = lineItem.map((item,index) => ({
+            ...item,
+            orderRefNo: `${OrderNO}-${index+1}`
+          }));
+    
+    try {
+        const jewelries = await CustOrdModel.create({
+            customerName, OrderNo:OrderNO, lineItem:lineItemWithrefNO
+            //: [{ category, groupName, subGroupName, coreProductName, modelNo, noOfStones, sizeofStone, stoneColourPattern, screwType, saleName, itemStage, SKUNo }], 
+        })
+        res.status(201).json({ CustomerOrders: jewelries });
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+
+}
 //to get all orders
 const getAllOrders = async (req, res) => {
     try {
@@ -101,5 +133,6 @@ module.exports = {
     getIQ,
     GetOrderNo,
     UpdateIQ,
-    getSpecificLineItem
+    getSpecificLineItem,
+    testCFO
 };

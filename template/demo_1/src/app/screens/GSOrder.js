@@ -24,9 +24,10 @@ const GSOrder = () => {
   })
 
     //=============|| useLocation ||===================//
-    
+
     const location = useLocation()
     const data = location.state.state
+    console.log(data);
     
     //=============|| inputHandler ||===================//
 

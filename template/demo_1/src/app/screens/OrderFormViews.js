@@ -44,34 +44,34 @@ const onClickHandler =(e)=>{
 
  //==============|| to reroute to gso  via checkBox ||===================//
 
-// const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
-//   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
-//   .then(response => response.json())
-//   .then(data =>{
-//     console.log(data);
-//     return data
-//   }) 
-//   .then(data=>{
-//     setLineItemList([...lineItemList,data])
-//   })
-//   .catch(error => {
-//     console.error('Error fetching user data:', error);
-//   });
-// }
 const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
   .then(response => response.json())
   .then(data =>{
-    dispatch({type:'FETCH_SUCCESS',payload:data})
+    console.log(data);
+    return data
   }) 
   .then(data=>{
     setLineItemList([...lineItemList,data])
   })
   .catch(error => {
-    dispatch({type:'FETCH_FAILED',})
     console.error('Error fetching user data:', error);
   });
 }
+// const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
+//   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
+//   .then(response => response.json())
+//   .then(data =>{
+//     dispatch({type:'FETCH_SUCCESS',payload:data})
+//   }) 
+//   .then(data=>{
+//     setLineItemList([...lineItemList,data])
+//   })
+//   .catch(error => {
+//     dispatch({type:'FETCH_FAILED',})
+//     console.error('Error fetching user data:', error);
+//   });
+// }
 
 
 
