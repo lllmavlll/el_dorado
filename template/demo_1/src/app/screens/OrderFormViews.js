@@ -4,35 +4,35 @@ import './CustomCssFile.css'
 import { useHistory } from "react-router-dom";
 
 
-const initialState ={
-  loading:true,
-  error:'',
-  fetchData:{}
-}
+// const initialState ={
+//   loading:true,
+//   error:'',
+//   fetchData:{}
+// }
 
-const reducer =(state,action)=>{
-  switch(action.type){
-    case 'FETCH_SUCCESS':
-      return{
-        loading:false,
-        fetchData:action.payload,
-        error:''
-      }
-    case 'FETCH_FAILED':
-      return{
-        loading:true,
-        fetchData:{},
-        error:'Sometihing went Wrong'
-      }
-      default:
-        return state
-  }
-}
+// const reducer =(state,action)=>{
+//   switch(action.type){
+//     case 'FETCH_SUCCESS':
+//       return{
+//         loading:false,
+//         fetchData:action.payload,
+//         error:''
+//       }
+//     case 'FETCH_FAILED':
+//       return{
+//         loading:true,
+//         fetchData:{},
+//         error:'Sometihing went Wrong'
+//       }
+//       default:
+//         return state
+//   }
+// }
 const OrderFormViews = () => {
 
   const navigate =useHistory()
 
-  const [state, dispatch]=useReducer(reducer,initialState)
+  // const [state, dispatch]=useReducer(reducer,initialState)
 
   const[orderFormData,setOrderFormData] = useState([])
   const[lineItemList,setLineItemList] = useState([])
@@ -45,19 +45,43 @@ const onClickHandler =(e)=>{
  //==============|| to reroute to gso  via checkBox ||===================//
 
 const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
+  
   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
   .then(response => response.json())
-  .then(data =>{
-    console.log(data);
-    return data
-  }) 
+  // .then(data =>{
+  //   console.log(data);
+  //   return data
+  // }) 
   .then(data=>{
-    setLineItemList([...lineItemList,data])
+    if (lineItemList.find(item => item.orderRefNo === data.orderRefNo)) {
+      // If the product is already in the lineItemList, remove it
+      setLineItemList(lineItemList.filter(item => item.orderRefNo !== data.orderRefNo));
+    } else {
+      // If the product is not in the lineItemList, add it
+      setLineItemList([...lineItemList,data])
+    }
   })
   .catch(error => {
     console.error('Error fetching user data:', error);
   });
 }
+
+
+//   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
+//   .then(response => response.json())
+//   .then(data =>{
+//     console.log(data);
+//     return data
+//   }) 
+//   .then(data=>{
+//     setLineItemList([...lineItemList,data])
+//   })
+//   .catch(error => {
+//     console.error('Error fetching user data:', error);
+//   });
+// }
+
+
 // const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
 //   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
 //   .then(response => response.json())
@@ -136,7 +160,6 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                               return<>
                               {/* <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Create GSO</button> */}
                               <tr className='collapseRow' onClick={onClickHandler}>
-                              {/* <tr className='collapseRow'> */}
                                 <td>{index+1}</td>
                                 <td>{result.customerName}</td>
                                 <td>{result.OrderNo}</td>
@@ -186,11 +209,15 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                                   <tbody>
                                     {
                                       result.lineItem.map((lineItem,index)=>{
-                                        return <tr >
+                                        return <tr key={lineItemList.orderRefNo}>
                                         <td>
                                           <div className="form-check form-check-muted m-0">
                                             <label className="form-check-label">
-                                              <input type="checkbox" className="form-check-input"  onClick={()=>{reRouteViaCheckBox(lineItem.orderRefNo,index)}}/>
+                                              <input type="checkbox" 
+                                              className="form-check-input" 
+                                              // checked={lineItemList.some(item => item.orderRefNo === lineItemList.orderRefNo)}
+                                              onChange={()=>{reRouteViaCheckBox(lineItem.orderRefNo,index)}}
+                                              />
                                               <i className="input-helper"></i>
                                             </label>
                                           </div>

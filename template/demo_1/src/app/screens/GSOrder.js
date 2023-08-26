@@ -27,7 +27,6 @@ const GSOrder = () => {
 
     const location = useLocation()
     const data = location.state.state
-    console.log(data);
     
     //=============|| inputHandler ||===================//
 
@@ -55,7 +54,6 @@ const GSOrder = () => {
       quantityToBeAllocated:inputValue.QtyToBeAllocd,
     }
     setSuborder([...Suborder,newGSSO])
-    console.log(Suborder.orderNo);
 
   }
   const pushToDB= async(e)=>{
