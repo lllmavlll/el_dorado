@@ -21,11 +21,11 @@ const addCustOrd = async (req, res) => {
 const testCFO = async (req, res) => {
     const { customerName, lineItem } = req.body;
 
-    function skuno() {
+    const skuno = ()=>{
         const characters = '0123456789';
         let result = '';
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 6; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
             result += characters.charAt(randomIndex);
         }
@@ -35,7 +35,8 @@ const testCFO = async (req, res) => {
 
         const lineItemWithrefNO = lineItem.map((item,index) => ({
             ...item,
-            orderRefNo: `${OrderNO}-${index+1}`
+            orderRefNo: `${OrderNO}-${index+1}`,
+            itemIndex:index+1
           }));
     
     try {

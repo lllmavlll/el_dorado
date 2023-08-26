@@ -100,8 +100,8 @@ const GSOrder = () => {
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Order Number: <span className=''>{data.OrderNo}</span></h5>
-                <p className="card-description">Customer Name <span className='text-danger'>{data.customerName}</span></p>
+                {/* <h5 className="card-title">Order Number: <span className=''>{data.OrderNo}</span></h5>
+                <p className="card-description">Customer Name <span className='text-danger'>{data.customerName}</span></p> */}
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>

@@ -115,8 +115,6 @@ const newLineItemHandle =(e)=>{
   setItemNameListView(true)
   const newLineItem = {
       orderNo:inputValue.OrderNo,
-      // orderRefNo:`${inputValue.OrderNo}-${refNO}`,
-      itemIndex:refNO,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
       customerOrderTouch:inputValue.customerOrderTouch,
