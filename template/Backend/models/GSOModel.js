@@ -9,6 +9,7 @@ const GSOSchema = mongoose.Schema({
         ItemName: String,
         availQuantity: String,
         allocdQty: String,
+        pendingQuantity: String,
         allocdWt: String,
     }],
 }, { timestamps: true });

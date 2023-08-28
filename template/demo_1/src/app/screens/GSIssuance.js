@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import  { Form } from 'react-bootstrap'
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import './CustomCssFile.css'
 
 
@@ -18,8 +18,9 @@ const GSIssuance = () => {
     compAmt:'',
   })
 
-//   const location = useLocation()
-// const data =location.state.state
+  const location = useLocation()
+const data =location.state.state
+console.log(data);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

@@ -71,10 +71,10 @@ const GSOrder = () => {
       OrderNo:specificIname.OrderNo,
       orderRefNo:specificIname.orderRefNo,
       ItemName:specificIname.finalIname,
-      orderQuantity:specificIname.availQuantity,
+      availQuantity:specificIname.availQuantity,
       allocdWt:inputValue.allocdWt,
       allocdQty:inputValue.allocdQty,
-      availQuantity:inputValue.QtyToBeAllocd,
+      pendingQuantity:inputValue.QtyToBeAllocd,
     }
     setSuborder([...Suborder,newGSSO])
 
@@ -324,8 +324,7 @@ const GSOrder = () => {
                         <th> Item Quantity </th>
                         <th> Allocated Quantity </th>
                         <th> Allocated weight </th>
-                        <th> Gold Smith Name </th>
-                        <th> Quantity to be Allocated </th>
+                        <th> Pending Quantity</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -335,11 +334,10 @@ const GSOrder = () => {
                           <td>{index+1}</td>
                           <td>{result.orderRefNo}</td>
                           <td>{result.ItemName}</td>
-                          <td>{result.orderQuantity}</td>
+                          <td>{result.availQuantity}</td>
                           <td>{result.allocdQty}</td>
                           <td>{result.allocdWt}</td>
-                          <td>{result.GSName}</td>
-                          <td>{result.availQuantity}</td>
+                          <td>{result.pendingQuantity}</td>
                         </tr>
                       })
                     }

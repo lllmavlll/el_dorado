@@ -45,13 +45,13 @@ const onClickHandler =(e)=>{
  //==============|| to reroute to gso  via checkBox ||===================//
 
 const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
-  
+  console.log(orderRefNo,orIndex);
   fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
   .then(response => response.json())
-  // .then(data =>{
-  //   console.log(data);
-  //   return data
-  // }) 
+  .then(data =>{
+    console.log(data);
+    return data
+  }) 
   .then(data=>{
     if (lineItemList.find(item => item.orderRefNo === data.orderRefNo)) {
       // If the product is already in the lineItemList, remove it
@@ -59,6 +59,7 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
     } else {
       // If the product is not in the lineItemList, add it
       setLineItemList([...lineItemList,data])
+      console.log(lineItemList);
     }
   })
   .catch(error => {
@@ -156,10 +157,10 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                     </thead>
                     <tbody style={{position:'relative'}}>
                         {
-                             orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map((result,index) =>{
+                             orderFormData&&orderFormData.jewelrie&&orderFormData.jewelrie.map((result,index,key) =>{
                               return<>
                               {/* <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" > Create GSO</button> */}
-                              <tr className='collapseRow' onClick={onClickHandler}>
+                              <tr key={key} className='collapseRow' onClick={onClickHandler}>
                                 <td>{index+1}</td>
                                 <td>{result.customerName}</td>
                                 <td>{result.OrderNo}</td>
@@ -208,15 +209,15 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                                   </thead>
                                   <tbody>
                                     {
-                                      result.lineItem.map((lineItem,index)=>{
-                                        return <tr key={lineItemList.orderRefNo}>
+                                      result.lineItem.map((lineItem,index,key)=>{
+                                        return <tr key={key}>
                                         <td>
                                           <div className="form-check form-check-muted m-0">
                                             <label className="form-check-label">
                                               <input type="checkbox" 
                                               className="form-check-input" 
                                               // checked={lineItemList.some(item => item.orderRefNo === lineItemList.orderRefNo)}
-                                              onChange={()=>{reRouteViaCheckBox(lineItem.orderRefNo,index)}}
+                                              onChange={()=>{reRouteViaCheckBox(lineItem.orderRefNo,lineItem.itemIndex)}}
                                               />
                                               <i className="input-helper"></i>
                                             </label>

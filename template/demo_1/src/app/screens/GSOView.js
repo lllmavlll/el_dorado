@@ -68,7 +68,7 @@ const onClickHandler =(e)=>{
                      {
                         GSOform.map((result,index) =>{
                           return <>
-                            <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" >Issue material</button>
+                            <button onClick={()=>{reRouteFunc(result.GSOrderNo)}} className="btn btn-primary mr-2 absBtn" >Issue material</button>
                             <tr className='collapseRow' onClick={onClickHandler}>
                               <td>{index+1}</td>
                               <td>{result.GSOrderNo}</td>
@@ -85,6 +85,7 @@ const onClickHandler =(e)=>{
                                         <th>Item Name </th>
                                         <th>Available Quantity </th>
                                         <th>Allocated Quantity </th>
+                                        <th>Pending Quantity </th>
                                         <th>Allocated Weight </th>
                                       </tr>
                                     </thead>
@@ -97,6 +98,7 @@ const onClickHandler =(e)=>{
                                             <td>{result.ItemName}</td>
                                             <td>{result.availQuantity}</td>
                                             <td>{result.allocdQty}</td>
+                                            <td>{result.pendingQuantity}</td>
                                             <td>{result.allocdWt}</td>
                                           </tr>
                                         })
