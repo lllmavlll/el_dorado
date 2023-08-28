@@ -121,7 +121,7 @@ const UpdateIQ =async (req, res) => {
     
         try {
             const data = await CustOrdModel.findOne({ "lineItem.orderRefNo": orderRefNo })
-            res.json( data.lineItem[itemIndex] )
+            res.json( data.lineItem[itemIndex -1] )
             // res.json({ data })
         } catch (error) {
             console.error('Error ', error);

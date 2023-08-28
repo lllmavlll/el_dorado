@@ -61,7 +61,7 @@ const onClickHandler =(e)=>{
                       <tr>
                         <th> SL No. </th>
                         <th>GSO Order No.</th>
-                        {/* <th>GSO Order No.</th> */}
+                        <th>Gold Smith</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -71,8 +71,8 @@ const onClickHandler =(e)=>{
                             <button onClick={()=>{reRouteFunc(result.OrderNo)}} className="btn btn-primary mr-2 absBtn" >Issue material</button>
                             <tr className='collapseRow' onClick={onClickHandler}>
                               <td>{index+1}</td>
-                              <td>{result.OrderNo}</td>
-                              {/* <td>{result.OrderNo}</td> */}
+                              <td>{result.GSOrderNo}</td>
+                              <td>{result.GSName}</td>
                             </tr>
                             <tr className="collapse">
                               <td colSpan="6">
@@ -80,26 +80,24 @@ const onClickHandler =(e)=>{
                                   <table className="table table-bordered OFtable ">
                                     <thead>
                                       <tr>
-                                        <th>Item Name</th>
-                                        <th>Item Quantity</th>
-                                        <th>Allocated Quantity</th>
-                                        <th>Allocated Weight</th>
-                                        <th>Gold Smith Name </th>
-                                        <th>Quantity to be Allocated</th>
-                                        <th>Weight to be Allocated</th>
+                                        <th> Sl.No</th>
+                                        <th>Sub Order No</th>
+                                        <th>Item Name </th>
+                                        <th>Available Quantity </th>
+                                        <th>Allocated Quantity </th>
+                                        <th>Allocated Weight </th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       {
                                         result.subOrder.map((result, index)=>{
                                           return<tr>
-                                            <td>{result.itemName}</td>
-                                            <td>{result.orderQuantity}</td>
-                                            <td>{result.allocatedQuantity}</td>
-                                            <td>{result.allocatedWeight}</td>
-                                            <td>{result.goldSmithName}</td>
-                                            <td>{result.quantityToBeAllocated}</td>
-                                            <td>{result.WeightToBeAllocated}</td>
+                                            <td>{index+1}</td>
+                                            <td>{result.subOrderNo}</td>
+                                            <td>{result.ItemName}</td>
+                                            <td>{result.availQuantity}</td>
+                                            <td>{result.allocdQty}</td>
+                                            <td>{result.allocdWt}</td>
                                           </tr>
                                         })
                                       }

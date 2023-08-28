@@ -1,10 +1,28 @@
 const GSOModel = require('../models/GSOModel')
 
 const addGSOrder = async (req, res) => {
-    const { OrderNo, OrderedQty, GSOrderNo, subOrder } = req.body
+    const { GSName, subOrder } = req.body
+
+    const GSO = ()=>{
+        const characters = '0123456789';
+        let result = '';
+
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters.charAt(randomIndex);
+        }
+        return result;
+    }
+    const GSOrderNo = GSO();
+
+        const subOrderWithGSSO = subOrder.map((item,index) => ({
+            ...item,
+            subOrderNo: `GS_${GSOrderNo}-${index+1}`,
+        }));
+
     try {
         const result = await GSOModel.create({
-            OrderNo, OrderedQty, GSOrderNo, subOrder
+            GSOrderNo:`GS_${GSOrderNo}`,  GSName, subOrder:subOrderWithGSSO
         })
         res.status(201).json({ GSOrder: result });
     } catch (error) {

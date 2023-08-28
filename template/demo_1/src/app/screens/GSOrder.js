@@ -8,6 +8,8 @@ const GSOrder = () => {
   // const[orderFormData,setOrderFormData] = useState([])
   // const[itemQty,setItemQty] = useState([])
   // const[lineItemDD,setLineItemDD] = useState([])
+  const [getByOrderNo,setGetByOrderNo]= useState([])
+  const [specificIname,setSpecificIname]= useState([])
   const[isOpen,setIsOpen] = useState(true)
   const[subOrderTable,setSubOrderTable] = useState(false)
   const[Suborder,setSuborder] = useState([])
@@ -38,20 +40,41 @@ const GSOrder = () => {
     });
   };
 
-  //======== for sub order table =====//
+  //======== for updating item quantity By order number =====//
+  
+  const getByOrderNO =(OrderNo,orderRefNo,itemIndex)=>{
+    console.log(OrderNo,orderRefNo,itemIndex)
+    //===============  fetch for global order ======//
+    fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${OrderNo}`)
+    .then(response => response.json())
+    .then(data =>{
+      setGetByOrderNo(data)
+    })
+    .catch(err=> console.log(err))
+    
+    //===============  fetch for global order ======//
+    fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${itemIndex}`)
+    .then(response => response.json())
+    .then(data =>{
+      setSpecificIname(data)
+      console.log(specificIname)
+    })
+    .catch(err=> console.log(err))
+    // setIsFetching(true)
+  }
 
+  //======== for sub order table =====//
   const handleSubOrder =(e)=>{
     e.preventDefault()
     setSubOrderTable(true)
     const newGSSO ={
-      // orderNo:data.OrderNo,
-      goldSmithName:inputValue.GSName,
-      itemName:inputValue.ItemName,
-      orderQuantity:inputValue.OrderedQty,
-      allocatedWeight:inputValue.allocdWt,
-      allocatedQuantity:inputValue.allocdQty,
-      WeightToBeAllocated:inputValue.WtToBeAllocd,
-      quantityToBeAllocated:inputValue.QtyToBeAllocd,
+      OrderNo:specificIname.OrderNo,
+      orderRefNo:specificIname.orderRefNo,
+      ItemName:specificIname.finalIname,
+      orderQuantity:specificIname.availQuantity,
+      allocdWt:inputValue.allocdWt,
+      allocdQty:inputValue.allocdQty,
+      availQuantity:inputValue.QtyToBeAllocd,
     }
     setSuborder([...Suborder,newGSSO])
 
@@ -62,14 +85,14 @@ const GSOrder = () => {
 
     // for backend
 
-    const orno =location.state.state
+    const { GSName } = inputValue
     const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        OrderNo:orno.OrderNo, subOrder:Suborder
+        GSName, subOrder:Suborder
       })
     })
     
@@ -105,6 +128,8 @@ const GSOrder = () => {
                     <thead>
                       <tr>
                         <th>SL.No</th>
+                        <th>Click </th>
+                        <th>Order Number</th>
                         <th>Order reference Number</th>
                         <th>Placed Order Date</th>
                         <th>required Date</th>
@@ -143,6 +168,8 @@ const GSOrder = () => {
                           data.map((lineItem, index)=>{
                             return<tr>
                               <td>{index+1}</td>
+                              <td><button className='btn btn-outline-primary mr-4' onClick={()=>{getByOrderNO(lineItem.OrderNo,lineItem.orderRefNo,lineItem.itemIndex)}}>get</button></td>
+                              <td>{lineItem.OrderNo}</td>
                               <td>{lineItem.orderRefNo}</td>
                               <td>{lineItem.placedOrderDate}</td>
                               <td>{lineItem.requiredDate}</td>
@@ -183,6 +210,7 @@ const GSOrder = () => {
                 </div>
               </div>
             </div>
+            
             <div className="col-md-12 grid-margin stretch-card">
               <div className="card">
                 <div className="card-body">
@@ -193,7 +221,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                             <div className="col-sm-8">
-                              <Form.Control  type="text"  name='orderNO' value={inputValue.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                              <Form.Control required  type="text"  name='orderNO' value={specificIname.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
                             </div>
                           </Form.Group>
                         </div>
@@ -201,14 +229,15 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                             <div className="col-sm-8">
-                              <select className="form-control" name='ItemName' value={inputValue.ItemName} onChange={handleInputChange}  id="itemName">
+                            <Form.Control required  type="text"  name='itemName' value={specificIname.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
+                              {/* <select className="form-control" name='ItemName' value={specificIname.ItemName} onChange={handleInputChange}  id="itemName">
                                 <option value=''>select</option>
                                 {
                                   data.map((list)=>{
                                     return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
                                   })
                                 }
-                              </select>
+                              </select> */}
                             </div>
                           </Form.Group>
                         </div>
@@ -218,15 +247,15 @@ const GSOrder = () => {
                         <Form.Group className="row">
                                 <label  htmlFor="goldSmithName" className="col-sm-4 col-form-label">Gold Smith Name </label>
                                 <div className="col-sm-8">
-                                  <Form.Control  type="text"  name='GSName' value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
+                                  <Form.Control required  type="text"  name='GSName' value={inputValue.GSName} onChange={handleInputChange}  className="form-control" id="goldSmithName" placeholder="Gold Smith Name" />
                                 </div>
                             </Form.Group>
                         </div>
                         <div className="col-md-6">
                         <Form.Group className="row">
-                            <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Item Quantity</label>
+                            <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Available Quantity</label>
                             <div className="col-sm-8">
-                            <Form.Control  type="text"  name='OrderedQty' value={inputValue.OrderedQty} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Order Quantity" />
+                            <Form.Control required  type="text"  name='OrderedQty' value={specificIname.availQuantity} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Available Quantity" />
                             </div>
                         </Form.Group>
                         </div>
@@ -236,7 +265,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="allocdWt" className="col-sm-4 col-form-label"> Allocated Weight</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='allocdWt' value={inputValue.allocdWt} onChange={handleInputChange} className="form-control" id="allocdWt" placeholder="Allocated Weight" />
+                                <Form.Control required  type="text"  name='allocdWt' value={inputValue.allocdWt} onChange={handleInputChange} className="form-control" id="allocdWt" placeholder="Allocated Weight" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -244,7 +273,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="WtToBeAllocd" className="col-sm-4 col-form-label"> weight To Be Allocated</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='WtToBeAllocd' value={inputValue.WtToBeAllocd} onChange={handleInputChange}  className="form-control" id="WtToBeAllocd" placeholder=" Weight To Be Allocated" />
+                                <Form.Control required  type="text"  name='WtToBeAllocd' value={inputValue.WtToBeAllocd} onChange={handleInputChange}  className="form-control" id="WtToBeAllocd" placeholder=" Weight To Be Allocated" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -254,7 +283,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="AlloQty" className="col-sm-4 col-form-label"> Allocated Quantity</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='allocdQty' value={inputValue.allocdQty} onChange={handleInputChange} className="form-control" id="AlloQty" placeholder="Allocated Quantity" />
+                                <Form.Control required  type="text"  name='allocdQty' value={inputValue.allocdQty} onChange={handleInputChange} className="form-control" id="AlloQty" placeholder="Allocated Quantity" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -263,7 +292,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Allocated</label>
                                 <div className="col-sm-8">
-                                <Form.Control  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Allocated" />
+                                <Form.Control required  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Allocated" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -276,9 +305,7 @@ const GSOrder = () => {
                    </form>
                 </div>
                 </div>
-            </div>  
-
-
+            </div>
             {/* table */}
             {
               subOrderTable? 
@@ -286,18 +313,19 @@ const GSOrder = () => {
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Gold Smith Sub Orders</h4>
+                <h5 className="card-title">Gold Smith Name: <span className='text-warning'>{inputValue.GSName}</span></h5>
                 <div className="table-responsive OFtable-res">
                   <table className="table table-bordered OFtable">
                     <thead>
                       <tr>
                         <th> SL No. </th>
+                        <th> Order No </th>
                         <th> Item Name </th>
                         <th> Item Quantity </th>
                         <th> Allocated Quantity </th>
                         <th> Allocated weight </th>
                         <th> Gold Smith Name </th>
                         <th> Quantity to be Allocated </th>
-                        <th> Weight to be Allocated </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -305,13 +333,13 @@ const GSOrder = () => {
                       Suborder.map((result,index)=>{
                         return<tr>
                           <td>{index+1}</td>
-                          <td>{result.itemName}</td>
+                          <td>{result.orderRefNo}</td>
+                          <td>{result.ItemName}</td>
                           <td>{result.orderQuantity}</td>
-                          <td>{result.allocatedQuantity}</td>
-                          <td>{result.allocatedWeight}</td>
-                          <td>{result.goldSmithName}</td>
-                          <td>{result.quantityToBeAllocated}</td>
-                          <td>{result.WeightToBeAllocated}</td>
+                          <td>{result.allocdQty}</td>
+                          <td>{result.allocdWt}</td>
+                          <td>{result.GSName}</td>
+                          <td>{result.availQuantity}</td>
                         </tr>
                       })
                     }
@@ -335,7 +363,7 @@ const GSOrder = () => {
                     <Form.Group className="row">
                       <label  htmlFor="GSONoGen" className="col-sm-3 col-form-label">GSO Number Generated </label>
                       <div className="col-sm-9">
-                        <Form.Control  type="text"  name='GSOrderNo' value={inputValue.GSOrderNo} onChange={handleInputChange} className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
+                        <Form.Control required  type="text"  name='GSOrderNo' value={inputValue.GSOrderNo} onChange={handleInputChange} className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
                       </div>
                     </Form.Group>
                   </div> */}
