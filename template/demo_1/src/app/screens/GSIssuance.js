@@ -19,8 +19,8 @@ const GSIssuance = () => {
   })
 
   const location = useLocation()
-const data =location.state.state
-console.log(data);
+  const data =location.state.state.GSOrders
+  console.log(data);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -75,11 +75,40 @@ console.log(data);
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">GSO Number</h4>
-                <form className="forms-sample">
-                  <div className="row">
-                  </div>
-                </form>
+                <h4 className="card-title">GSO Number: <span className='text-primary'>{data.GSOrderNo}</span></h4>
+                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{data.GSName}</span></h5>
+                <div className='table-responsive OFtable-res'>
+                  <table className="table table-bordered OFtable ">
+                    <thead>
+                      <tr>
+                        <th>SL.NO</th>
+                        <th>Sub Order Number</th>
+                        <th>Item Name</th>
+                        <th>Available Quantity</th>
+                        <th>Allocated Quantity</th>
+                        <th>Pending Quantity</th>
+                        <th>Allocated Weight </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        data.subOrder.map((order,index,key)=>{
+                          return<>
+                            <tr key={key}>
+                              <td>{index+1}</td>
+                              <td>{order.subOrderNo}</td>
+                              <td>{order.ItemName}</td>
+                              <td>{order.availQuantity}</td>
+                              <td>{order.allocdQty}</td>
+                              <td>{order.pendingQuantity}</td>
+                              <td>{order.allocdWt}</td>
+                            </tr>
+                          </>
+                        })
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

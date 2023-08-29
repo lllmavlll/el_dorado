@@ -18,7 +18,7 @@ const reRouteFunc=(GSOno)=>{
   .then(data =>{
     // setOrderNo()
         // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
-        navigate.push('/gold-smith/issuance',{state:data.data})
+        navigate.push('/gold-smith/issuance',{state:data})
 
     // return data
     }) 
