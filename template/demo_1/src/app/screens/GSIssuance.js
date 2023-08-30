@@ -19,8 +19,8 @@ const GSIssuance = () => {
   })
 
   const location = useLocation()
-  const data =location.state.state.GSOrders
-  console.log(data);
+  const routeData =location.state.state.GSOrders
+  console.log(routeData);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -55,6 +55,8 @@ const GSIssuance = () => {
         "content-type":"application/json"
       },
       body:JSON.stringify({
+        GSOrderNo:routeData.GSOrderNo,
+        GSName:routeData.GSName,
         pureGoldValueQnty,
         pureGoldValueAmt,
         components:compList
@@ -62,6 +64,7 @@ const GSIssuance = () => {
     })
     const data = await res.json();
     console.log(data)
+    alert("Material issued successfully ")
   }
 
 
@@ -75,8 +78,8 @@ const GSIssuance = () => {
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">GSO Number: <span className='text-primary'>{data.GSOrderNo}</span></h4>
-                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{data.GSName}</span></h5>
+                <h4 className="card-title">GSO Number: <span className='text-primary'>{routeData.GSOrderNo}</span></h4>
+                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{routeData.GSName}</span></h5>
                 <div className='table-responsive OFtable-res'>
                   <table className="table table-bordered OFtable ">
                     <thead>
@@ -92,7 +95,7 @@ const GSIssuance = () => {
                     </thead>
                     <tbody>
                       {
-                        data.subOrder.map((order,index,key)=>{
+                        routeData.subOrder.map((order,index,key)=>{
                           return<>
                             <tr key={key}>
                               <td>{index+1}</td>

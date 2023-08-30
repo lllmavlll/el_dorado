@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const GSISchema = mongoose.Schema({
 
     GSIOrderNo: String,
+    GSOrderNo:String,
+    GSName:String,
     pureGoldValueQnty: String,
     pureGoldValueAmt: String,
     components: [{

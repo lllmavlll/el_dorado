@@ -13,11 +13,22 @@ const addIname = async (req, res) => {
         // if (existingItem) {
         //     return res.status(400).json({ message: "Item already exists" });
         // }
+        const skuno = ()=>{
+            const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result = '';
+    
+            for (let i = 0; i < 9; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomIndex);
+            }
+            return result;
+        }
+        const SKU = skuno();
         
 
 
         const result = new inameModel({
-            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, FinalIname,image
+            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo:SKU, FinalIname,image
         })
         await result.save();
         res.status(201).json({ Iname: result });
