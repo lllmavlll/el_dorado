@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import axios from 'axios'
+import { dependentDropDown } from '../screens/rawDataFortest';
 // import DatePicker from "react-datepicker";
+import Select from 'react-dropdown-select'
 
 
 
@@ -11,6 +13,8 @@ var joinedValue
 const OrderItems = () => {
 
   const [showPhoto, setShowPhoto]= useState(false)
+  const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
+
   const [inputValue,setInputValue] = useState({
     class:'',
     category:'',
@@ -44,6 +48,7 @@ const OrderItems = () => {
     screwSizeApplicable:"",
     defaultScrewSize:"",
     makingType:"",
+    sparesInvolved:"",
     image:''
 })
 const [show,setShow] = useState(false)
@@ -59,6 +64,18 @@ const handleInputChange = (event) => {
       [name]: value,
     });
   };
+
+  //================= || handles filed input values || ===========================//
+const dropDownHandle =(event)=>{
+  const { name, value } = event.target;
+  // setClearInput(event.target.value)
+  setInputValue({
+    ...inputValue, 
+    [name]: value,
+  });
+setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
+}
+
 
 
   const handleUpload = async(newImage)=>{
@@ -134,6 +151,12 @@ const pushToDB= async(e)=>{
   handleUpload(selectedFile)
   console.log(selectedFile)
 }
+const cradTypeOption=[
+  {label:"one",value:'one'},
+  {label:"one",value:'one'},
+  {label:"one",value:'one'},
+  {label:"one",value:'one'},
+]
 
   return (
     <>
@@ -152,7 +175,13 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="Class" className="col-sm-5 col-form-label">Class</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.class} onChange={handleInputChange}  name='Class'  className="form-control" id="Class" placeholder="Class" />
+                          <select type="text" value={inputValue.class} onChange={handleInputChange}  name='Class'  className="form-control" id="Class" placeholder="Class" >
+                            <option value=''>select</option>
+                            <option value='RM'>RM</option>
+                            <option value='FG'>FG</option>
+                            <option value='SF'>SF</option>
+                            <option value='COMP'>COMP</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -160,7 +189,20 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="Category" className="col-sm-5 col-form-label">Category</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.category} onChange={handleInputChange}  name='Category'  className="form-control" id="Category" placeholder="Category" />
+                          <select  type="text" value={inputValue.category} onChange={handleInputChange}  name='Category'  className="form-control" id="Category" placeholder="Category" >
+                            <option value=""> Select</option>
+                            <option value="BAALI">BAALI </option>
+                            <option value="BRING">BRING </option>
+                            <option value="BUKUDI">BUKUDI </option>
+                            <option value="CHAIN">CHAIN </option>
+                            <option value="COMP">COMP </option>
+                            <option value="LOLAK">LOLAK </option>
+                            <option value="LRING">LRING </option>
+                            <option value="MATTI">MATTI </option>
+                            <option value="NP">NP </option>
+                            <option value="PENDENT">PENDENT </option>
+                            <option value="TOPS">TOPS </option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -168,7 +210,14 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="Group" className="col-sm-5 col-form-label">Group Name</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.group} onChange={handleInputChange}    name='Group'  className="form-control" id="Group" placeholder="Group Name" />
+                          <select  type="text" value={inputValue.group} onChange={dropDownHandle}    name='Group'  className="form-control" id="Group" placeholder="Group Name" >
+                          <option  value=""> Select</option>
+                          {
+                            dependentDropDown.map( gname =>{
+                              return <option key={gname.toString()} value={gname.groupName}>{gname.groupName}</option>
+                            })
+                          }
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -178,7 +227,14 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="subGrpName" className="col-sm-5 col-form-label">Sub Group Name</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.subGroup} onChange={handleInputChange}    name='SubGroup'  className="form-control" id="subGrpName" placeholder="Sub Group Name" />
+                          <select  type="text" value={inputValue.subGroup} onChange={handleInputChange}    name='SubGroup'  className="form-control" id="subGrpName" placeholder="Sub Group Name" >
+                          <option  value=""> Select</option>
+                            {
+                              subGroupNameDD.map(subGName =>{
+                                return <option value={subGName}>{subGName}</option>
+                              })
+                            }
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -258,7 +314,12 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="screwTypeApplicable" className="col-sm-5 col-form-label">Screw Type applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.screwTypeApplicable} onChange={handleInputChange}  name='screwTypeApplicable'  className="form-control" id="screwTypeApplicable" placeholder="Screw Type applicable" />
+                          <select  type="text" value={inputValue.screwTypeApplicable} onChange={handleInputChange}  name='screwTypeApplicable'  className="form-control" id="screwTypeApplicable" placeholder="Screw Type applicable" >
+                            <option value=''>Select</option>
+                            <option value='BLR'>BLR</option>
+                            <option value='TN'>TN</option>
+                            <option value='AP'>AP</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -276,7 +337,13 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="cardTypeApplicable" className="col-sm-5 col-form-label">Card Type applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.cardTypeApplicable} onChange={handleInputChange}    name='cardTypeApplicable'  className="form-control" id="cardTypeApplicable" placeholder="Card Type applicable" />
+                          <select type="text" value={inputValue.cardTypeApplicable} onChange={handleInputChange}    name='cardTypeApplicable'  className="form-control" id="cardTypeApplicable" placeholder="Card Type applicable" >
+                            <option value=''>Select</option>
+                            <option value='20CBW'>20CBW</option>
+                            <option value='10CBW'>10CBW</option>
+                            <option value='8CBB'>8CBB</option>
+                            <option value='10PBW'>10PBW</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -284,7 +351,7 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="defaultCardType" className="col-sm-5 col-form-label">Default Card Type</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.defaultCardType} onChange={handleInputChange}    name='defaultCardType'  className="form-control" id="defaultCardType" placeholder="Default Card Type" />
+                          <Form.Control type="text" value={inputValue.defaultCardType} onChange={handleInputChange}    name='defaultCardType'  className="form-control" id="defaultCardType" placeholder="Default Card Type" />
                         </div>
                       </Form.Group>
                     </div>
@@ -292,7 +359,12 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="stoneSchemeNosApplicable" className="col-sm-5 col-form-label">St Scheme No applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.stoneSchemeNosApplicable} onChange={handleInputChange}    name='stoneSchemeNosApplicable'  className="form-control" id="stoneSchemeNosApplicable" placeholder="St Scheme No applicable" />
+                          <select  type="text" value={inputValue.stoneSchemeNosApplicable} onChange={handleInputChange}    name='stoneSchemeNosApplicable'  className="form-control" id="stoneSchemeNosApplicable" placeholder="St Scheme No applicable" >
+                            <option value=''>Select</option>
+                            <option value='ADG-B.02.005'>ADG-B.02.005</option>
+                            <option value='ADG-B.78.008'>ADG-B.78.008</option>
+                            <option value='ADG-B.78.008'>ADG-B.78.008</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -344,7 +416,13 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="stoneSettingTypeApplicable" className="col-sm-5 col-form-label">St Setting Type Applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.stoneSettingTypeApplicable} onChange={handleInputChange}    name='stoneSettingTypeApplicable'  className="form-control" id="stoneSettingTypeApplicable" placeholder="St Setting Type Applicable" />
+                          <select  type="text" value={inputValue.stoneSettingTypeApplicable} onChange={handleInputChange}    name='stoneSettingTypeApplicable'  className="form-control" id="stoneSettingTypeApplicable" placeholder="St Setting Type Applicable" >
+                            <option value=''>Select</option>
+                            <option value='OPTION_A'>OPTION_A</option>
+                            <option value='OPTION_B'>OPTION_B</option>
+                            <option value='OPTION_C'>OPTION_C</option>
+                            <option value='OPTION_D'>OPTION_D</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -378,7 +456,12 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="surfaceFinishApplicable" className="col-sm-5 col-form-label">Surface Finish Applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.surfaceFinishApplicable} onChange={handleInputChange}    name='surfaceFinishApplicable'  className="form-control" id="surfaceFinishApplicable" placeholder="Surface Finish Applicable" />
+                          <select  type="text" value={inputValue.surfaceFinishApplicable} onChange={handleInputChange}    name='surfaceFinishApplicable'  className="form-control" id="surfaceFinishApplicable" placeholder="Surface Finish Applicable" >
+                            <option value=''>Select</option>
+                            <option value='MP'>MP</option>
+                            <option value='BUFF'>BUFF</option>
+                            <option value='CUTTING'>CUTTING</option>
+                          </select> 
                         </div>
                       </Form.Group>
                     </div>
@@ -396,7 +479,11 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="noOfDesign" className="col-sm-5 col-form-label">NO.Of Design</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.noOfDesign} onChange={handleInputChange}    name='noOfDesign'  className="form-control" id="noOfDesign" placeholder="Default Cutting Pattern" />
+                          <select  type="text" value={inputValue.noOfDesign} onChange={handleInputChange}    name='noOfDesign'  className="form-control" id="noOfDesign" placeholder="Default Cutting Pattern" >
+                            <option value=''>Select</option>
+                            <option value='NA'>NA</option>
+                            <option value='YES'>YES</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -459,7 +546,20 @@ const pushToDB= async(e)=>{
                       <Form.Group className="row">
                         <label  htmlFor="makingType" className="col-sm-4 col-form-label">Making Type</label>
                         <div className="col-sm-8">
-                          <Form.Control  type="text" value={inputValue.makingType} onChange={handleInputChange}    name='makingType'  className="form-control" id="makingType" placeholder="Making Type" />
+                          <select  type="text" value={inputValue.makingType} onChange={handleInputChange}    name='makingType'  className="form-control" id="makingType" placeholder="Making Type" >
+                            <option value=''>Select</option>
+                            <option value='Casting'>Casting</option>
+                            <option value='HM'>HM</option>
+                            <option value='Hybrid'>Hybrid</option>
+                          </select>
+                        </div>
+                      </Form.Group>
+                    </div>
+                    <div className="col-md-12">
+                      <Form.Group className="row">
+                        <label  htmlFor="sparesInvolved" className="col-sm-4 col-form-label">Spares Involved</label>
+                        <div className="col-sm-8">
+                          <Form.Control  type="text" value={inputValue.sparesInvolved} onChange={handleInputChange}    name='sparesInvolved'  className="form-control" id="sparesInvolved" placeholder="Spares Involved" />
                         </div>
                       </Form.Group>
                     </div>
