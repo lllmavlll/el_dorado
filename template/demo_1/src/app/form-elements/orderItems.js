@@ -14,9 +14,10 @@ const OrderItems = () => {
 
   const [showPhoto, setShowPhoto]= useState(false)
   const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
-
+  const [open, setOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [inputValue,setInputValue] = useState({
-    class:'',
+    mainClass:'',
     category:'',
     group:"",
     subGroup:"",
@@ -49,11 +50,20 @@ const OrderItems = () => {
     defaultScrewSize:"",
     makingType:"",
     sparesInvolved:"",
-    image:''
 })
 const [show,setShow] = useState(false)
 const [selectedFile, setSelectedFile] = useState('');
 
+const toggleDropdown = () => {
+  setOpen(!open);
+};
+const handleCheckboxChange = (optionId) => {
+  if (selectedOptions.includes(optionId)) {
+    setSelectedOptions(selectedOptions.filter(id => id !== optionId));
+  } else {
+    setSelectedOptions([...selectedOptions, optionId]);
+  }
+};
 
 // const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
 
@@ -121,20 +131,21 @@ const inputHandler= async(e)=>{
 const pushToDB= async(e)=>{
   e.preventDefault()
   // console.log(values)
-  // console.log(inputValue)
+  console.log(inputValue)
+  alert('ok')
   
   
   
   //for banckend
   
-  const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,} = inputValue
+  const {classs,category,group,subGroup,coreProductName,saleName,stickerName,commonName,appName,numberOfStones,screwTypeApplicable,defaultScrewType,cardTypeApplicable,defaultCardType,stoneSchemeNosApplicable,defaultStone,defaultFinalColur,unitWeightLowerLimit,unitWeightUpperLimit,stoneSettingTypeApplicable,defaultStoneSettingType,cuttingPatternApplicable,defaultCuttingPattern,surfaceFinishApplicable,defaultSurfaceFinish,noOfDesign,dyeNo,qualitySeriesApplicable,defaultQualitySeries,screwSizeApplicable,defaultScrewSize,makingType,sparesInvolved} = inputValue
   const res =await fetch('http://localhost:4000/iname/createIname',{
     method:'POST',
     headers:{
       "content-type":"application/json"
     },
     body:JSON.stringify({
-      Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, image:selectedFile
+      classs,category,group,subGroup,coreProductName,saleName,stickerName,commonName,appName,numberOfStones,screwTypeApplicable,defaultScrewType,cardTypeApplicable,defaultCardType,stoneSchemeNosApplicable,defaultStone,defaultFinalColur,unitWeightLowerLimit,unitWeightUpperLimit,stoneSettingTypeApplicable,defaultStoneSettingType,cuttingPatternApplicable,defaultCuttingPattern,surfaceFinishApplicable,defaultSurfaceFinish,noOfDesign,dyeNo,qualitySeriesApplicable,defaultQualitySeries,screwSizeApplicable,defaultScrewSize,makingType,sparesInvolved, image:selectedFile
     })
   })
   
@@ -151,12 +162,40 @@ const pushToDB= async(e)=>{
   handleUpload(selectedFile)
   console.log(selectedFile)
 }
-const cradTypeOption=[
-  {label:"one",value:'one'},
-  {label:"one",value:'one'},
-  {label:"one",value:'one'},
-  {label:"one",value:'one'},
-]
+const options = [
+  { id: 1, label: 'Option 1' },
+  { id: 2, label: 'Option 2' },
+  { id: 3, label: 'Option 3' },
+  { id: 4, label: 'Option 4' },
+];
+
+// return(
+//   <>
+//      <div className="checkbox-dropdown">
+//      <label>Card Type Applicable</label>
+//       <button className="dropdown-button" onClick={toggleDropdown}>
+//         Select 
+//       </button>
+//       {open && (
+//         <div className="dropdown-content">
+//           {options.map(option => (
+//             <>
+//             <label key={option.id}>
+//               <input
+//                 type="checkbox"
+//                 checked={selectedOptions.includes(option.id)}
+//                 onChange={() => handleCheckboxChange(option.id)}
+//                 />
+//               {option.label}
+//             </label>
+//               <br/>
+//                 </>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   </>
+// )
 
   return (
     <>
@@ -173,9 +212,9 @@ const cradTypeOption=[
                   <div className="row">
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="Class" className="col-sm-5 col-form-label">Class</label>
+                        <label  htmlFor="mainClass" className="col-sm-5 col-form-label">Class</label>
                         <div className="col-sm-7">
-                          <select type="text" value={inputValue.class} onChange={handleInputChange}  name='Class'  className="form-control" id="Class" placeholder="Class" >
+                          <select type="text" value={inputValue.mainClass} onChange={handleInputChange}  name='mainClass'  className="form-control" id="mainClass" placeholder="Class" >
                             <option value=''>select</option>
                             <option value='RM'>RM</option>
                             <option value='FG'>FG</option>
@@ -187,9 +226,9 @@ const cradTypeOption=[
                     </div>
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="Category" className="col-sm-5 col-form-label">Category</label>
+                        <label  htmlFor="category" className="col-sm-5 col-form-label">Category</label>
                         <div className="col-sm-7">
-                          <select  type="text" value={inputValue.category} onChange={handleInputChange}  name='Category'  className="form-control" id="Category" placeholder="Category" >
+                          <select  type="text" value={inputValue.category} onChange={handleInputChange}  name='category'  className="form-control" id="Category" placeholder="Category" >
                             <option value=""> Select</option>
                             <option value="BAALI">BAALI </option>
                             <option value="BRING">BRING </option>
@@ -208,9 +247,9 @@ const cradTypeOption=[
                     </div>
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="Group" className="col-sm-5 col-form-label">Group Name</label>
+                        <label  htmlFor="group" className="col-sm-5 col-form-label">Group Name</label>
                         <div className="col-sm-7">
-                          <select  type="text" value={inputValue.group} onChange={dropDownHandle}    name='Group'  className="form-control" id="Group" placeholder="Group Name" >
+                          <select  type="text" value={inputValue.group} onChange={dropDownHandle}    name='group'  className="form-control" id="Group" placeholder="Group Name" >
                           <option  value=""> Select</option>
                           {
                             dependentDropDown.map( gname =>{
@@ -225,9 +264,9 @@ const cradTypeOption=[
                   <div className="row">
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="subGrpName" className="col-sm-5 col-form-label">Sub Group Name</label>
+                        <label  htmlFor="subGroup" className="col-sm-5 col-form-label">Sub Group Name</label>
                         <div className="col-sm-7">
-                          <select  type="text" value={inputValue.subGroup} onChange={handleInputChange}    name='SubGroup'  className="form-control" id="subGrpName" placeholder="Sub Group Name" >
+                          <select  type="text" value={inputValue.subGroup} onChange={handleInputChange}    name='subGroup'  className="form-control" id="subGroup" placeholder="Sub Group Name" >
                           <option  value=""> Select</option>
                             {
                               subGroupNameDD.map(subGName =>{
@@ -242,7 +281,7 @@ const cradTypeOption=[
                       <Form.Group className="row">
                         <label  htmlFor="coreProdName" className="col-sm-5 col-form-label">Item Name</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.coreProductName} onChange={handleInputChange}    name='CoreProductName'  className="form-control" id="coreProdName" placeholder="Item Name" />
+                          <Form.Control  type="text" value={inputValue.coreProductName} onChange={handleInputChange}    name='coreProductName'  className="form-control" id="coreProdName" placeholder="Item Name" />
                         </div>
                       </Form.Group>
                     </div>
@@ -344,6 +383,13 @@ const cradTypeOption=[
                             <option value='8CBB'>8CBB</option>
                             <option value='10PBW'>10PBW</option>
                           </select>
+                          <Select
+                          multi
+                          labelField='label'
+                          valueField='valueField'
+                          options={options}
+                          onChange={()=>{}}
+                          />
                         </div>
                       </Form.Group>
                     </div>
@@ -440,7 +486,11 @@ const cradTypeOption=[
                       <Form.Group className="row">
                         <label  htmlFor="cuttingPatternApplicable" className="col-sm-5 col-form-label">Cutting Pattern Applicable</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.cuttingPatternApplicable} onChange={handleInputChange}    name='cuttingPatternApplicable'  className="form-control" id="cuttingPatternApplicable" placeholder="Cutting Pattern Applicable" />
+                          <select  type="text" value={inputValue.cuttingPatternApplicable} onChange={handleInputChange}    name='cuttingPatternApplicable'  className="form-control" id="cuttingPatternApplicable" placeholder="Cutting Pattern Applicable" >
+                            <option value=''>Select</option>
+                            <option value='C-CUT'>C-CUT</option>
+                            <option value='S-CUT'>S-CUT</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -461,6 +511,8 @@ const cradTypeOption=[
                             <option value='MP'>MP</option>
                             <option value='BUFF'>BUFF</option>
                             <option value='CUTTING'>CUTTING</option>
+                            <option value='HAND'>HAND</option>
+                            <option value='MACHINE'>MACHINE</option>
                           </select> 
                         </div>
                       </Form.Group>
@@ -513,7 +565,13 @@ const cradTypeOption=[
                       <Form.Group className="row">
                         <label  htmlFor="qualitySeriesApplicable" className="col-sm-4 col-form-label">Quality Series Applicable</label>
                         <div className="col-sm-8">
-                          <Form.Control  type="text" value={inputValue.qualitySeriesApplicable} onChange={handleInputChange}  name='qualitySeriesApplicable'  className="form-control" id="qualitySeriesApplicable" placeholder="Quality Series Applicable" />
+                          <select  type="text" value={inputValue.qualitySeriesApplicable} onChange={handleInputChange}  name='qualitySeriesApplicable'  className="form-control" id="qualitySeriesApplicable" placeholder="Quality Series Applicable" >
+                            <option value=''>Select</option>
+                            <option value='STD'>STD</option>
+                            <option value='MOTA'>MOTA</option>
+                            <option value='KEY'>KEY</option>
+                            <option value='DLX'>DLX</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -530,7 +588,12 @@ const cradTypeOption=[
                       <Form.Group className="row">
                         <label  htmlFor="screwSizeApplicable" className="col-sm-4 col-form-label">Screw Size Applicable</label>
                         <div className="col-sm-8">
-                          <Form.Control  type="text" value={inputValue.screwSizeApplicable} onChange={handleInputChange}  name='screwSizeApplicable'  className="form-control" id="screwSizeApplicable" placeholder="Screw Size Applicable" />
+                          <select  type="text" value={inputValue.screwSizeApplicable} onChange={handleInputChange}  name='screwSizeApplicable'  className="form-control" id="screwSizeApplicable" placeholder="Screw Size Applicable" >
+                            <option value=''>Select</option>
+                            <option value='2.70'>2.70</option>
+                            <option value='2.71'>2.71</option>
+                            <option value='2.77'>2.77</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -559,7 +622,13 @@ const cradTypeOption=[
                       <Form.Group className="row">
                         <label  htmlFor="sparesInvolved" className="col-sm-4 col-form-label">Spares Involved</label>
                         <div className="col-sm-8">
-                          <Form.Control  type="text" value={inputValue.sparesInvolved} onChange={handleInputChange}    name='sparesInvolved'  className="form-control" id="sparesInvolved" placeholder="Spares Involved" />
+                          <select  type="text" value={inputValue.sparesInvolved} onChange={handleInputChange}    name='sparesInvolved'  className="form-control" id="sparesInvolved" placeholder="Spares Involved" >
+                            <option value=''>Select</option>
+                            <option value='SCREW'>SCREW</option>
+                            <option value='STONE'>STONE</option>
+                            <option value='PATTERN'>PATTERN</option>
+                            <option value='CUT'>CUT</option>
+                          </select>
                         </div>
                       </Form.Group>
                     </div>

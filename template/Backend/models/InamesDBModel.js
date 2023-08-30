@@ -1,41 +1,105 @@
 const mongoose = require('mongoose');
 const InameSchema = mongoose.Schema({
 
-    Category: {
-        type: String,
-    },
-    Group: {
-        type: String,
-    },
-    SubGroup: {
-        type: String,
-    },
     CoreProductName: {
+        type: String
+    },
+    mainClass: {
+        type: String
+    },
+    mainCategory: {
+        type: String,
+
+    },
+    mainGroup: {
+        type: String,
+
+    },
+    subGroup: {
+        type: String,
+
+    },
+    saleName: {
         type: String,
     },
-    ModelNo: {
+    stickerName: {
         type: String,
     },
-    Nstone: {
+    commonName: {
         type: String,
     },
-    Size: {
+    appName: {
         type: String,
     },
-    StoneColourPattern: {
+    nstone: {
         type: String,
     },
-    ScrewType: {
+    modelNo: {
         type: String,
     },
+    defaultScrewType: {
+        type: String,
+    },
+    screwTypesApplicable: [],
+    defaultCardType: {
+        type: String,
+    },
+    cardTypesApplicable: [],
+    defaultStoneSchemeNo: {
+        type: String,
+    },
+    stoneSchemeNosApplicable: [],
+    defaultStoneSize: {
+        type: String,
+    },
+    stoneSizesApplicable: [],
+    defaultFinalColour: {
+        type: String,
+    },
+    unitWeightUpperLimit: {
+        type: String,
+    },
+    unitWeightLowerLimit: {
+        type: String,
+    },
+    image: {
+        type: String,
+    },
+    defaultStoneSettingType: {
+        type: String,
+    },
+    stoneSettingTypesApplicable: [],
+    defaultCuttingPattern: {
+        defaultCuttingPattern: String,
+    },
+    cuttingPatternsApplicable: [],
+    defaultSurfaceFinish: {
+        type: String,
+    },
+    surfaceFinishesApplicable: [],
+    noOfDesign: {
+        type: String,
+    },
+    dyeNo: {
+        type: String,
+    },
+    defaultQualitySeries: {
+        type: String
+    },
+    qualitySeries: [],
+    defaultScrewSize: {
+        type: String,
+    },
+    screwSizesApplicable: [],
+    makingType: {
+        type: String,
+    },
+    SparesInvolved: [],
     SKUNo: {
-        type:String
+        type: String
     },
     FinalIname: {
         type: String
-    },
-    image:{
-        type:String
     }
 }, { timestamps: true });
 

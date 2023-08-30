@@ -1,22 +1,18 @@
 const inameModel = require('../models/InamesDBModel')
-const multer = require('multer')
-
 
 const addIname = async (req, res) => {
-    const { Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo, image} = req.body;
+    const { coreProductName, mainClass, mainCategory, mainGroup, subGroup, saleName, stickerName, commonName, appName, nstone, modelNo, defaultScrewType, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeries, defaultScrewSize, makingType, SparesInvolved } = req.body;
     try {
-       
-        const values = [Category, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType,]
-        const FinalIname = values.join('_');
-
-        // const existingItem = await inameModel.findOne({ FinalIname:FinalIname})
-        // if (existingItem) {
-        //     return res.status(400).json({ message: "Item already exists" });
+        // === fill all filelds validation === //
+        // if (!Category || !Group || !SubGroup || !CoreProductName || !ModelNo || !Nstone || !Size || !StoneColourPattern || !ScrewType) {
+        //     return res.status(422).json({ error: "please fill all the fields" })
         // }
-        const skuno = ()=>{
+
+        // === sku creation === //
+        function skuno() {
             const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             let result = '';
-    
+
             for (let i = 0; i < 9; i++) {
                 const randomIndex = Math.floor(Math.random() * characters.length);
                 result += characters.charAt(randomIndex);
@@ -24,11 +20,18 @@ const addIname = async (req, res) => {
             return result;
         }
         const SKU = skuno();
-        
 
+        // === //
+        const values = [mainCategory, subGroup, coreProductName, modelNo, nstone, defaultStoneSize, defaultStoneSettingType, defaultScrewType, SKU]
+        const FinalIname = values.join('_');
+
+        const existingItem = await inameModel.findOne({ FinalIname: FinalIname })
+        if (existingItem) {
+            return res.status(400).json({ message: "Item already exists" });
+        }
 
         const result = new inameModel({
-            Category, Group, SubGroup, CoreProductName, ModelNo, Nstone, Size, StoneColourPattern, ScrewType, SKUNo:SKU, FinalIname,image
+            coreProductName, mainClass, mainCategory, mainGroup, subGroup, saleName, stickerName, commonName, appName, nstone, modelNo, defaultScrewType, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeries, defaultScrewSize, makingType, SparesInvolved, SKUNo: SKU, FinalIname: FinalIname
         })
         await result.save();
         res.status(201).json({ Iname: result });
@@ -50,7 +53,40 @@ const getIname = async (req, res) => {
     }
 }
 
-const getGname = async (req, res) => {
+const getAllDefaults = async (req, res) => {
+    try {
+        const data = await inameModel.find().where()
+    } catch (error) {
+        console.error('Error fetching IName:', error);
+        res.status(500).json({ error: 'Failed to fetch IName' });
+    }
+}
+
+const getViaFinalIname = async (req, res) => {
+
+    // const FinalIname = req.params.FinalIname
+
+    // try {
+    //     const data = await inameModel.findOne({ FinalIname: FinalIname })
+    //     res.json({ data });
+    // }
+    // catch (error) {
+    //     console.error('Error finding product by FinalIname:', error);
+    // }
+    const FinalIname =req.params.FinalIname
+
+    try {
+        const data = await inameModel.findOne({ FinalIname: FinalIname })
+        res.json({ data });
+    }
+    catch (error) {
+        console.error('Error finding product by FinalIname:', error);
+    }
+}
+
+//NOT WORKING FIX LATER ->
+
+const ArrayOfGroupNames = async (req, res) => {
 
     // const OrderNo = req.params.OrderNo
 
@@ -67,6 +103,13 @@ const getGname = async (req, res) => {
         console.error('Error finding product by FinalIname:', error);
     }
 }
+const iNameTrial = async (req, res) => {
+    try {
 
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch' });
+    }
+}
 
-module.exports = { addIname, getIname, getGname,};
+module.exports = { addIname, getIname, getViaFinalIname, ArrayOfGroupNames, iNameTrial };
