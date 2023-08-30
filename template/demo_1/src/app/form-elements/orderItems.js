@@ -7,6 +7,7 @@ import Select from 'react-dropdown-select'
 
 
 
+
 var joinedValue
 
 
@@ -14,8 +15,6 @@ const OrderItems = () => {
 
   const [showPhoto, setShowPhoto]= useState(false)
   const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
-  const [open, setOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [inputValue,setInputValue] = useState({
     mainClass:'',
     category:'',
@@ -27,7 +26,7 @@ const OrderItems = () => {
     commonName:"",
     appName:"",
     numberOfStones:"",
-    screwTypeApplicable:"",
+    screwTypeApplicable:'',
     defaultScrewType:"",
     cardTypeApplicable:"",
     defaultCardType:"",
@@ -54,18 +53,100 @@ const OrderItems = () => {
 const [show,setShow] = useState(false)
 const [selectedFile, setSelectedFile] = useState('');
 
-const toggleDropdown = () => {
-  setOpen(!open);
-};
-const handleCheckboxChange = (optionId) => {
-  if (selectedOptions.includes(optionId)) {
-    setSelectedOptions(selectedOptions.filter(id => id !== optionId));
-  } else {
-    setSelectedOptions([...selectedOptions, optionId]);
-  }
-};
 
-// const values =[inputValue.Category,inputValue.SubGroup,inputValue.CoreProductName,inputValue.ModelNo,inputValue.Nstone,inputValue.Size,inputValue.StoneColourPattern,inputValue.ScrewType]
+//===================|| for checkebox values ||====================//
+const [screwType, setScrewType] = useState([]);
+const [cardType, setCardType] = useState([]);
+const [stoneNo, setStoneNo] = useState([]);
+const [stineSettingType, setStoneSettingType] = useState([]);
+const [cuttingPattern, setCuttingPattern] = useState([]);
+const [surfaceFinish, setSurfaceFinish] = useState([]);
+const [qualitySeries, setQualitySeries] = useState([]);
+const [screwSize, setScrewSize] = useState([]);
+
+//===================|| for checkebox values ||====================//
+
+//Screw Type
+const getScrewType =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setScrewType([...screwType, value])
+  }else{
+    setScrewType(screwType.filter(e => e !== value))
+  }
+}
+
+//Card Type
+const getCardType =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setCardType([...cardType, value])
+  }else{
+    setCardType(cardType.filter(e => e !== value))
+  }
+}
+
+//Stone No
+const getStoneNo =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setStoneNo([...stoneNo, value])
+  }else{
+    setStoneNo(stoneNo.filter(e => e !== value))
+  }
+}
+
+//Stone Setting type
+const getStoneSettingType =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setStoneSettingType([...stineSettingType, value])
+  }else{
+    setStoneSettingType(stineSettingType.filter(e => e !== value))
+  }
+}
+
+//Cutting Pattern
+const getCuttingPattern =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setCuttingPattern([...cuttingPattern, value])
+  }else{
+    setCuttingPattern(cuttingPattern.filter(e => e !== value))
+  }
+}
+
+//Surface Finish
+const getSurfaceFinish =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setSurfaceFinish([...surfaceFinish, value])
+  }else{
+    setSurfaceFinish(surfaceFinish.filter(e => e !== value))
+  }
+}
+
+//Quality Series
+const getQualitySeries =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setQualitySeries([...qualitySeries, value])
+  }else{
+    setQualitySeries(qualitySeries.filter(e => e !== value))
+  }
+}
+
+//Screw Size
+const getScrewSize =(e)=>{
+  const {value, checked} = e.target
+  if(checked){
+    setScrewSize([...screwSize, value])
+  }else{
+    setScrewSize(screwSize.filter(e => e !== value))
+  }
+}
+
+//===================|| for inputvalues values ||====================//
 
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -75,10 +156,9 @@ const handleInputChange = (event) => {
     });
   };
 
-  //================= || handles filed input values || ===========================//
+//================= || handles filed input values || ===========================//
 const dropDownHandle =(event)=>{
   const { name, value } = event.target;
-  // setClearInput(event.target.value)
   setInputValue({
     ...inputValue, 
     [name]: value,
@@ -162,40 +242,6 @@ const pushToDB= async(e)=>{
   handleUpload(selectedFile)
   console.log(selectedFile)
 }
-const options = [
-  { id: 1, label: 'Option 1' },
-  { id: 2, label: 'Option 2' },
-  { id: 3, label: 'Option 3' },
-  { id: 4, label: 'Option 4' },
-];
-
-// return(
-//   <>
-//      <div className="checkbox-dropdown">
-//      <label>Card Type Applicable</label>
-//       <button className="dropdown-button" onClick={toggleDropdown}>
-//         Select 
-//       </button>
-//       {open && (
-//         <div className="dropdown-content">
-//           {options.map(option => (
-//             <>
-//             <label key={option.id}>
-//               <input
-//                 type="checkbox"
-//                 checked={selectedOptions.includes(option.id)}
-//                 onChange={() => handleCheckboxChange(option.id)}
-//                 />
-//               {option.label}
-//             </label>
-//               <br/>
-//                 </>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   </>
-// )
 
   return (
     <>
@@ -353,20 +399,50 @@ const options = [
                       <Form.Group className="row">
                         <label  htmlFor="screwTypeApplicable" className="col-sm-5 col-form-label">Screw Type applicable</label>
                         <div className="col-sm-7">
-                          <select  type="text" value={inputValue.screwTypeApplicable} onChange={handleInputChange}  name='screwTypeApplicable'  className="form-control" id="screwTypeApplicable" placeholder="Screw Type applicable" >
-                            <option value=''>Select</option>
-                            <option value='BLR'>BLR</option>
-                            <option value='TN'>TN</option>
-                            <option value='AP'>AP</option>
-                          </select>
+                          <div className='row'>
+
+                            <div style={{marginLeft:'20px'}} className="form-check">
+                              <label className="form-check-label">
+                                <input type="checkbox" value='BLR' className="form-check-input" onChange={getScrewType}/>
+                                <i className="input-helper"></i>
+                                BLR
+                              </label>
+                            </div>
+
+                            <div style={{marginLeft:'20px'}} className="form-check">
+                              <label className="form-check-label">
+                                <input type="checkbox" value='TN' className="form-check-input" onChange={getScrewType}/>
+                                <i className="input-helper"></i>
+                                TN
+                              </label>
+                            </div>
+                            <div style={{marginLeft:'20px'}} className="form-check">
+                              <label className="form-check-label">
+                                <input type="checkbox" value='AP' className="form-check-input" onChange={getScrewType}/>
+                                <i className="input-helper"></i>
+                                AP
+                              </label>
+                            </div>
+
+                          </div>
                         </div>
+                          {/* <input  type="checkbox" value={inputValue.screwTypeApplicable} onChange={handleInputChange}  name='screwTypeApplicable'  className="form-check-input" id="screwTypeApplicable" placeholder="Screw Type applicable" /> */}
                       </Form.Group>
                     </div>
                     <div className="col-md-4">
                       <Form.Group className="row">
                         <label  htmlFor="defaultScrewType" className="col-sm-5 col-form-label">Default Screw Type</label>
                         <div className="col-sm-7">
-                          <Form.Control  type="text" value={inputValue.defaultScrewType} onChange={handleInputChange}    name='defaultScrewType'  className="form-control" id="defaultScrewType" placeholder="Default Screw Type" />
+                          <select  type="text" value={inputValue.defaultScrewType} onChange={handleInputChange}    name='defaultScrewType'  className="form-control" id="defaultScrewType" placeholder="Default Screw Type" >
+                            <option value=''>Select</option>
+                            {
+                              screwType.map(((list,index) =>{
+                                return<>
+                                <option key={index} value={list}>{list}</option>
+                                </>
+                              }))
+                            }
+                          </select>
                         </div>
                       </Form.Group>
                     </div>
@@ -383,13 +459,13 @@ const options = [
                             <option value='8CBB'>8CBB</option>
                             <option value='10PBW'>10PBW</option>
                           </select>
-                          <Select
+                          {/* <Select
                           multi
                           labelField='label'
                           valueField='valueField'
                           options={options}
                           onChange={()=>{}}
-                          />
+                          /> */}
                         </div>
                       </Form.Group>
                     </div>

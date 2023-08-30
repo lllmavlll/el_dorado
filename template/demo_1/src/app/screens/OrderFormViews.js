@@ -216,7 +216,6 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                                             <label className="form-check-label">
                                               <input type="checkbox" 
                                               className="form-check-input" 
-                                              // checked={lineItemList.some(item => item.orderRefNo === lineItemList.orderRefNo)}
                                               onChange={()=>{reRouteViaCheckBox(lineItem.orderRefNo,lineItem.itemIndex)}}
                                               />
                                               <i className="input-helper"></i>
