@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 const InameSchema = mongoose.Schema({
 
-    CoreProductName: {
+    coreProductName: {
         type: String
     },
     mainClass: {
         type: String
     },
-    mainCategory: {
+    category: {
         type: String,
 
     },
-    mainGroup: {
+    group: {
         type: String,
 
     },
@@ -31,7 +31,7 @@ const InameSchema = mongoose.Schema({
     appName: {
         type: String,
     },
-    nstone: {
+    numberOfStones: {
         type: String,
     },
     modelNo: {
@@ -86,7 +86,7 @@ const InameSchema = mongoose.Schema({
     defaultQualitySeries: {
         type: String
     },
-    qualitySeries: [],
+    qualitySeriesApplicable: [],
     defaultScrewSize: {
         type: String,
     },

@@ -1,7 +1,7 @@
 const inameModel = require('../models/InamesDBModel')
 
 const addIname = async (req, res) => {
-    const { coreProductName, mainClass, mainCategory, mainGroup, subGroup, saleName, stickerName, commonName, appName, nstone, modelNo, defaultScrewType, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeries, defaultScrewSize, makingType, SparesInvolved } = req.body;
+    const { coreProductName, classs, category, group, subGroup, saleName, stickerName, commonName, appName, numberOfStones, modelNo, defaultScrewType,screwSizesApplicable, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeriesApplicable, defaultScrewSize, makingType, SparesInvolved } = req.body;
     try {
         // === fill all filelds validation === //
         // if (!Category || !Group || !SubGroup || !CoreProductName || !ModelNo || !Nstone || !Size || !StoneColourPattern || !ScrewType) {
@@ -22,7 +22,7 @@ const addIname = async (req, res) => {
         const SKU = skuno();
 
         // === //
-        const values = [mainCategory, subGroup, coreProductName, modelNo, nstone, defaultStoneSize, defaultStoneSettingType, defaultScrewType, SKU]
+        const values = [category, subGroup, coreProductName, modelNo, numberOfStones, defaultStoneSize, defaultStoneSettingType, defaultScrewType, SKU]
         const FinalIname = values.join('_');
 
         const existingItem = await inameModel.findOne({ FinalIname: FinalIname })
@@ -31,7 +31,7 @@ const addIname = async (req, res) => {
         }
 
         const result = new inameModel({
-            coreProductName, mainClass, mainCategory, mainGroup, subGroup, saleName, stickerName, commonName, appName, nstone, modelNo, defaultScrewType, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeries, defaultScrewSize, makingType, SparesInvolved, SKUNo: SKU, FinalIname: FinalIname
+            coreProductName, classs, category, group, subGroup, saleName, stickerName, commonName, appName, numberOfStones, modelNo, defaultScrewType,screwSizesApplicable, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeriesApplicable, defaultScrewSize, makingType, SparesInvolved, SKUNo: SKU, FinalIname: FinalIname
         })
         await result.save();
         res.status(201).json({ Iname: result });
