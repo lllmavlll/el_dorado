@@ -16,6 +16,7 @@ const BasicElements = () => {
 
 
   const [modalShow, setModalShow] = useState(false);
+  const [showInmae, setShowIname] = useState(false);
   const [refNO, setRefNo] = useState(1);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [isIname, setIsIname] = useState(false); // to view table of line items 
@@ -195,6 +196,7 @@ const skuFuncToAutoPopulate =async(e)=>{
         console.error('Error fetching user data:', error);
       });
       setIsIname(true)
+      setShowIname(true)
 }
   
   const pushToDB= async(e)=>{
@@ -405,156 +407,153 @@ const skuFuncToAutoPopulate =async(e)=>{
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Product Details</h4>
-                {/* <form className="forms-sample"> */}
                   
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="qualitySeries" className="col-sm-4 col-form-label">Quality series</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.qualitySeries} name='qualitySeries'  onChange={handleInputChange}  className="form-control" id="qualitySeries" placeholder="Quality series" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="category" className="col-sm-4 col-form-label">Category</label>
-                        <div className="col-sm-8">
-                        <select type="text"  value={inmaeDD.Category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" >
-                          <option value=""> Select</option>
-                          <option value="BAALI">BAALI </option>
-                          <option value="BRING">BRING </option>
-                          <option value="BUKUDI">BUKUDI </option>
-                          <option value="CHAIN">CHAIN </option>
-                          <option value="COMP">COMP </option>
-                          <option value="LOLAK">LOLAK </option>
-                          <option value="LRING">LRING </option>
-                          <option value="MATTI">MATTI </option>
-                          <option value="NP">NP </option>
-                          <option value="PENDENT">PENDENT </option>
-                          <option value="TOPS">TOPS </option>
-                        </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
+                  
+                <div className='row'>
 
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
-                        <div className="col-sm-8">
-                          <select    value={inputValue.groupName} name='groupName' onChange={dropDownHandle}  className="form-control" id="groupName"  >
-                            <option  value=""> Select</option>
-                            {
-                              dependentDropDown.map( gname =>{
-                               return <option key={gname.toString()} value={gname.groupName}>{gname.groupName}</option>
-                              })
-                            }
-                          </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
-                        <div className="col-sm-8">
-                           <select value={inputValue.subGroupName} name='subGroupName' onChange={handleInputChange}  className="form-control" id="subGrpName"  >
-                            <option  value=""> Select</option>
-                            {
-                              subGroupNameDD.map(subGName =>{
-                                return <option value={subGName}>{subGName}</option>
-                              })
-                            }
-                          </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="qualitySeries" className="col-sm-4 col-form-label">Quality series</label>
+  <div className="col-sm-8">
+  <select  type="text"  value={inputValue.qualitySeries} name='qualitySeries'  onChange={handleInputChange}  className="form-control" id="qualitySeries" placeholder="Quality series">
+    <option value={inmaeDD.defaultQualitySeries}>{inmaeDD.defaultQualitySeries}</option>
+    {
+      inmaeDD.qualitySeriesApplicable&&inmaeDD.qualitySeriesApplicable.map((list,index)=>{
+        return<option key={index} value={list}>{list}</option>
+      })
+    }
+  </select>
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="category" className="col-sm-4 col-form-label">Category</label>
+  <div className="col-sm-8">
+    <Form.Control type="text"  value={inmaeDD.category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
+  </div>
+</Form.Group>
+</div>
+</div>
 
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="CoreProdName" className="col-sm-4 col-form-label">Core Prdt Name</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.CoreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="modelNo" className="col-sm-4 col-form-label">Model No.</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.ModelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
 
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="noOfStones" className="col-sm-4 col-form-label">No. Of Stones</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.Nstone} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="size" className="col-sm-4 col-form-label">Size</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.Size} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
+<div className="row">
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
+  <div className="col-sm-8">
+   <Form.Control type="text"  value={inmaeDD.group} name='groupName'  onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
+  <div className="col-sm-8">
+    <Form.Control type="text"  value={inmaeDD.subGroup} name='subGrpName'  onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder=" Sub Group Name" />
+  </div>
+</Form.Group>
+</div>
+</div>
 
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="stoneClrPattren" className="col-sm-4 col-form-label">Stn Clr pattern</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.StoneColourPattern} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="screwType" className="col-sm-4 col-form-label">Screw Type </label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inmaeDD.ScrewType} name='screwType' onChange={handleInputChange}  className="form-control" id="screwType" placeholder="Screw Type " />
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
+<div className="row">
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="CoreProdName" className="col-sm-4 col-form-label">Core Prdt Name</label>
+  <div className="col-sm-8">
+  <Form.Control  type="text"  value={inmaeDD.coreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="modelNo" className="col-sm-4 col-form-label">Model No.</label>
+  <div className="col-sm-8">
+  <Form.Control  type="text"  value={inmaeDD.modelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
+  </div>
+</Form.Group>
+</div>
+</div>
 
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="saleName" className="col-sm-4 col-form-label">Sale Name</label>
-                        <div className="col-sm-8">
-                        <Form.Control  type="text"  value={inputValue.saleName} name='saleName' onChange={handleInputChange}  className="form-control" id="saleName" placeholder="Sale Name" />
-                        </div>
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-6">
-                      <Form.Group className="row">
-                        <label  htmlFor="itemStage" className="col-sm-4 col-form-label">Item Stage</label>
-                        <div className="col-sm-8">
-                        <select    value={inputValue.itemStage} name='itemStage' onChange={handleInputChange}  className="form-control" id="itemStage"  >
-                          <option  value=""> Select</option>
-                          <option  value="FINISHED">FINISHED </option>
-                          <option  value="FINISHED-WO SCREW">FINISHED-WO SCREW </option>
-                          <option  value="BLK-WO SCREW">BLK-WO SCREW </option>
-                          <option  value="DP-WO SCREW">DP-WO SCREW </option>
-                          <option  value="WO ST- DP-WO SCREW">WO ST- DP-WO SCREW </option>
-                          <option  value="WO CUTTING-DP-WO SCREW">WO CUTTING-DP-WO SCREW </option>
-                        </select>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </div>
+<div className="row">
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="noOfStones" className="col-sm-4 col-form-label">No. Of Stones</label>
+  <div className="col-sm-8">
+  <Form.Control  type="text"  value={inmaeDD.numberOfStones} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="size" className="col-sm-4 col-form-label">Stone Size</label>
+  <div className="col-sm-8">
+  <select  type="text"  value={inmaeDD.Size} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" >
+    <option value={inmaeDD.defaultStoneSize}>{inmaeDD.defaultStoneSize}</option>
+    {
+      inmaeDD.stoneSizesApplicable&&inmaeDD.stoneSizesApplicable.map((val,index)=>{
+        return<option key={index} value={val}>{val}</option>
+      })
+    }
+  </select>
+  </div>
+</Form.Group>
+</div>
+</div>
+
+<div className="row">
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="stoneClrPattren" className="col-sm-4 col-form-label">Stn Clr pattern</label>
+  <div className="col-sm-8">
+  <Form.Control  type="text"  value={inmaeDD.defaultFinalColour} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="screwType" className="col-sm-4 col-form-label">Screw Type </label>
+  <div className="col-sm-8">
+  <select  type="text"  value={inmaeDD.ScrewType} name='screwType' onChange={handleInputChange}  className="form-control" id="screwType" placeholder="Screw Type " >
+    <option value={inmaeDD.defaultScrewType}>{inmaeDD.defaultScrewType}</option>
+    {
+      inmaeDD.screwTypesApplicable&&inmaeDD.screwTypesApplicable.map((val,index)=>{
+        return<option key={index} value={val}>{val}</option>
+      })
+    }
+  </select>
+  </div>
+</Form.Group>
+</div>
+</div>
+
+<div className="row">
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="saleName" className="col-sm-4 col-form-label">Sale Name</label>
+  <div className="col-sm-8">
+  <Form.Control  type="text"  value={inmaeDD.saleName} name='saleName' onChange={handleInputChange}  className="form-control" id="saleName" placeholder="Sale Name" />
+  </div>
+</Form.Group>
+</div>
+<div className="col-md-6">
+<Form.Group className="row">
+  <label  htmlFor="itemStage" className="col-sm-4 col-form-label">Item Stage</label>
+  <div className="col-sm-8">
+  <select    value={inputValue.itemStage} name='itemStage' onChange={handleInputChange}  className="form-control" id="itemStage"  >
+    <option  value=""> Select</option>
+    <option  value="FINISHED">FINISHED </option>
+    <option  value="FINISHED-WO SCREW">FINISHED-WO SCREW </option>
+    <option  value="BLK-WO SCREW">BLK-WO SCREW </option>
+    <option  value="DP-WO SCREW">DP-WO SCREW </option>
+    <option  value="WO ST- DP-WO SCREW">WO ST- DP-WO SCREW </option>
+    <option  value="WO CUTTING-DP-WO SCREW">WO CUTTING-DP-WO SCREW </option>
+  </select>
+  </div>
+</Form.Group>
+</div>
+</div>
+                    
                   
                   <div className="row">
                     {/* <div className="col-md-6">
@@ -602,6 +601,9 @@ const skuFuncToAutoPopulate =async(e)=>{
                     <div className="col-md-6">
                      <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-outline-primary mr-2">get data</button>
                     </div>
+                  </div>
+                  <div>
+
                   </div>
 
                   {/* <button type="submit"  onClick={skuFuncToAutoPopulate} className="btn btn-primary mr-2">get data</button> */}

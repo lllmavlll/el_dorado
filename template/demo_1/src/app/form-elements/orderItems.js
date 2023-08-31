@@ -249,7 +249,7 @@ const pushToDB= async(e)=>{
       qualitySeriesApplicable:qualitySeries,
       defaultQualitySeries,
       screwSizesApplicable:screwSize,
-      stoneSizesApplicable:screwSize,
+      stoneSizesApplicable:stoneSize,
       defaultScrewSize,
       makingType,
       SparesInvolved:spares,
