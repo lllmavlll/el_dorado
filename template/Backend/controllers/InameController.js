@@ -30,8 +30,31 @@ const addIname = async (req, res) => {
             return res.status(400).json({ message: "Item already exists" });
         }
 
+
+        const SKUArray = [];
+        function generateCombinations(arr1, arr2) {
+
+            const combinations = [];
+            for (const item1 of arr1) {
+                for (const item2 of arr2) {
+                    combinations.push(`${item1}~${item2}`);
+                }
+            }
+            return combinations;
+        }
+
+        const combo = generateCombinations(screwTypesApplicable, qualitySeriesApplicable);
+
+        // console.log(combo);
+        combo.forEach(item => {
+            SKUArray.push(`${item}~${SKU}`)
+        });
+
         const result = new inameModel({
-            coreProductName, classs, category, group, subGroup, saleName, stickerName, commonName, appName, numberOfStones, modelNo, defaultScrewType,screwSizesApplicable, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeriesApplicable, defaultScrewSize, makingType, SparesInvolved, SKUNo: SKU, FinalIname: FinalIname
+            coreProductName, classs, category, group, subGroup, saleName, stickerName, commonName, appName, numberOfStones, modelNo, defaultScrewType,screwSizesApplicable, screwTypesApplicable, defaultCardType, cardTypesApplicable, defaultStoneSchemeNo, stoneSchemeNosApplicable, defaultStoneSize, stoneSizesApplicable, defaultFinalColour, unitWeightUpperLimit, unitWeightLowerLimit, image, defaultStoneSettingType, stoneSettingTypesApplicable, defaultCuttingPattern, cuttingPatternsApplicable, defaultSurfaceFinish, surfaceFinishesApplicable, noOfDesign, dyeNo, defaultQualitySeries, qualitySeriesApplicable, defaultScrewSize, makingType, SparesInvolved, 
+            SKUNo: SKU,
+            SKUVariants:SKUArray,
+            FinalIname: FinalIname
         })
         await result.save();
         res.status(201).json({ Iname: result });

@@ -98,6 +98,7 @@ const InameSchema = mongoose.Schema({
     SKUNo: {
         type: String
     },
+    SKUVariants: [],
     FinalIname: {
         type: String
     }

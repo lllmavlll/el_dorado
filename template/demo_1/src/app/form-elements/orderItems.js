@@ -275,7 +275,7 @@ const pushToDB= async(e)=>{
     <>
       <div >
         <div className="page-header">
-          <h3 className="page-title"> product</h3>
+          <h3 className="page-title"> Product</h3>
         </div>
         <div className="row">                       
           <div className="col-12 grid-margin stretch-card">
@@ -353,7 +353,7 @@ const pushToDB= async(e)=>{
                     </div>
                     <div className="col-md-4">
                       <Form.Group className="row">
-                        <label  htmlFor="coreProdName" className="col-sm-5 col-form-label">Item Name</label>
+                        <label  htmlFor="coreProdName" className="col-sm-5 col-form-label">Core Product Name</label>
                         <div className="col-sm-7">
                           <Form.Control  type="text" value={inputValue.coreProductName} onChange={handleInputChange}    name='coreProductName'  className="form-control" id="coreProdName" placeholder="Item Name" />
                         </div>
@@ -419,7 +419,7 @@ const pushToDB= async(e)=>{
           <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">Stone Properties</h4>
+                <h4 className="card-title"> Properties</h4>
                 <form className="forms-sample">
                   <div className="row">
                     <div className="col-md-4">
@@ -624,7 +624,7 @@ const pushToDB= async(e)=>{
                         <label  htmlFor="stoneSettingTypeApplicable" className="col-sm-5 col-form-label">St Setting Type Applicable</label>
                         <div className="col-sm-7">
                           <div className='row'>
-                            <div style={{marginLeft:'20px'}} className="form-check">
+                            <div style={{marginLeft:'15px'}} className="form-check">
                               <label className="form-check-label">
                                 <input type="checkbox" value='GUBBA' className="form-check-input" onChange={getStoneSettingType}/>
                                 <i className="input-helper"></i>
@@ -632,7 +632,7 @@ const pushToDB= async(e)=>{
                               </label>
                             </div>
 
-                            <div style={{marginLeft:'20px'}} className="form-check">
+                            <div style={{marginLeft:'15px'}} className="form-check">
                               <label className="form-check-label">
                                 <input type="checkbox" value='JAWA' className="form-check-input" onChange={getStoneSettingType}/>
                                 <i className="input-helper"></i>
@@ -640,7 +640,7 @@ const pushToDB= async(e)=>{
                               </label>
                             </div>
 
-                            <div style={{marginLeft:'20px'}} className="form-check">
+                            <div style={{marginLeft:'15px'}} className="form-check">
                               <label className="form-check-label">
                                 <input type="checkbox" value='PAVE' className="form-check-input" onChange={getStoneSettingType}/>
                                 <i className="input-helper"></i>
@@ -1046,7 +1046,7 @@ const pushToDB= async(e)=>{
                         <label>Final Product Name: </label>{show && <p name='productIName' value={joinedValue} onChange={handleInputChange}>{joinedValue}</p>}  
                       </h4>
                       <br/>
-                      {
+                      {/* {
                         showPhoto?
                         <>
                         <h4>Iname Photo Preview:</h4>
@@ -1055,7 +1055,7 @@ const pushToDB= async(e)=>{
                         </div>
                         </>
                       :''
-                      }
+                      } */}
                       <br/>
                       <div className='row'>
                       <Form.Group id='#col1' className='col'>
