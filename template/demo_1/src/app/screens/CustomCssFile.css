@@ -31,3 +31,21 @@
 .collapseRow{
   cursor: pointer;
 }
+
+
+/* for the sesrch suggestion dropdown */
+.DropDown{
+  display: flex;
+  flex-direction: column;
+}
+.DropDown:empty{
+  border: none;
+}
+
+.DropDown-row{
+  cursor: pointer;
+  text-align: start;
+}
+.DropDown-row:hover{
+ background-color: rgb(39, 41, 48);
+}

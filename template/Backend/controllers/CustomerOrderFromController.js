@@ -1,4 +1,5 @@
-const CustOrdModel = require('../models/CustomerOrderFormDBModel')
+const CustOrdModel = require('../models/CustomerOrderFormDBModel');
+const newCustOrderModel = require('../models/newCustOrderModel');
 
 const addCustOrd = async (req, res) => {
     const { customerName, OrderNo, lineItem } = req.body;
@@ -113,6 +114,19 @@ const UpdateIQ =async (req, res) => {
         
     }
 
+    const getAllByCust = async (req, res) => {
+        const customerName = req.params.customerName
+        try {
+            // const data = await CustOrdModel.find({ customerName: customerName })
+            const data = await CustOrdModel.find().where('customerName').equals(customerName)
+            res.json(data);
+        } catch (error) {
+            console.error('Error fetching Order Forms:', error);
+            res.status(500).json({ error: 'Failed to fetch Order Forms' });
+        }
+    
+    }
+
     const getSpecificLineItem = async (req, res) => {
         // const OrderNo = req.params.OrderNo
         // const index = req.params.index
@@ -128,6 +142,25 @@ const UpdateIQ =async (req, res) => {
         }
     }
 
+    const getAllCustomersFromOrders = async (req, res) => {
+        const data = await CustOrdModel.find({}, 'customerName');
+        // const customerNames = data.map(data => data.customerName);
+        res.json(data)}
+
+
+// from new DATABASE to set ordeerform View
+
+const GlobalGetforNewDB = async (req, res) => {
+    try {
+        const jewelries = await newCustOrderModel.find();
+        res.status(200).json(jewelries);
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+}
+
+
 module.exports = {
     addCustOrd,
     getAllOrders,
@@ -135,5 +168,8 @@ module.exports = {
     GetOrderNo,
     UpdateIQ,
     getSpecificLineItem,
-    testCFO
+    testCFO,
+    getAllByCust,
+    getAllCustomersFromOrders,
+    GlobalGetforNewDB,
 };
