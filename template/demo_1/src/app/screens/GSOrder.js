@@ -313,7 +313,7 @@ const GSOrder = () => {
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Gold Smith Sub Orders</h4>
-                <h5 className="card-title">Gold Smith Name: <span className='text-warning'>{inputValue.GSName}</span></h5>
+                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{inputValue.GSName}</span></h5>
                 <div className="table-responsive OFtable-res">
                   <table className="table table-bordered OFtable">
                     <thead>

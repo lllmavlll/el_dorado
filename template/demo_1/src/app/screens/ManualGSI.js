@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import  { Form } from 'react-bootstrap'
-import { useLocation } from "react-router-dom";
-import './CustomCssFile.css'
 
 
-
-const GSIssuance = () => {
-
+const ManualGSI = () => {
+    
+  const [getByGSO, setGetByGSO]= useState([])
   const [compList, setCompList]= useState([])
   const [compTable, setCompTable]= useState(false)
+  const [gsoTable, setGsoTable]= useState(false)
   const [inputValue, setInputValue]=useState({
+    GSONo:'',
     pureGoldValueQnty:'',
     pureGoldValueAmt:'',
     compType:'',
@@ -18,19 +18,46 @@ const GSIssuance = () => {
     compAmt:'',
   })
 
-  const location = useLocation()
-  const routeData =location.state.state
-  console.log(routeData);
 
+  //==============|| to handel input cahnges ||=============//
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputValue({
-      ...inputValue, 
-      [name]: value,
-    });
-  };
+      const { name, value } = event.target;
+      setInputValue({
+          ...inputValue, 
+          [name]: value,
+        });
+        console.log(inputValue);
+    };
 
-  const addComp = (e)=>{
+  //==============|| to fetch based on GSO no ||=============//
+  const getGSO=(e)=>{
+      alert("clicked");
+    e.preventDefault()
+    console.log(inputValue.GSONo);
+    fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/${inputValue.GSONo}`)
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data);
+      return data
+    })
+    .then(data =>{
+        setGetByGSO(data)
+        if(data){
+            setGsoTable(true)
+            setInputValue({ GSONo:'',})
+        }else{
+            alert('Enter A valid Order Number')
+            setInputValue({ GSONo:'',})
+        }
+    }) 
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+}
+
+
+//==============||To add new COmponent ||=============//
+const addComp = (e)=>{
     e.preventDefault()
     setCompTable(true)
     const arrayOfComponents={
@@ -42,44 +69,69 @@ const GSIssuance = () => {
     setCompList([...compList, arrayOfComponents])
   }
 
-  const pushToDB = async(e)=>{
-    e.preventDefault()
-
-    //========= || Push the Data to DB || ===========//
-
-    const {pureGoldValueQnty, pureGoldValueAmt} =inputValue
-
-    const res =await fetch('http://localhost:4000/GSI/createGSI',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        GSOrderNo:routeData.GSOrderNo,
-        GSName:routeData.GSName,
-        pureGoldValueQnty,
-        pureGoldValueAmt,
-        components:compList
-      })
-    })
-    const data = await res.json();
-    console.log(data)
-    alert("Material issued successfully ")
-  }
-
+    const pushToDB = async(e)=>{
+        e.preventDefault()
+    
+        //========= || Push the Data to DB || ===========//
+    
+        // const {pureGoldValueQnty, pureGoldValueAmt} =inputValue
+    
+        // const res =await fetch('http://localhost:4000/GSI/createGSI',{
+        //   method:'POST',
+        //   headers:{
+        //     "content-type":"application/json"
+        //   },
+        //   body:JSON.stringify({
+        //     GSOrderNo:routeData.GSOrderNo,
+        //     GSName:routeData.GSName,
+        //     pureGoldValueQnty,
+        //     pureGoldValueAmt,
+        //     components:compList
+        //   })
+        // })
+        // const data = await res.json();
+        // console.log(data)
+        // alert("Material issued successfully ")
+      }
 
     return(
         <>
+        
         <div className="page-header">
           {/* <h3 className="page-title"> Gold Smith Issuance for GSO NO: {data.OrderNo}</h3> */}
           <h3 className="page-title"> Gold Smith Issuance </h3>
         </div>
+
         <div className="row">                       
-          <div className="col-12 grid-margin stretch-card">
+        <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">GSO Number: <span className='text-primary'>{routeData.GSOrderNo}</span></h4>
-                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{routeData.GSName}</span></h5>
+              <h4 className="card-title">Search for Orders</h4>
+                <form className='forms-sample'>
+                    <div className='row'>
+                        <div className='col-md-5'>
+                        <Form.Group>
+                            <div className="input-group">
+                                <Form.Control autoComplete='off' type="text" value={inputValue.GSONo} onChange={handleInputChange} name='GSONo' className="form-control" placeholder="Search by Gols Smith Order Number"/>
+                                <div className="input-group-append">
+                                    <button className="btn btn-sm btn-primary" onClick={getGSO}>Search</button>
+                                </div>
+                            </div>
+                        </Form.Group>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div> 
+
+        {
+            gsoTable?
+        <div className="col-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">GSO Number: <span className='text-primary'>{getByGSO.GSOrderNo}</span></h4>
+                <h5 className="card-title">Gold Smith Name: <span className='text-primary'>{getByGSO.GSName}</span></h5>
                 <div className='table-responsive OFtable-res'>
                   <table className="table table-bordered OFtable ">
                     <thead>
@@ -95,7 +147,7 @@ const GSIssuance = () => {
                     </thead>
                     <tbody>
                       {
-                        routeData.subOrder.map((order,index,key)=>{
+                        getByGSO&&getByGSO.map((order,index,key)=>{
                           return<>
                             <tr key={key}>
                               <td>{index+1}</td>
@@ -114,7 +166,9 @@ const GSIssuance = () => {
                 </div>
               </div>
             </div>
-          </div>
+        </div>
+          :''
+        }
         </div>
 
         <div className="row showStoneProperties">                       
@@ -233,123 +287,6 @@ const GSIssuance = () => {
           }
       </>  
     )
-//   return (
-//     <>
-//         <h1>GSI</h1>
-//         <div className='row'>
-//         <div className="col-md-12 grid-margin stretch-card">
-//              <div className="card">
-//               <div className="card-body">
-//                     <form className="forms-sample">
-//                       <div className='row'>
-//                         <div className="col-md-4">
-//                              <h4  className='card-title'>Material  <button style={{marginLeft:"25px"}} type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">add +</button></h4>
-//                         </div>
-                       
-//                         <div className="col-md-4">
-//                             <Form.Group className="row">
-//                                 <label  htmlFor="goldQuantity" className="col-sm-4 col-form-label">GSO Number </label>
-//                                 <div className="col-sm-8">
-//                                 <select className="form-control"    id="stoneBrand">
-//                                     <option  value=""> Select</option>
-//                                     <option value="GSO NUMBER">GSO NUMBER</option>
-//                                     <option value="GSO NUMBER">GSO NUMBER</option>
-//                                     <option value="GSO NUMBER">GSO NUMBER</option>
-//                                 </select>
-//                                 </div>
-//                             </Form.Group>
-//                         </div>
-
-//                      </div> 
-//                       <div className='row'>
-//                         <div className="col-md-4">
-//                             <Form.Group className="row">
-//                                 <label  htmlFor="materialName" className="col-sm-4 col-form-label">Name</label>
-//                                 <div className="col-sm-8">
-//                                 <Form.Control  type="text"   name='materialName'  className="form-control" id="materialName" placeholder="Material Name" />
-//                                 </div>
-//                             </Form.Group>
-//                         </div>
-//                         {/* <div className="col-md-4">
-//                         <Form.Group className="row">
-//                             <label  htmlFor="materialType" className="col-sm-4 col-form-label"> Type</label>
-//                             <div className="col-sm-8">
-//                             <Form.Control  type="text"  name='materialType'  className="form-control" id="materialType" placeholder="Material Type" />
-//                             </div>
-//                         </Form.Group>
-//                         </div> */}
-//                         <div className="col-md-4">
-//                         <Form.Group className="row">
-//                             <label  htmlFor="materialQty" className="col-sm-4 col-form-label">Quantity </label>
-//                             <div className="col-sm-8">
-//                             <Form.Control  type="text"  name='materialQty'  className="form-control" id="materialQty" placeholder="Material Quantity" />
-//                             </div>
-//                         </Form.Group>
-//                         </div>
-
-//                      </div> 
-
-//                      {/* <span className="menu-icon">  <h4 className="card-title">Components <i className="mdi mdi-plus"></i></h4></span> */}
-                               
-//                      <h4 style={{marginTop:"45px"}}  className='card-title'>components  <button style={{marginLeft:"15px"}}  type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">add +</button></h4>
-
-//                       <div className='row'>
-                        
-//                         <div className="col-md-4">
-//                             <Form.Group className="row">
-//                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> </label>
-//                                 <div className="col-sm-8">
-//                                 <select className="form-control"    id="stoneBrand">
-//                                     <option  value=""> Select</option>
-//                                     <option value="Component_1">Component_1</option>
-//                                     <option value="Component_2">Component_2</option>
-//                                     <option value="Component_3">Component_3</option>
-//                                 </select>
-//                                 </div>
-//                             </Form.Group>
-//                         </div>
-                        
-//                         <div className="col-md-4">
-//                             <Form.Group className="row">
-//                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> </label>
-//                                 <div className="col-sm-8">
-//                                 <select className="form-control"    id="stoneBrand">
-//                                     <option  value=""> Select</option>
-//                                     <option value="Component_1">Component_1</option>
-//                                     <option value="Component_2">Component_2</option>
-//                                     <option value="Component_3">Component_3</option>
-//                                 </select>
-//                                 </div>
-//                             </Form.Group>
-//                         </div>
-                        
-//                         <div className="col-md-4">
-//                             <Form.Group className="row">
-//                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> </label>
-//                                 <div className="col-sm-8">
-//                                 <select className="form-control"    id="stoneBrand">
-//                                     <option  value=""> Select</option>
-//                                     <option value="Component_1">Component_1</option>
-//                                     <option value="Component_2">Component_2</option>
-//                                     <option value="Component_3">Component_3</option>
-//                                 </select>
-//                                 </div>
-//                             </Form.Group>
-//                         </div>
-//                         <div className="col-md-6">
-//                             {/* <div className='col'>
-//                                 <button type="submit" onClick={e=>e.preventDefault()} className="btn btn-primary mr-4">Save</button>
-//                             </div> */}
-//                         </div>
-//                       </div> 
-//                    </form>
-//                 </div>
-//                 </div>
-//             </div>  
-
-//         </div>
-//     </>
-//   )
 }
 
-export default GSIssuance
+export default ManualGSI

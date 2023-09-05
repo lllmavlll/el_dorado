@@ -163,9 +163,9 @@ class Sidebar extends Component {
             <Collapse in={ this.state.goldSmithMenuOpen }>
               <div>
                 <ul className="nav flex-column sub-menu">
-                  <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/order') ? 'nav-link active' : 'nav-link' } to="/gold-smith/order"><Trans>GS Order</Trans></Link></li>
+                  <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/manual-order') ? 'nav-link active' : 'nav-link' } to="/gold-smith/manual-order"><Trans>GS Order</Trans></Link></li>
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/GSOrder-view') ? 'nav-link active' : 'nav-link' } to="/gold-smith/GSOrder-view"><Trans>GS Order View</Trans></Link></li>
-                  <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/issuance') ? 'nav-link active' : 'nav-link' } to="/gold-smith/issuance"><Trans>GS Issuance</Trans></Link></li>
+                  <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/manual-issuance') ? 'nav-link active' : 'nav-link' } to="/gold-smith/manual-issuance"><Trans>GS Issuance</Trans></Link></li>
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/issuance-view') ? 'nav-link active' : 'nav-link' } to="/gold-smith/issuance-view"><Trans>GS Issuance view</Trans></Link></li>
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/receive') ? 'nav-link active' : 'nav-link' } to="/gold-smith/receive"><Trans>GS Receive</Trans></Link></li>
                   <li className="nav-item"> <Link className={ this.isPathActive('/gold-smith/testing') ? 'nav-link active' : 'nav-link' } to="/gold-smith/testing"><Trans>Testing</Trans></Link></li>

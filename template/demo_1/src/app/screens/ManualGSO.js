@@ -5,10 +5,17 @@ import  { Form} from 'react-bootstrap'
 
 const ManualGSO = () => {
 
+    const [ subOrderTable, setSubOrderTable ] = useState(false)
+    const [ Suborder, setSuborder ] = useState([])
     const [dataByOrNo, setDataByOrNo] = useState([])
+    const [ specificIname, setSpecificIname ]= useState([])
     const [isOrdertable, setIsTable] =useState(false)
     const [inputValue,setInputValue] = useState({
         orderNo:'',
+        allocdQty:'',
+        QtyToBeAllocd:'',
+        allocdWt:'',
+        WtToBeAllocd:'',
       })
 
       const handleInputChange = (event) => {
@@ -31,6 +38,7 @@ const ManualGSO = () => {
         setDataByOrNo(data)
         if(data){
             setIsTable(true)
+            setInputValue({ orderNo:'',})
         }else{
             alert('Enter A valid Order Number')
             setInputValue({ orderNo:'',})
@@ -41,14 +49,14 @@ const ManualGSO = () => {
     })
   
    }
-   const getByOrderNO =(OrderNo,orderRefNo,itemIndex)=>{
+   const getByOrderNO =(orderRefNo,itemIndex)=>{
   
     
     //===============  fetch for global order ======//
     fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${itemIndex}`)
     .then(response => response.json())
     .then(data =>{
-    //   setSpecificIname(data)
+      setSpecificIname(data)
     })
     .catch(err=> console.log(err))
     // setIsFetching(true)
@@ -56,17 +64,42 @@ const ManualGSO = () => {
 
    const handleSubOrder =(e)=>{
     e.preventDefault()
-    // setSubOrderTable(true)
+    setSubOrderTable(true)
     const newGSSO ={
-      OrderNo:inputValue.OrderNo,
-      orderRefNo:inputValue.orderRefNo,
-      ItemName:inputValue.finalIname,
-      availQuantity:inputValue.availQuantity,
+      OrderNo:specificIname.OrderNo,
+      orderRefNo:specificIname.orderRefNo,
+      ItemName:specificIname.finalIname,
+      availQuantity:specificIname.availQuantity,
       allocdWt:inputValue.allocdWt,
       allocdQty:inputValue.allocdQty,
       pendingQuantity:inputValue.QtyToBeAllocd,
     }
-    // setSuborder([...Suborder,newGSSO])
+    setSuborder([...Suborder,newGSSO])
+
+  }
+
+  const pushToDB= async(e)=>{
+    e.preventDefault()
+    console.log(inputValue)
+
+    // for backend
+
+    // const { GSName } = inputValue
+    // const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
+    //   method:'POST',
+    //   headers:{
+    //     "content-type":"application/json"
+    //   },
+    //   body:JSON.stringify({
+    //     GSName, subOrder:Suborder
+    //   })
+    // })
+    
+    // const data = await res.json();
+    // if(data){
+    //   window.location.reload();
+    // }
+    // alert('GSO Created Sucessfully!')
 
   }
 
@@ -99,6 +132,10 @@ const ManualGSO = () => {
         (<div className="col-md-12 grid-margin stretch-card">
               <div className="card">
                 <div className="card-body">
+                    <h4>Order Number <span className='text-primary'>{dataByOrNo.OrderNo}</span></h4>
+                    <br/>
+                    <h5>CUstomer Name <span className='text-primary'>{dataByOrNo.customerName}</span></h5>
+                    <br/>
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>
@@ -144,7 +181,7 @@ const ManualGSO = () => {
                           dataByOrNo&&dataByOrNo.lineItem.map((lineItem, index)=>{
                             return<tr>
                               <td>{index+1}</td>
-                              <td><button className='btn btn-outline-primary mr-4'>get</button></td>
+                              <td><button className='btn btn-outline-primary mr-4' onClick={()=>{getByOrderNO(lineItem.orderRefNo,lineItem.itemIndex)}}>get</button></td>
                               <td>{lineItem.OrderNo}</td>
                               <td>{lineItem.orderRefNo}</td>
                               <td>{lineItem.placedOrderDate}</td>
@@ -199,7 +236,7 @@ const ManualGSO = () => {
                           <Form.Group className="row">
                             <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                             <div className="col-sm-8">
-                              <Form.Control required  type="text"  name='orderNO' value={inputValue.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                              <Form.Control required  type="text"  name='orderNO' value={specificIname.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
                             </div>
                           </Form.Group>
                         </div>
@@ -207,7 +244,7 @@ const ManualGSO = () => {
                           <Form.Group className="row">
                             <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                             <div className="col-sm-8">
-                                <Form.Control required  type="text"  name='itemName' value={inputValue.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
+                                <Form.Control required  type="text"  name='itemName' value={specificIname.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
                             </div>
                           </Form.Group>
                         </div>
@@ -225,7 +262,7 @@ const ManualGSO = () => {
                         <Form.Group className="row">
                             <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Available Quantity</label>
                             <div className="col-sm-8">
-                            <Form.Control required  type="text"  name='OrderedQty' value={inputValue.availQuantity} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Available Quantity" />
+                            <Form.Control required  type="text"  name='OrderedQty' value={specificIname.availQuantity} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Available Quantity" />
                             </div>
                         </Form.Group>
                         </div>
@@ -276,6 +313,61 @@ const ManualGSO = () => {
                 </div>
                 </div>
             </div>
+
+            {
+              subOrderTable? 
+              <div className="col-lg-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">Gold Smith Sub Orders</h4>
+                <h5 className="card-title">Gold Smith Name: <span className='text-warning'>{inputValue.GSName}</span></h5>
+                <div className="table-responsive OFtable-res">
+                  <table className="table table-bordered OFtable">
+                    <thead>
+                      <tr>
+                        <th> SL No. </th>
+                        <th> Order No </th>
+                        <th> Item Name </th>
+                        <th> Item Quantity </th>
+                        <th> Allocated Quantity </th>
+                        <th> Allocated weight </th>
+                        <th> Pending Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {
+                      Suborder.map((result,index)=>{
+                        return<tr>
+                          <td>{index+1}</td>
+                          <td>{result.orderRefNo}</td>
+                          <td>{result.ItemName}</td>
+                          <td>{result.availQuantity}</td>
+                          <td>{result.allocdQty}</td>
+                          <td>{result.allocdWt}</td>
+                          <td>{result.pendingQuantity}</td>
+                        </tr>
+                      })
+                    }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+              :""
+            }
+
+            <div className="col-md-12 grid-margin">
+             <div className="card">
+              <div className="card-body">
+                <div className='row'>
+                  <div className="col-md-3">
+                    <button type="submit" onClick={pushToDB} className="btn btn-primary mr-4">Create Gold Smith Order</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </>
   )
 }

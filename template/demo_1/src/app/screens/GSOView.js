@@ -15,6 +15,10 @@ const OrderFormViews = () => {
 const reRouteFunc=(GSOno)=>{
   fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/`+GSOno)
   .then(response => response.json())
+  .then(data=>{
+    console.log(data);
+    return data
+  })
   .then(data =>{
     // setOrderNo()
         // navigate.push('/gold-smith/order',{state:{OrderNo:orno,...data}})
