@@ -1,128 +1,104 @@
-import React, { useEffect, useState } from 'react'
-import  { Form} from 'react-bootstrap'
-import { useLocation } from "react-router-dom";
+import React, { useState } from 'react'
 import './CustomCssFile.css'
+import  { Form} from 'react-bootstrap'
 
 
-const GSOrder = () => {
-  // const[orderFormData,setOrderFormData] = useState([])
-  // const[itemQty,setItemQty] = useState([])
-  // const[lineItemDD,setLineItemDD] = useState([])
-  const [ getByOrderNo, setGetByOrderNo ]= useState([])
-  const [ specificIname, setSpecificIname ]= useState([])
-  const [ isOpen, setIsOpen ] = useState(true)
-  const [ subOrderTable, setSubOrderTable ] = useState(false)
-  const [ Suborder, setSuborder ] = useState([])
-  const [ inputValue, setInputValue ] = useState({
-    GSOrderNo:'',
-    OrderNo:'',
-    GSName:'',
-    ItemName:'',
-    OrderedQty:'',
-    allocdQty:'',
-    QtyToBeAllocd:'',
-    allocdWt:'',
-    WtToBeAllocd:'',  
-  })
+const ManualGSO = () => {
 
-    //=============|| useLocation ||===================//
+    const [dataByOrNo, setDataByOrNo] = useState([])
+    const [isOrdertable, setIsTable] =useState(false)
+    const [inputValue,setInputValue] = useState({
+        orderNo:'',
+      })
 
-    const location = useLocation()
-    const data = location.state.state
-    
-    //=============|| inputHandler ||===================//
+      const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        // setClearInput(event.target.value)
+        setInputValue({
+          ...inputValue, 
+          [name]: value,
+        });
+      
+      };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputValue({
-      ...inputValue, 
-      [name]: value,
-    });
-  };
-
-  //======== for updating item quantity By order number =====//
-  
-  const getByOrderNO =(OrderNo,orderRefNo,itemIndex)=>{
-    console.log(OrderNo,orderRefNo,itemIndex)
-    //===============  fetch for global order ======//
-    fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${OrderNo}`)
+      
+ const getByOrderNo = (e)=>{
+    e.preventDefault()
+    // setDataByOrNo([])
+    fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${inputValue.orderNo}`)
     .then(response => response.json())
     .then(data =>{
-      setGetByOrderNo(data)
+        setDataByOrNo(data)
+        if(data){
+            setIsTable(true)
+        }else{
+            alert('Enter A valid Order Number')
+            setInputValue({ orderNo:'',})
+        }
+     })
+    .catch((err)=>{ 
+      console.log(err)
     })
-    .catch(err=> console.log(err))
+  
+   }
+   const getByOrderNO =(OrderNo,orderRefNo,itemIndex)=>{
+  
     
     //===============  fetch for global order ======//
     fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${itemIndex}`)
     .then(response => response.json())
     .then(data =>{
-      setSpecificIname(data)
-      console.log(specificIname)
+    //   setSpecificIname(data)
     })
     .catch(err=> console.log(err))
     // setIsFetching(true)
   }
 
-  //======== for sub order table =====//
-  const handleSubOrder =(e)=>{
+   const handleSubOrder =(e)=>{
     e.preventDefault()
-    setSubOrderTable(true)
+    // setSubOrderTable(true)
     const newGSSO ={
-      OrderNo:specificIname.OrderNo,
-      orderRefNo:specificIname.orderRefNo,
-      ItemName:specificIname.finalIname,
-      availQuantity:specificIname.availQuantity,
+      OrderNo:inputValue.OrderNo,
+      orderRefNo:inputValue.orderRefNo,
+      ItemName:inputValue.finalIname,
+      availQuantity:inputValue.availQuantity,
       allocdWt:inputValue.allocdWt,
       allocdQty:inputValue.allocdQty,
       pendingQuantity:inputValue.QtyToBeAllocd,
     }
-    setSuborder([...Suborder,newGSSO])
+    // setSuborder([...Suborder,newGSSO])
 
   }
-  const pushToDB= async(e)=>{
-    e.preventDefault()
-    console.log(inputValue)
-
-    // for backend
-
-    const { GSName } = inputValue
-    const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        GSName, subOrder:Suborder
-      })
-    })
-    
-    const data = await res.json();
-    if(data){
-      window.location.reload();
-    }
-    alert('GSO Created Sucessfully!')
-
-  }
-  useEffect(()=>{
-    if(location.state.state){
-      setIsOpen(false)
-    }
-  },[])
 
   return (
     <>
-    {
-      // location&&location.state===undefined?(
-        isOpen?(
-        <div>
-          <p>manual open</p>
-        </div>
-      ):(<div className='row'>
-          <div className="col-lg-12 grid-margin stretch-card">
+        <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                {/* <h5 className="card-title">Order Number: <span className=''>{data.OrderNo}</span></h5>
-                <p className="card-description">Customer Name <span className='text-danger'>{data.customerName}</span></p> */}
+              <h4 className="card-title">Search for Orders</h4>
+                <form className='forms-sample'>
+                    <div className='row'>
+                        <div className='col-md-5'>
+                        <Form.Group>
+                            <div className="input-group">
+                                <Form.Control autoComplete='off' type="text" value={inputValue.orderNo} onChange={handleInputChange} name='orderNo' className="form-control" placeholder="Search by Order Number"/>
+                                <div className="input-group-append">
+                                    <button className="btn btn-sm btn-primary" onClick={getByOrderNo}>Search</button>
+                                </div>
+                            </div>
+                        </Form.Group>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>  
+        {
+            isOrdertable?
+        
+        (<div className="col-md-12 grid-margin stretch-card">
+              <div className="card">
+                <div className="card-body">
                 <div className="table-responsive OFtable-res ">
                   <table className="table table-bordered OFtable ">
                     <thead>
@@ -165,10 +141,10 @@ const GSOrder = () => {
                     </thead>
                       <tbody>
                         {
-                          data.map((lineItem, index)=>{
+                          dataByOrNo&&dataByOrNo.lineItem.map((lineItem, index)=>{
                             return<tr>
                               <td>{index+1}</td>
-                              <td><button className='btn btn-outline-primary mr-4' onClick={()=>{getByOrderNO(lineItem.OrderNo,lineItem.orderRefNo,lineItem.itemIndex)}}>get</button></td>
+                              <td><button className='btn btn-outline-primary mr-4'>get</button></td>
                               <td>{lineItem.OrderNo}</td>
                               <td>{lineItem.orderRefNo}</td>
                               <td>{lineItem.placedOrderDate}</td>
@@ -208,10 +184,12 @@ const GSOrder = () => {
                     </table>
                   </div>
                 </div>
-              </div>
             </div>
-            
-            <div className="col-md-12 grid-margin stretch-card">
+        </div>)
+        :''
+        }
+
+        <div className="col-md-12 grid-margin stretch-card">
               <div className="card">
                 <div className="card-body">
                   <h4 className="card-title">Gold Smith Order</h4>
@@ -221,7 +199,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                             <div className="col-sm-8">
-                              <Form.Control required  type="text"  name='orderNO' value={specificIname.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                              <Form.Control required  type="text"  name='orderNO' value={inputValue.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
                             </div>
                           </Form.Group>
                         </div>
@@ -229,15 +207,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                             <div className="col-sm-8">
-                            <Form.Control required  type="text"  name='itemName' value={specificIname.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
-                              {/* <select className="form-control" name='ItemName' value={specificIname.ItemName} onChange={handleInputChange}  id="itemName">
-                                <option value=''>select</option>
-                                {
-                                  data.map((list)=>{
-                                    return <option key={list.finalIname} value={list.finalIname}>{list.finalIname}</option>
-                                  })
-                                }
-                              </select> */}
+                                <Form.Control required  type="text"  name='itemName' value={inputValue.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
                             </div>
                           </Form.Group>
                         </div>
@@ -255,7 +225,7 @@ const GSOrder = () => {
                         <Form.Group className="row">
                             <label  htmlFor="orderQuantity" className="col-sm-4 col-form-label">Available Quantity</label>
                             <div className="col-sm-8">
-                            <Form.Control required  type="text"  name='OrderedQty' value={specificIname.availQuantity} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Available Quantity" />
+                            <Form.Control required  type="text"  name='OrderedQty' value={inputValue.availQuantity} onChange={handleInputChange} className="form-control" id="orderQuantity" placeholder="Available Quantity" />
                             </div>
                         </Form.Group>
                         </div>
@@ -306,78 +276,8 @@ const GSOrder = () => {
                 </div>
                 </div>
             </div>
-            {/* table */}
-            {
-              subOrderTable? 
-              <div className="col-lg-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Gold Smith Sub Orders</h4>
-                <h5 className="card-title">Gold Smith Name: <span className='text-warning'>{inputValue.GSName}</span></h5>
-                <div className="table-responsive OFtable-res">
-                  <table className="table table-bordered OFtable">
-                    <thead>
-                      <tr>
-                        <th> SL No. </th>
-                        <th> Order No </th>
-                        <th> Item Name </th>
-                        <th> Item Quantity </th>
-                        <th> Allocated Quantity </th>
-                        <th> Allocated weight </th>
-                        <th> Pending Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {
-                      Suborder.map((result,index)=>{
-                        return<tr>
-                          <td>{index+1}</td>
-                          <td>{result.orderRefNo}</td>
-                          <td>{result.ItemName}</td>
-                          <td>{result.availQuantity}</td>
-                          <td>{result.allocdQty}</td>
-                          <td>{result.allocdWt}</td>
-                          <td>{result.pendingQuantity}</td>
-                        </tr>
-                      })
-                    }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-              :""
-            }
-          
-          <div className="col-md-12 grid-margin">
-             <div className="card">
-              <div className="card-body">
-                <div className='row'>
-                  <div className="col-md-3">
-                    <button type="submit" onClick={pushToDB} className="btn btn-primary mr-4">Create Gold Smith Order</button>
-                  </div>
-                  {/* <div className="col-md-9">
-                    <Form.Group className="row">
-                      <label  htmlFor="GSONoGen" className="col-sm-3 col-form-label">GSO Number Generated </label>
-                      <div className="col-sm-9">
-                        <Form.Control required  type="text"  name='GSOrderNo' value={inputValue.GSOrderNo} onChange={handleInputChange} className="form-control" id="GSONoGen" placeholder="GSO Number Generated" />
-                      </div>
-                    </Form.Group>
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>)
-        // (
-        //   <div>
-        //      from COFview  use
-        //   </div>
-        // )
-                }
-      </>
+    </>
   )
 }
 
-export default GSOrder
+export default ManualGSO

@@ -37,6 +37,7 @@ const OrderForm = lazy(() => import('./form-elements/BasicElements'));
 
 const GSreceive  = lazy(()=> import('./screens/GSreceive'))
 const GSOrder  = lazy(()=> import('./screens/GSOrder'))
+const manualGSO  = lazy(()=> import('./screens/ManualGSO'))
 const GSIssuance  = lazy(()=> import('./screens/GSIssuance'))
 const GSTesting  = lazy(()=> import('./screens/GSTesting'))
 
@@ -56,6 +57,7 @@ class AppRoutes extends Component {
 
           <Route path="/gold-smith/receive" component={ GSreceive } />
           <Route path="/gold-smith/order" component={ GSOrder } />
+          <Route path="/gold-smith/manual-order" component={ manualGSO } />
           <Route path="/gold-smith/GSOrder-view" component={ GSOView } />
           <Route path="/gold-smith/issuance-view" component={ GSIView } />
           <Route path="/gold-smith/issuance" component={ GSIssuance } />

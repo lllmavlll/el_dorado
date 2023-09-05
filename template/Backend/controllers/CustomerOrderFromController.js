@@ -66,13 +66,13 @@ const getAllOrders = async (req, res) => {
 const getIQ = async (req, res) => {
 
     const OrderNo = req.params.OrderNo
-
     try {
-        const data = await CustOrdModel.findOne({ OrderNo: OrderNo })
-        res.json({ key: data.lineItem });
-    }
-    catch (error) {
-        console.error('Error finding product by FinalIname:', error);
+        // const data = await CustOrdModel.find({ OrderNo: OrderNo })
+        const data = await CustOrdModel.find().where('OrderNo').equals(OrderNo)
+        res.json(data.lineItem);
+    } catch (error) {
+        console.error('Error fetching Order Forms:', error);
+        res.status(500).json({ error: 'Failed to fetch Order Forms' });
     }
 }
 const GetOrderNo =async (req, res) => {
@@ -83,7 +83,7 @@ const GetOrderNo =async (req, res) => {
         const data = await CustOrdModel.findOne({ OrderNo: OrderNo })
         // res.json({ key: data.lineItem[1].itemQuantity });
         //res.json({ key: data.lineItem });
-        res.json({ data });
+        res.json( data );
     }
     catch (error) {
         console.error('Error finding product by FinalIname:', error);
