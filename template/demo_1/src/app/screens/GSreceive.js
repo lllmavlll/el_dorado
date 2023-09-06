@@ -26,10 +26,10 @@ const GSreceive = () => {
                     <label htmlFor="GSName" className="col-sm-5 col-form-label" >Goldsmith Name</label>
                     <div className="col-sm-7">
                     <select className="form-control"  value={inputValue.GSName}   onChange={handleInputChange} name='GSName' id="GSName">
-                      <option  value=""> </option>
-                      <option  value="Otion1">Otion1 </option>
-                      <option  value="Otion2">Otion2 </option>
-                      <option  value="Otion3">Otion3 </option>
+                      <option value="">Select </option>
+                      <option value="Otion1">Otion1 </option>
+                      <option value="Otion2">Otion2 </option>
+                      <option value="Otion3">Otion3 </option>
                     </select>
                     {/* <Form.Control type="text"  value={inputValue.GSName} name='GSName' onChange={handleInputChange} className="form-control" id="GSName" placeholder='Goldsmith Name' /> */}
                     </div>
@@ -45,10 +45,10 @@ const GSreceive = () => {
                     <label htmlFor="RecNo" className="col-sm-5 col-form-label" >Receipt Number</label>
                     <div className="col-sm-7">
                     <select className="form-control"  value={inputValue.RecNo}   onChange={handleInputChange} name='RecNo' id="RecNo">
-                      <option  value="NEW"> NEW</option>
-                      <option  value="Otion1">Otion1 </option>
-                      <option  value="Otion2">Otion2 </option>
-                      <option  value="Otion3">Otion3 </option>
+                      <option value="NEW"> NEW</option>
+                      <option value="Otion1">Otion1 </option>
+                      <option value="Otion2">Otion2 </option>
+                      <option value="Otion3">Otion3 </option>
                     </select>
                     {/* <Form.Control type="text"  value={inputValue.RecNo} name='RecNo' onChange={handleInputChange} className="form-control" id="RecNo" placeholder='Rec Number' /> */}
                     </div>
@@ -63,10 +63,10 @@ const GSreceive = () => {
                     <label htmlFor="PKTNo" className="col-sm-5 col-form-label">PKT Number</label>
                     <div className="col-sm-7">
                     <select className="form-control"  value={inputValue.PKTNo}   onChange={handleInputChange} name='PKTNo' id="PKTNo">
-                      <option  value=""> Select</option>
-                      <option  value="Otion1">Otion1 </option>
-                      <option  value="Otion2">Otion2 </option>
-                      <option  value="Otion3">Otion3 </option>
+                      <option value=""> Select</option>
+                      <option value="Otion1">Otion1 </option>
+                      <option value="Otion2">Otion2 </option>
+                      <option value="Otion3">Otion3 </option>
                     </select>
                     </div>
                   </Form.Group>
@@ -127,10 +127,10 @@ const GSreceive = () => {
                         <label  htmlFor="product" className="col-sm-4 col-form-label">Product</label>
                         <div className="col-sm-8">
                         <select className="form-control"  value={inputValue.product}   onChange={handleInputChange} name='product' id="product">
-                          <option  value=""> </option>
-                          <option  value="Otion1">Otion1 </option>
-                          <option  value="Otion2">Otion2 </option>
-                          <option  value="Otion3">Otion3 </option>
+                          <option value="">Select </option>
+                          <option value="Otion1">Otion1 </option>
+                          <option value="Otion2">Otion2 </option>
+                          <option value="Otion3">Otion3 </option>
                         </select>
                         {/* <Form.Control  type="text"  value={inputValue.product} name='product'  onChange={handleInputChange}  className="form-control" id="product" placeholder="Product" /> */}
                         </div>
@@ -179,10 +179,10 @@ const GSreceive = () => {
                         <label  htmlFor="OldNos" className="col-sm-4 col-form-label">Old Nos</label>
                         <div className="col-sm-8">
                         <select className="form-control"  value={inputValue.OldNos}   onChange={handleInputChange} name='OldNos' id="OldNos">
-                          <option  value=""> </option>
-                          <option  value="Otion1">Otion1 </option>
-                          <option  value="Otion2">Otion2 </option>
-                          <option  value="Otion3">Otion3 </option>
+                          <option value="">Select </option>
+                          <option value="Otion1">Otion1 </option>
+                          <option value="Otion2">Otion2 </option>
+                          <option value="Otion3">Otion3 </option>
                         </select>
                         {/* <Form.Control  type="text"  value={inputValue.OldNos} name='OldNos' onChange={handleInputChange}  className="form-control" id="OldNos" placeholder="Old Nos" /> */}
                         </div>
@@ -242,10 +242,10 @@ const GSreceive = () => {
                         <label  htmlFor="meruguType" className="col-sm-4 col-form-label">Merugu type</label>
                         <div className="col-sm-8">
                         <select className="form-control"  value={inputValue.meruguType}   onChange={handleInputChange} name='meruguType' id="meruguType">
-                          <option  value=""> </option>
-                          <option  value="Otion1">Otion1 </option>
-                          <option  value="Otion2">Otion2 </option>
-                          <option  value="Otion3">Otion3 </option>
+                          <option value="">Select </option>
+                          <option value="Otion1">Otion1 </option>
+                          <option value="Otion2">Otion2 </option>
+                          <option value="Otion3">Otion3 </option>
                         </select>
                         </div>
                       </Form.Group>

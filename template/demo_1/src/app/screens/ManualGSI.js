@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import  { Form } from 'react-bootstrap'
+import './CustomCssFile.css'
+
 
 
 const ManualGSI = () => {
@@ -26,22 +28,17 @@ const ManualGSI = () => {
           ...inputValue, 
           [name]: value,
         });
-        console.log(inputValue);
     };
 
   //==============|| to fetch based on GSO no ||=============//
   const getGSO=(e)=>{
-      alert("clicked");
     e.preventDefault()
     console.log(inputValue.GSONo);
     fetch(`http://localhost:4000/GSO/GetSpecificGSOrder/${inputValue.GSONo}`)
     .then(response => response.json())
     .then(data =>{
-      console.log(data);
-      return data
-    })
-    .then(data =>{
         setGetByGSO(data)
+        console.log(getByGSO);
         if(data){
             setGsoTable(true)
             setInputValue({ GSONo:'',})
@@ -71,8 +68,16 @@ const addComp = (e)=>{
 
     const pushToDB = async(e)=>{
         e.preventDefault()
+        const {pureGoldValueQnty, pureGoldValueAmt} =inputValue
+        console.log({
+          GSOrderNo:getByGSO.GSOrderNo,
+          GSName:getByGSO.GSName,
+          pureGoldValueQnty,
+          pureGoldValueAmt,
+          components:compList
+        });
     
-        //========= || Push the Data to DB || ===========//
+        // ========= || Push the Data to DB || ===========//
     
         // const {pureGoldValueQnty, pureGoldValueAmt} =inputValue
     
@@ -82,8 +87,8 @@ const addComp = (e)=>{
         //     "content-type":"application/json"
         //   },
         //   body:JSON.stringify({
-        //     GSOrderNo:routeData.GSOrderNo,
-        //     GSName:routeData.GSName,
+        //     GSOrderNo:getByGSO.GSOrderNo,
+        //     GSName:getByGSO.GSName,
         //     pureGoldValueQnty,
         //     pureGoldValueAmt,
         //     components:compList
@@ -147,7 +152,7 @@ const addComp = (e)=>{
                     </thead>
                     <tbody>
                       {
-                        getByGSO&&getByGSO.map((order,index,key)=>{
+                        getByGSO&&getByGSO.subOrder.map((order,index,key)=>{
                           return<>
                             <tr key={key}>
                               <td>{index+1}</td>
