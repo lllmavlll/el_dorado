@@ -4,10 +4,12 @@ import './CustomCssFile.css'
 
 const NewOrderFormView = () => {
 
-    const [Oview,setOview] =useState([])
+    const [orderFOrmData,setOrderFormData] =useState([])
     const [lineItems,setLineItems] =useState([])
+    const [lineItemList,setLineItemList] = useState([])
 
-    // const uniqueArr = [...new Set(Oview)];
+
+    // const uniqueArr = [...new Set(orderFOrmData)];
 
 
     // const [unicArray,setUnicArray] =useState([])
@@ -20,12 +22,33 @@ const NewOrderFormView = () => {
   //=============|| to get multiple element once ||==================//
   
   const uniqueObjectMap = new Map();
-  for (const obj of Oview) {
+  for (const obj of orderFOrmData) {
     uniqueObjectMap.set(obj.orderNo, obj);
   }
   const uniqueObjects = Array.from(uniqueObjectMap.values());
   
   //=============|| to get lineItems based on the matched OrderNo||==================//
+
+  const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
+    console.log(orderRefNo,orIndex);
+    fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data);
+      return data
+    }) 
+    .then(data=>{
+      if (lineItemList.find(item => item.orderRefNo === data.orderRefNo)) {
+        setLineItemList(lineItemList.filter(item => item.orderRefNo !== data.orderRefNo));
+      } else {
+        setLineItemList([...lineItemList,data])
+        console.log(lineItemList);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+  }
 
     useEffect(()=>{
     fetch('http://localhost:4000/CustomerOrderForm/getAllFromNew')
@@ -35,9 +58,10 @@ const NewOrderFormView = () => {
         return data
         })
         .then(data =>{
-            setOview(data)
+            setOrderFormData(data)
         })
     .catch(err=> console.log(err))
+    
     
     
 
@@ -76,20 +100,92 @@ const NewOrderFormView = () => {
                                       <table className="table table-bordered OFtable ">
                                         <thead>
                                           <tr>
-                                            <th> Sl.No</th>
-                                            <th>Sub Order No</th>
-                                            <th>Item Name </th>
-                                            <th>Available Quantity </th>
-                                            <th>Allocated Quantity </th>
-                                            <th>Pending Quantity </th>
-                                            <th>Allocated Weight </th>
+                                            <th>Select</th>
+                                            <th>SL.No</th>
+                                            <th>Order Ref No</th>
+                                            <th>Final Iname</th>
+                                            <th>Item Quantity</th>
+                                            <th>Available Quantity</th>
+                                            <th>Placed Order Date</th>
+                                            <th>required Date</th>
+                                            <th>Cust order Touch</th>
+                                            <th>Target Touch</th>
+                                            <th>seal</th>
+                                            <th>Quality series</th>
+                                            <th>Sale Name</th>
+                                            <th>Item Stage</th>
+                                            <th>No. Of Design</th>
+                                            <th>Quantity/Design</th>
+                                            <th>Unit Weight UL</th>
+                                            <th>Unit Weight LL</th>
+                                            <th>Estimated Weight</th>
+                                            <th>Screw Make</th>
+                                            <th>Screw Size</th>
+                                            <th>Cutting Type</th>
+                                            <th>Cutting Design</th>
+                                            <th>Stone Brand</th>
+                                            <th>Polish Type</th>
+                                            <th>Dimmy Col Type</th>
+                                            <th>SILSUR color Type</th>
+                                            <th>Surface Finish</th>
+                                            <th>Coat</th>
+                                            <th>Card Type</th>
+                                            <th>Card Fittin Plan</th>
+                                            <th>Stone Setting Type</th>
+                                            <th>Remarks</th>
                                           </tr>
                                         </thead>
                                         <tbody>
                                          {
-                                          uniqueObjects.filter(item=>item.orderNo===orderArray.orderNo)
-                                          .map((list)=>{
-                                            console.log(list);
+                                          orderFOrmData.filter(item=>item.orderNo === orderArray.orderNo)
+                                          .map((list,index,key)=>{
+                                            return<>
+                                              <tr key={key}>
+                                                <td>
+                                                  <div className="form-check form-check-muted m-0">
+                                                    <label className="form-check-label">
+                                                      <input type="checkbox" 
+                                                      className="form-check-input" 
+                                                      onChange={()=>{reRouteViaCheckBox(list.orderRefNo,list.itemIndex)}}
+                                                      />
+                                                      <i className="input-helper"></i>
+                                                    </label>
+                                                  </div>
+                                                </td>
+                                                <td>{index+1}</td>
+                                                <td>{list.orderRefNo}</td>
+                                                <td>{list.finalIname}</td>
+                                                <td>{list.itemQuantity}</td>
+                                                <td className='text-success'>{list.availQuantity}</td>
+                                                <td>{list.placedOrderDate}</td>
+                                                <td>{list.requiredDate}</td>
+                                                <td>{list.customerOrderTouch}</td>
+                                                <td>{list.targetTouch}</td>
+                                                <td>{list.seal}</td>
+                                                <td>{list.qualitySeries}</td>
+                                                <td>{list.saleName}</td>
+                                                <td>{list.itemStage}</td>
+                                                <td>{list.noOfDesign}</td>
+                                                <td>{list.QuantityPerDesign}</td>
+                                                <td>{list.unitWT_UL}</td>
+                                                <td>{list.unitWT_LL}</td>
+                                                <td>{list.estimatedWeight}</td>
+                                                <td>{list.ScrewMake}</td>
+                                                <td>{list.screwSize}</td>
+                                                <td>{list.cuttingType}</td>
+                                                <td>{list.cuttingDesign}</td>
+                                                <td>{list.stoneBrand}</td>
+                                                <td>{list.polishType}</td>
+                                                <td>{list.dimmyColType}</td>
+                                                <td>{list.SILSURColouringType}</td>
+                                                <td>{list.surfaceFinish}</td>
+                                                <td>{list.Coat}</td>
+                                                <td>{list.cardType}</td>
+                                                <td>{list.cfPlan}</td>
+                                                <td>{list.stoneSettingType}</td>
+                                                <td>{list.remarks}</td>
+                                              </tr>
+                                            </>
                                           })
                                          }
                                         </tbody>
