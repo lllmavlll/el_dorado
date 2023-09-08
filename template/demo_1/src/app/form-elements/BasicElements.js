@@ -18,7 +18,6 @@ const BasicElements = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showInmae, setShowIname] = useState(false);
   const [skuVariantView, setSkuVariantView] = useState('');
-  const [refNO, setRefNo] = useState(1);
   const [itemNameListView, setItemNameListView] = useState(false); // to view table of line items 
   const [isIname, setIsIname] = useState(false); // to view table of line items 
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
@@ -117,7 +116,7 @@ const newLineItemHandle =(e)=>{
   e.preventDefault()
   setItemNameListView(true)
   const newLineItem = {
-      orderNo:inputValue.OrderNo,
+      customerName:inputValue.customerName,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
       customerOrderTouch:inputValue.customerOrderTouch,
@@ -128,13 +127,13 @@ const newLineItemHandle =(e)=>{
       saleName:inputValue.saleName,
       itemStage:inputValue.itemStage,
       noOfDesign:inputValue.noOfDesign,
-      QuantityPerDesign:inputValue.QuantityPerDesign,
+      quantityPerDesign:inputValue.QuantityPerDesign,
       itemQuantity:calcItemQuantity,
       availQuantity:calcItemQuantity,
       unitWT_UL:inputValue.unitWT_UL,
       unitWT_LL:inputValue.unitWT_LL,
       estimatedWeight:calcEstimatedWeight,
-      ScrewMake:inputValue.ScrewMake,
+      screwMake:inputValue.ScrewMake,
       screwSize:inputValue.screwSize,
       cuttingType:inputValue.cuttingType,
       cuttingDesign:inputValue.cuttingDesign,
@@ -143,15 +142,15 @@ const newLineItemHandle =(e)=>{
       dimmyColType:inputValue.dimmyColType,
       SILSURColouringType:inputValue.SILSURColouringType,
       surfaceFinish:inputValue.surfaceFinish,
-      Coat:inputValue.Coat,
+      coat:inputValue.Coat,
       cfPlan:inputValue.cfPlan,
       cardType:inputValue.cardType,
       stoneSettingType:inputValue.stoneSettingType,
       remarks:inputValue.remarks,
     }
     setLineItem([...lineItem, newLineItem]);
+    console.log(lineItem);
     // setClearInput('');
-    setRefNo(refNO+1)
   }
 
 
@@ -222,23 +221,20 @@ const getSKUVariant=()=>{
 
   const pushToDB= async(e)=>{
     e.preventDefault()
+    console.log(lineItem);
     
     
     // console.log(inputValue)
     
     //=================|| for backend ||=======================//
     
-    const {customerName,OrderNo,} = inputValue
-    
-    const res =await fetch('http://localhost:4000/CustomerOrderForm/createCustomerOrdernew',{
+    const res =await fetch('http://localhost:4000/CustomerOrderForm/newCustOrdModel/newPost',{
       method:'POST',
       headers:{
         "content-type":"application/json"
       },
       body:JSON.stringify({
-        customerName,
-        // OrderNo,
-        lineItem:lineItem
+        orderArray:lineItem
       })
     })
     
@@ -322,12 +318,12 @@ const getSKUVariant=()=>{
                               <td>{result.saleName}</td>
                               <td>{result.itemStage}</td>
                               <td>{result.noOfDesign}</td>
-                              <td>{result.QuantityPerDesign}</td>
+                              <td>{result.quantityPerDesign}</td>
                               <td>{result.itemQuantity}</td>
                               <td>{result.unitWT_UL}</td>
                               <td>{result.unitWT_LL}</td>
                               <td>{result.estimatedWeight}</td>
-                              <td>{result.ScrewMake}</td>
+                              <td>{result.screwMake}</td>
                               <td>{result.screwSize}</td>
                               <td>{result.cuttingType}</td>
                               <td>{result.cuttingDesign}</td>
@@ -336,7 +332,7 @@ const getSKUVariant=()=>{
                               <td>{result.dimmyColType}</td>
                               <td>{result.SILSURColouringType}</td>
                               <td>{result.surfaceFinish}</td>
-                              <td>{result.Coat}</td>
+                              <td>{result.coat}</td>
                               <td>{result.cfPlan}</td>
                               <td>{result.cardType}</td>
                               <td>{result.stoneSettingType}</td>
@@ -365,12 +361,12 @@ const getSKUVariant=()=>{
                     <Form.Control type="text"  value={inputValue.customerName} name='customerName' onChange={handleInputChange} className="form-control" id="CustomerName" placeholder="Customer Name" />
                     </div>
                   </Form.Group>
-                  <Form.Group className='row'>
+                  {/* <Form.Group className='row'>
                     <label htmlFor="OrderNo" className="col-sm-5 col-form-label" >Order Number</label>
                     <div className="col-sm-7">
                     <Form.Control type="text"  value={inputValue.OrderNo} name='OrderNo' onChange={handleInputChange} className="form-control" id="OrderNo" placeholder="Order Number" />
                     </div>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group className='row'>
                     <label htmlFor="placedOrderDate" className="col-sm-5 col-form-label" >Place Order Date</label>
                     <div className="col-sm-7">

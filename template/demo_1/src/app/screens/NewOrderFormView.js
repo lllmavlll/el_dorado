@@ -1,19 +1,63 @@
 import React, { useEffect, useState } from 'react'
 import './CustomCssFile.css'
+import { Form } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
+
+
 
 
 const NewOrderFormView = () => {
+  const navigate =useHistory()
+
 
     const [orderFOrmData,setOrderFormData] =useState([])
-    const [lineItems,setLineItems] =useState([])
+     const [orderViewByCust,setOrderViewByCust] = useState([])
+    const [isCustView,setIsCustView] = useState(false)
     const [lineItemList,setLineItemList] = useState([])
+    const [inputValue,setInputValue] = useState({
+      itemStage:'',
+      customerName:""
+    })
 
+    //=============|| to capture all the customername ||==================//
+    const customerArray = orderFOrmData.map(item=>item.customerName)
 
-    // const uniqueArr = [...new Set(orderFOrmData)];
+    const removeDup =(arr)=>{
+      return [...new Set(arr)]
+    }
+    const filteredCustNames=removeDup(customerArray)
+    const finalCUstNames = filteredCustNames.map((element)=>{
+      return {customerName:element}
+    })
 
+    //=============|| to capture values in input ||==================//
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setInputValue({
+        ...inputValue, 
+        [name]: value,
+      });
+    
+    };
 
-    // const [unicArray,setUnicArray] =useState([])
+    //=============|| find by customer Name||==================//
 
+    const getByCustomerName = ()=>{
+      setOrderViewByCust([])// to clear the previous state values 
+      fetch(`http://localhost:4000/CustomerOrderForm/getAllByCust/${inputValue.customerName}`)
+      .then(response => response.json())
+      .then(data =>{
+        setOrderViewByCust(data)
+        setIsCustView(true)
+       })
+      .catch((err)=>{ 
+        alert("Enter a valid Customer Name ")
+        console.log(err)
+      })
+    
+     }
+
+    //=============|| for table expansion ||==================//
     const onClickHandler =(e)=>{
       const hiddenElement = e.currentTarget.nextSibling;
       hiddenElement.className.indexOf("collapse show") > -1 ? hiddenElement.classList.remove("show") : hiddenElement.classList.add("show");
@@ -29,9 +73,9 @@ const NewOrderFormView = () => {
   
   //=============|| to get lineItems based on the matched OrderNo||==================//
 
-  const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
-    console.log(orderRefNo,orIndex);
-    fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${orIndex}`)
+  const reRouteViaCheckBox =(orderRefNo)=>{
+    console.log(orderRefNo);
+    fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/getAllCustOrdByorderRefNo/${orderRefNo}`)
     .then(response => response.json())
     .then(data =>{
       console.log(data);
@@ -50,6 +94,13 @@ const NewOrderFormView = () => {
     });
   }
 
+   //==============|| to reroute to gso ||===================//
+ 
+ const reRouteFunc =()=>{
+  navigate.push('/gold-smith/order',{state:lineItemList})
+  
+ }
+
     useEffect(()=>{
     fetch('http://localhost:4000/CustomerOrderForm/getAllFromNew')
     .then(response => response.json())
@@ -61,9 +112,7 @@ const NewOrderFormView = () => {
             setOrderFormData(data)
         })
     .catch(err=> console.log(err))
-    
-    
-    
+
 
     },[])
 
@@ -72,6 +121,62 @@ const NewOrderFormView = () => {
             <div className='page-header'>
               <h1 className='page-title'>New Order Form View</h1>
             </div>
+
+            <div className="col-lg-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Filter</h5>
+                <div className='row'>
+                  <div className="col-md-4">
+                    <Form.Group>
+                      <div className="input-group">
+                      <Form.Control autoComplete='off' type="text" value={inputValue.customerName} onChange={handleInputChange} name='customerName'  className="form-control" placeholder="Search by Customer Name"  />
+                        <div className="input-group-append">
+                          <button className="btn btn-sm btn-primary" onClick={()=>getByCustomerName(inputValue.customerName)} type="submit" >Search</button>
+                          <div className="dropdown-menu DropDown">
+                              {finalCUstNames.filter((item)=>{
+                                const searchTerm = inputValue.customerName.toLowerCase()
+                                const fullTerm = item.customerName.toLowerCase()
+                                return searchTerm && fullTerm.startsWith(searchTerm) && fullTerm!==searchTerm
+                              }).slice(0,10).map((item, index)=>{
+                                  return(
+                                    <option className='DropDown-row text-primary'onClick={()=>setInputValue({customerName:item.customerName})} key={index}>{item.customerName}</option>
+                                  )
+                                })
+                              }
+                          </div>
+                        </div>
+                      </div>
+                    </Form.Group>
+                    </div>
+                  
+                    <div className="col-md-4">
+                      <Form.Group className="row">
+                        <label  htmlFor="itemStage" className="col-sm-3 col-form-label">Item Stage</label>
+                        <div className="col-sm-8">
+                          <select type="text" value={inputValue.itemStage} onChange={handleInputChange}  name='itemStage'  className="form-control" id="itemStage" >
+                            <option value=""> Select</option>
+                            <option value="FINISHED">FINISHED </option>
+                            <option value="FINISHED-WO SCREW">FINISHED-WO SCREW </option>
+                            <option value="BLK-WO SCREW">BLK-WO SCREW </option>
+                            <option value="DP-WO SCREW">DP-WO SCREW </option>
+                            <option value="WO ST- DP-WO SCREW">WO ST- DP-WO SCREW </option>
+                            <option value="WO CUTTING-DP-WO SCREW">WO CUTTING-DP-WO SCREW </option>
+                          </select>
+                        </div>
+                      </Form.Group>
+                    </div> 
+
+                    <div className='col-md-2'>
+                      <button type="submit"  onClick={()=>{setIsCustView(false)}} className="btn btn-outline-primary mr-2">View All</button>
+                    </div> 
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+
             <div className="col-lg-12 grid-margin stretch-card">
                 <div className="card">
                   <div className="card-body">
@@ -81,8 +186,8 @@ const NewOrderFormView = () => {
                         <thead>
                           <tr>
                             <th> SL No. </th>
-                            <th>GSO Order No.</th>
-                            <th>Gold Smith</th>
+                            <th>Customer Name</th>
+                            <th>Order NO</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -146,7 +251,7 @@ const NewOrderFormView = () => {
                                                     <label className="form-check-label">
                                                       <input type="checkbox" 
                                                       className="form-check-input" 
-                                                      onChange={()=>{reRouteViaCheckBox(list.orderRefNo,list.itemIndex)}}
+                                                      onChange={()=>{reRouteViaCheckBox(list.orderRefNo)}}
                                                       />
                                                       <i className="input-helper"></i>
                                                     </label>
@@ -166,11 +271,11 @@ const NewOrderFormView = () => {
                                                 <td>{list.saleName}</td>
                                                 <td>{list.itemStage}</td>
                                                 <td>{list.noOfDesign}</td>
-                                                <td>{list.QuantityPerDesign}</td>
+                                                <td>{list.quantityPerDesign}</td>
                                                 <td>{list.unitWT_UL}</td>
                                                 <td>{list.unitWT_LL}</td>
                                                 <td>{list.estimatedWeight}</td>
-                                                <td>{list.ScrewMake}</td>
+                                                <td>{list.screwMake}</td>
                                                 <td>{list.screwSize}</td>
                                                 <td>{list.cuttingType}</td>
                                                 <td>{list.cuttingDesign}</td>
@@ -179,7 +284,7 @@ const NewOrderFormView = () => {
                                                 <td>{list.dimmyColType}</td>
                                                 <td>{list.SILSURColouringType}</td>
                                                 <td>{list.surfaceFinish}</td>
-                                                <td>{list.Coat}</td>
+                                                <td>{list.coat}</td>
                                                 <td>{list.cardType}</td>
                                                 <td>{list.cfPlan}</td>
                                                 <td>{list.stoneSettingType}</td>
@@ -202,6 +307,17 @@ const NewOrderFormView = () => {
                   </div>
                 </div>
               </div>
+              <div className="col-lg-12 grid-margin stretch-card">
+              <div className="card">
+                <div className="card-body">
+                  <div className='row'>
+                    <div className="col-md-3">
+                      <button type="submit" onClick={reRouteFunc} className="btn btn-primary mr-4">Create Gold Smith Order</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           
         </>
         

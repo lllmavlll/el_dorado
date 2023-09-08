@@ -160,6 +160,61 @@ const GlobalGetforNewDB = async (req, res) => {
     }
 }
 
+//==================||from new DATA base ||=====================//
+
+const newPost = async (req, res) => {
+
+    try {
+        //req.body
+        const orderArray = req.body
+        console.log(req.body);
+        //orderArray number generator
+        const orderNoGen = () => {
+            const characters = '0123456789';
+            let result = '';
+
+            for (let i = 0; i < 4; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomIndex);
+            }
+            return result;
+        }
+        const OrderNO = orderNoGen()
+        const test = orderArray.map((value, index) => ({
+            orderNo: OrderNO,
+            orderRefNo:  `${OrderNO}-${index + 1}`,
+            ...value
+        }));
+        // console.log(test);
+        //orderRefNo generator
+        //post request
+        const jewelries = await newCustOrderModel.insertMany(test)
+
+        // const jewelries = await newCustOrdModel.insertMany(req.body)
+
+        res.status(201).json(jewelries);
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+
+}
+
+const getAllCustOrdByorderRefNo = async (req, res) => {
+
+    const orderRefNo = req.params.orderRefNo
+    try {
+        const jewelries = await newCustOrderModel.find().where('orderRefNo').equals(orderRefNo)
+        // const jewelries = await newCustOrdModel.find({ OrderNo })
+        res.status(201).json(jewelries);
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+
+}
+
+
 
 module.exports = {
     addCustOrd,
@@ -172,4 +227,6 @@ module.exports = {
     getAllByCust,
     getAllCustomersFromOrders,
     GlobalGetforNewDB,
+    newPost,
+    getAllCustOrdByorderRefNo,
 };

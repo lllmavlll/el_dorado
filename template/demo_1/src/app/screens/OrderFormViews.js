@@ -131,6 +131,7 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
     })
     .then(data =>{
       setAllTheCustomers(data)
+      console.log(allTheCustomers);
       
     })
    .catch(err=> console.log(err))
