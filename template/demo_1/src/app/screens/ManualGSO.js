@@ -1,34 +1,40 @@
 import React, { useState } from 'react'
 import './CustomCssFile.css'
 import  { Form} from 'react-bootstrap'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 
 const ManualGSO = () => {
 
-    const [ subOrderTable, setSubOrderTable ] = useState(false)
-    const [ Suborder, setSuborder ] = useState([])
-    const [dataByOrNo, setDataByOrNo] = useState([])
-    const [ specificIname, setSpecificIname ]= useState([])
-    const [isOrdertable, setIsTable] =useState(false)
-    const [inputValue,setInputValue] = useState({
-        orderNo:'',
-        allocdQty:'',
-        QtyToBeAllocd:'',
-        allocdWt:'',
-        WtToBeAllocd:'',
-      })
+  const navigate = useHistory()
+  const [ subOrderTable, setSubOrderTable ] = useState(false)
+  const [ Suborder, setSuborder ] = useState([])
+  const [dataByOrNo, setDataByOrNo] = useState([])
+  const [ specificIname, setSpecificIname ]= useState([])
+  const [isOrdertable, setIsTable] =useState(false)
+  const [inputValue,setInputValue] = useState({
+    orderNo:'',
+    allocdQty:'',
+    QtyToBeAllocd:'',
+    allocdWt:'',
+    WtToBeAllocd:'',
+  })
 
-      const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        // setClearInput(event.target.value)
-        setInputValue({
-          ...inputValue, 
-          [name]: value,
-        });
+  const handleInputChange = (event) => {
+    
+    const { name, value } = event.target;
+    // setClearInput(event.target.value)
+    setInputValue({
+      ...inputValue, 
+      [name]: value,
+    });
       
-      };
+  };
 
-      
+ const RerouteToViewPage =()=>{
+  navigate.push('/customer-order-form/order-form-view')
+
+ }      
  const getByOrderNo = (e)=>{
     e.preventDefault()
     // setDataByOrNo([])
@@ -112,13 +118,15 @@ const ManualGSO = () => {
                 <form className='forms-sample'>
                     <div className='row'>
                         <div className='col-md-5'>
+                          <p>No Line Items Are Selected go to View Page and Select Line Items.</p>
                         <Form.Group>
-                            <div className="input-group">
+                        <button type="submit" onClick={RerouteToViewPage} className="btn btn-outline-primary mr-4">Go To View Page.</button>
+                            {/* <div className="input-group">
                                 <Form.Control autoComplete='off' type="text" value={inputValue.orderNo} onChange={handleInputChange} name='orderNo' className="form-control" placeholder="Search by Order Number"/>
                                 <div className="input-group-append">
                                     <button className="btn btn-sm btn-primary" onClick={getByOrderNo}>Search</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </Form.Group>
                         </div>
                     </div>

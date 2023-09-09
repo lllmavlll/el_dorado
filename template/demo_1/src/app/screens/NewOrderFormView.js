@@ -261,7 +261,7 @@ const NewOrderFormView = () => {
                                                 <td>{list.orderRefNo}</td>
                                                 <td>{list.finalIname}</td>
                                                 <td>{list.itemQuantity}</td>
-                                                <td className='text-success'>{list.availQuantity}</td>
+                                                <td className={list.availQuantity===list.itemQuantity?"text-success":"text-warning"}>{list.availQuantity}</td>
                                                 <td>{list.placedOrderDate}</td>
                                                 <td>{list.requiredDate}</td>
                                                 <td>{list.customerOrderTouch}</td>

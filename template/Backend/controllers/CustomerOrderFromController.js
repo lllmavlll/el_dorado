@@ -204,9 +204,25 @@ const getAllCustOrdByorderRefNo = async (req, res) => {
 
     const orderRefNo = req.params.orderRefNo
     try {
-        const jewelries = await newCustOrderModel.find().where('orderRefNo').equals(orderRefNo)
+        const data = await newCustOrderModel.findOne({orderRefNo})
+        // const data = await newCustOrdModel.find({ OrderNo })
+        res.status(201).json(data);
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+
+}
+
+const updateSpecificCustOrd = async (req, res) => {
+
+    const orderRefNo = req.params.orderRefNo
+    const { availQuantity } = req.body
+
+    try {
+        const jewelries = await newCustOrderModel.findOneAndUpdate({ orderRefNo }, { availQuantity }, { useFindAndModify: false })
         // const jewelries = await newCustOrdModel.find({ OrderNo })
-        res.status(201).json(jewelries);
+        res.status(200).json(jewelries);
     } catch (error) {
         console.log(error);
         res.status(500);
@@ -229,4 +245,5 @@ module.exports = {
     GlobalGetforNewDB,
     newPost,
     getAllCustOrdByorderRefNo,
+    updateSpecificCustOrd,
 };

@@ -52,8 +52,8 @@ class AppRoutes extends Component {
           <Route exact path="/dashboard" component={ Dashboard } />
 
           <Route path="/customer-order-form/order-form" component={ OrderForm } />
-          <Route path="/customer-order-form/order-form-view" component={ OrderFormView } />
-          <Route path="/customer-order-form/order-form-view-new" component={ newOrderFormView } />
+          <Route path="/customer-order-form/order-form-view" component={ newOrderFormView} />
+          <Route path="/customer-order-form/order-form-view-old" component={ OrderFormView } />
           {/* <Route path="/customer-order-form/sub-order-form" component={ SubOrderForm } /> */}
 
           <Route path="/gold-smith/receive" component={ GSreceive } />

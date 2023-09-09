@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import  { Form} from 'react-bootstrap'
 import { useLocation } from "react-router-dom";
 import './CustomCssFile.css'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const GSOrder = () => {
+  const navigate =useHistory()
+
   // const[orderFormData,setOrderFormData] = useState([])
   // const[itemQty,setItemQty] = useState([])
   // const[lineItemDD,setLineItemDD] = useState([])
@@ -25,12 +28,13 @@ const GSOrder = () => {
     WtToBeAllocd:'',  
   })
 
-    //=============|| useLocation ||===================//
-
-    const location = useLocation()
-    const data = location.state.state
-    
-    //=============|| inputHandler ||===================//
+  //=============|| useLocation ||===================//
+  
+  const location = useLocation()
+  const data = location.state.state
+  console.log(data);
+  
+  //=============|| inputHandler ||===================//
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -39,33 +43,46 @@ const GSOrder = () => {
       [name]: value,
     });
   };
+  
+  //=============|| for calulating pending item Quantity ||===================//
+  const convertToNum =(num)=>{
+    return parseInt(num)
+  }
+
+  const quantityToBeAllocated = convertToNum(specificIname.availQuantity)-convertToNum(inputValue.allocdQty)
+
+
 
   //======== for updating item quantity By order number =====//
   
-  const getByOrderNO =(OrderNo,orderRefNo,itemIndex)=>{
-    console.log(OrderNo,orderRefNo,itemIndex)
-    //===============  fetch for global order ======//
-    fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${OrderNo}`)
-    .then(response => response.json())
-    .then(data =>{
-      setGetByOrderNo(data)
-    })
-    .catch(err=> console.log(err))
-    
-    //===============  fetch for global order ======//
-    fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${itemIndex}`)
+  const getByOrderNO =(orderRefNo)=>{
+    console.log(orderRefNo);
+    fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/getAllCustOrdByorderRefNo/${orderRefNo}`)
     .then(response => response.json())
     .then(data =>{
       setSpecificIname(data)
-      console.log(specificIname)
     })
     .catch(err=> console.log(err))
-    // setIsFetching(true)
   }
 
   //======== for sub order table =====//
-  const handleSubOrder =(e)=>{
+  const handleSubOrder = async(e)=>{
     e.preventDefault()
+
+    //======|| Updataing the Item Quantity ||=========//
+    const res =await fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/updateSpecificCustOrd/${specificIname.orderRefNo}`,{
+      method:'PUT',
+      headers:{
+        "content-type":"application/json"
+      },
+      body:JSON.stringify({
+        availQuantity:quantityToBeAllocated
+      })
+    })
+    
+    const UdatedData = await res.json();
+    console.log(UdatedData)
+
     setSubOrderTable(true)
     const newGSSO ={
       OrderNo:specificIname.OrderNo,
@@ -74,7 +91,7 @@ const GSOrder = () => {
       availQuantity:specificIname.availQuantity,
       allocdWt:inputValue.allocdWt,
       allocdQty:inputValue.allocdQty,
-      pendingQuantity:inputValue.QtyToBeAllocd,
+      pendingQuantity:quantityToBeAllocated,
     }
     setSuborder([...Suborder,newGSSO])
 
@@ -85,22 +102,23 @@ const GSOrder = () => {
 
     // for backend
 
-    const { GSName } = inputValue
-    const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        GSName, subOrder:Suborder
-      })
-    })
+    // const { GSName } = inputValue
+    // const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
+    //   method:'POST',
+    //   headers:{
+    //     "content-type":"application/json"
+    //   },
+    //   body:JSON.stringify({
+    //     GSName, subOrder:Suborder
+    //   })
+    // })
     
-    const data = await res.json();
-    if(data){
-      window.location.reload();
-    }
-    alert('GSO Created Sucessfully!')
+    // const data = await res.json();
+    // if(data){
+    //   window.location.reload();
+    // }
+    // alert('GSO Created Sucessfully!')
+    navigate.push('/customer-order-form/order-form-view')
 
   }
   useEffect(()=>{
@@ -168,26 +186,26 @@ const GSOrder = () => {
                           data.map((lineItem, index)=>{
                             return<tr>
                               <td>{index+1}</td>
-                              <td><button className='btn btn-outline-primary mr-4' onClick={()=>{getByOrderNO(lineItem.OrderNo,lineItem.orderRefNo,lineItem.itemIndex)}}>get</button></td>
-                              <td>{lineItem.OrderNo}</td>
+                              <td><button className='btn btn-outline-primary mr-4' onClick={()=>{getByOrderNO(lineItem.orderRefNo)}}>get</button></td>
+                              <td>{lineItem.orderNo}</td>
                               <td>{lineItem.orderRefNo}</td>
+                              <td>{lineItem.finalIname}</td>
+                              <td>{lineItem.itemQuantity}</td>
+                              <td className='text-success'>{lineItem.availQuantity}</td>
                               <td>{lineItem.placedOrderDate}</td>
                               <td>{lineItem.requiredDate}</td>
                               <td>{lineItem.customerOrderTouch}</td>
                               <td>{lineItem.targetTouch}</td>
                               <td>{lineItem.seal}</td>
                               <td>{lineItem.qualitySeries}</td>
-                              <td>{lineItem.finalIname}</td>
                               <td>{lineItem.saleName}</td>
                               <td>{lineItem.itemStage}</td>
                               <td>{lineItem.noOfDesign}</td>
-                              <td>{lineItem.QuantityPerDesign}</td>
-                              <td>{lineItem.itemQuantity}</td>
-                              <td className='text-success'>{lineItem.availQuantity}</td>
+                              <td>{lineItem.quantityPerDesign}</td>
                               <td>{lineItem.unitWT_UL}</td>
                               <td>{lineItem.unitWT_LL}</td>
                               <td>{lineItem.estimatedWeight}</td>
-                              <td>{lineItem.ScrewMake}</td>
+                              <td>{lineItem.screwMake}</td>
                               <td>{lineItem.screwSize}</td>
                               <td>{lineItem.cuttingType}</td>
                               <td>{lineItem.cuttingDesign}</td>
@@ -196,7 +214,7 @@ const GSOrder = () => {
                               <td>{lineItem.dimmyColType}</td>
                               <td>{lineItem.SILSURColouringType}</td>
                               <td>{lineItem.surfaceFinish}</td>
-                              <td>{lineItem.Coat}</td>
+                              <td>{lineItem.coat}</td>
                               <td>{lineItem.cardType}</td>
                               <td>{lineItem.cfPlan}</td>
                               <td>{lineItem.stoneSettingType}</td>
@@ -221,7 +239,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="orderNO" className="col-sm-4 col-form-label">Order Number </label>
                             <div className="col-sm-8">
-                              <Form.Control required  type="text"  name='orderNO' value={specificIname.OrderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
+                              <Form.Control required  type="text"  name='orderNO' value={specificIname.orderNo} onChange={handleInputChange}  className="form-control" id="orderNO" placeholder="Order Number" />
                             </div>
                           </Form.Group>
                         </div>
@@ -229,7 +247,7 @@ const GSOrder = () => {
                           <Form.Group className="row">
                             <label  htmlFor="itemName" className="col-sm-4 col-form-label">Item Name</label>
                             <div className="col-sm-8">
-                            <Form.Control required  type="text"  name='itemName' value={specificIname.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'  />
+                            <Form.Control required  type="text"  name='itemName' value={specificIname.finalIname} onChange={handleInputChange}  className="form-control" id="itemName" placeholder='Item Name'/>
                               {/* <select className="form-control" name='ItemName' value={specificIname.ItemName} onChange={handleInputChange}  id="itemName">
                                 <option value=''>select</option>
                                 {
@@ -292,7 +310,7 @@ const GSOrder = () => {
                             <Form.Group className="row">
                                 <label  htmlFor="productQuantity" className="col-sm-4 col-form-label"> Quantity To Be Allocated</label>
                                 <div className="col-sm-8">
-                                <Form.Control required  type="text"  name='QtyToBeAllocd' value={inputValue.QtyToBeAllocd} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Allocated" />
+                                <Form.Control required  type="number"  name='QtyToBeAllocd' value={quantityToBeAllocated} onChange={handleInputChange}  className="form-control" id="productQuantity" placeholder=" Quantity To Be Allocated" />
                                 </div>
                             </Form.Group>
                         </div>
@@ -329,8 +347,8 @@ const GSOrder = () => {
                     </thead>
                     <tbody>
                     {
-                      Suborder.map((result,index)=>{
-                        return<tr>
+                      Suborder.map((result,index,key)=>{
+                        return<tr key={key}>
                           <td>{index+1}</td>
                           <td>{result.orderRefNo}</td>
                           <td>{result.ItemName}</td>
