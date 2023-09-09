@@ -1,5 +1,5 @@
 const express = require('express');
-const { addCustOrd, getAllOrders,getIQ, GetOrderNo,UpdateIQ,getSpecificLineItem,testCFO, getAllByCust, getAllCustomersFromOrders, GlobalGetforNewDB, newPost, getAllCustOrdByorderRefNo, updateSpecificCustOrd} = require('../controllers/CustomerOrderFromController');
+const { addCustOrd, getAllOrders,getIQ, GetOrderNo,UpdateIQ,getSpecificLineItem,testCFO, getAllByCust, getAllCustomersFromOrders, GlobalGetforNewDB, newPost, getAllCustOrdByorderRefNo, updateSpecificCustOrd, getCustomerNamesNewDB} = require('../controllers/CustomerOrderFromController');
 
 const CustOrdFormRouter = express.Router();
 
@@ -18,6 +18,7 @@ CustOrdFormRouter.get('/getSpecificLineItem/:orderRefNo/:itemIndex', getSpecific
 CustOrdFormRouter.post('/newCustOrdModel/newPost', newPost)
 CustOrdFormRouter.get('/newCustOrdModel/getAllCustOrdByorderRefNo/:orderRefNo', getAllCustOrdByorderRefNo)
 CustOrdFormRouter.put('/newCustOrdModel/updateSpecificCustOrd/:orderRefNo', updateSpecificCustOrd)
+// CustOrdFormRouter.get('/newCustOrdModel/getCustomerNamesNewDB', getCustomerNamesNewDB)
 
 
 module.exports = CustOrdFormRouter;

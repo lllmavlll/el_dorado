@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import  { Form } from 'react-bootstrap'
 import './CustomCssFile.css'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 
 
 const ManualGSI = () => {
+  const navigate =useHistory()
     
   const [getByGSO, setGetByGSO]= useState([])
   const [compList, setCompList]= useState([])
@@ -23,13 +25,19 @@ const ManualGSI = () => {
 
   //==============|| to handel input cahnges ||=============//
   const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setInputValue({
-          ...inputValue, 
-          [name]: value,
-        });
-    };
+    const { name, value } = event.target;
+    setInputValue({
+      ...inputValue, 
+      [name]: value,
+    });
+  };
+  
+  //==============|| to handel input cahnges ||=============//
 
+  const RerouteToViewPage =()=>{
+    navigate.push('/gold-smith/GSOrder-view')
+  
+   } 
   //==============|| to fetch based on GSO no ||=============//
   const getGSO=(e)=>{
     e.preventDefault()
@@ -102,26 +110,28 @@ const addComp = (e)=>{
     return(
         <>
         
-        <div className="page-header">
-          {/* <h3 className="page-title"> Gold Smith Issuance for GSO NO: {data.OrderNo}</h3> */}
+        {/* <div className="page-header">
+          <h3 className="page-title"> Gold Smith Issuance for GSO NO: {data.OrderNo}</h3>
           <h3 className="page-title"> Gold Smith Issuance </h3>
-        </div>
+        </div> */}
 
         <div className="row">                       
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-              <h4 className="card-title">Search for Orders</h4>
+              <h3 className="card-title">Gold Smith Issuance </h3>
                 <form className='forms-sample'>
                     <div className='row'>
-                        <div className='col-md-5'>
+                        <div className='col-md-6'>
+                          <p className='text-warning'>No Gold Smith Order Selected, go to Gold Smith View Page and Select Gold Smith Order.</p>
                         <Form.Group>
-                            <div className="input-group">
-                                <Form.Control autoComplete='off' type="text" value={inputValue.GSONo} onChange={handleInputChange} name='GSONo' className="form-control" placeholder="Search by Gols Smith Order Number"/>
+                        <button type="submit" onClick={RerouteToViewPage} className="btn btn-outline-primary mr-4">Go To GS View Page.</button>
+                            {/* <div className="input-group">
+                                <Form.Control autoComplete='off' type="text" value={inputValue.orderNo} onChange={handleInputChange} name='orderNo' className="form-control" placeholder="Search by Order Number"/>
                                 <div className="input-group-append">
-                                    <button className="btn btn-sm btn-primary" onClick={getGSO}>Search</button>
+                                    <button className="btn btn-sm btn-primary" onClick={getByOrderNo}>Search</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </Form.Group>
                         </div>
                     </div>

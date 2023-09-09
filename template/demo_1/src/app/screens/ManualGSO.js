@@ -35,29 +35,29 @@ const ManualGSO = () => {
   navigate.push('/customer-order-form/order-form-view')
 
  }      
- const getByOrderNo = (e)=>{
-    e.preventDefault()
-    // setDataByOrNo([])
-    fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${inputValue.orderNo}`)
-    .then(response => response.json())
-    .then(data =>{
-        setDataByOrNo(data)
-        if(data){
-            setIsTable(true)
-            setInputValue({ orderNo:'',})
-        }else{
-            alert('Enter A valid Order Number')
-            setInputValue({ orderNo:'',})
-        }
-     })
-    .catch((err)=>{ 
-      console.log(err)
-    })
+//  const getByOrderNo = (e)=>{
+//     e.preventDefault()
+//     // setDataByOrNo([])
+//     fetch(`http://localhost:4000/CustomerOrderForm/getOrderNo/${inputValue.orderNo}`)
+//     .then(response => response.json())
+//     .then(data =>{
+//         setDataByOrNo(data)
+//         if(data){
+//             setIsTable(true)
+//             setInputValue({ orderNo:'',})
+//         }else{
+//             alert('Enter A valid Order Number')
+//             setInputValue({ orderNo:'',})
+//         }
+//      })
+//     .catch((err)=>{ 
+//       console.log(err)
+//     })
   
-   }
+//    }
+
+
    const getByOrderNO =(orderRefNo,itemIndex)=>{
-  
-    
     //===============  fetch for global order ======//
     fetch(`http://localhost:4000/CustomerOrderForm/getSpecificLineItem/${orderRefNo}/${itemIndex}`)
     .then(response => response.json())
@@ -88,24 +88,7 @@ const ManualGSO = () => {
     e.preventDefault()
     console.log(inputValue)
 
-    // for backend
 
-    // const { GSName } = inputValue
-    // const res =await fetch('http://localhost:4000/GSO/createGSOrder',{
-    //   method:'POST',
-    //   headers:{
-    //     "content-type":"application/json"
-    //   },
-    //   body:JSON.stringify({
-    //     GSName, subOrder:Suborder
-    //   })
-    // })
-    
-    // const data = await res.json();
-    // if(data){
-    //   window.location.reload();
-    // }
-    // alert('GSO Created Sucessfully!')
 
   }
 
@@ -114,11 +97,11 @@ const ManualGSO = () => {
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-              <h4 className="card-title">Search for Orders</h4>
+              <h3 className="card-title">Gold SMith Orders</h3>
                 <form className='forms-sample'>
                     <div className='row'>
-                        <div className='col-md-5'>
-                          <p>No Line Items Are Selected go to View Page and Select Line Items.</p>
+                        <div className='col-md-6'>
+                          <p className='text-warning'>No Line Items Are Selected, go to Orders View Page and Select Line Items.</p>
                         <Form.Group>
                         <button type="submit" onClick={RerouteToViewPage} className="btn btn-outline-primary mr-4">Go To View Page.</button>
                             {/* <div className="input-group">

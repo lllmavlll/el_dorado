@@ -229,6 +229,19 @@ const updateSpecificCustOrd = async (req, res) => {
     }
 
 }
+// const getCustomerNamesNewDB = async (req, res) => {
+
+//     try {
+//         // const data = await newCustOrdModel.find().where('customerName').equals('KULKARNI')
+//         const data = await newCustOrdModel.find({}, 'customerName')
+//         // const customerNames = data.map(data => data.customerName);
+//         res.status(200).json(data);
+//         // res.status(200).json(data);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500);
+//     }
+// }
 
 
 
@@ -246,4 +259,5 @@ module.exports = {
     newPost,
     getAllCustOrdByorderRefNo,
     updateSpecificCustOrd,
+    // getCustomerNamesNewDB
 };
