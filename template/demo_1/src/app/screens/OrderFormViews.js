@@ -101,7 +101,6 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
   });
 }
 
-
  //==============|| to reroute to gso ||===================//
  
  const reRouteFunc =()=>{
@@ -189,11 +188,9 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                         </div>
                       </Form.Group>
                     </div> 
-
                     <div className='col-md-2'>
                       <button type="submit"  onClick={()=>{setIsCustView(false)}} className="btn btn-outline-primary mr-2">View All</button>
                     </div> 
-                  
                 </div>
               </div>
             </div>
@@ -425,7 +422,6 @@ const reRouteViaCheckBox =(orderRefNo,orIndex)=>{
                                       </tr>
                                       })
                                     }
-                                   
                                   </tbody>
                                   </table>
                                   </div>

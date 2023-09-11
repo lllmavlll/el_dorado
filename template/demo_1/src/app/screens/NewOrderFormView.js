@@ -3,25 +3,20 @@ import './CustomCssFile.css'
 import { Form } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 
-
-
-
 const NewOrderFormView = () => {
   const navigate =useHistory()
 
-
-    const [orderFOrmData,setOrderFormData] =useState([])
-     const [orderViewByCust,setOrderViewByCust] = useState([])
-    const [isCustView,setIsCustView] = useState(false)
-    const [lineItemList,setLineItemList] = useState([])
-    const [inputValue,setInputValue] = useState({
+    const [ orderFOrmData,setOrderFormData ] =useState([])
+    const [ orderViewByCust,setOrderViewByCust ] = useState([])
+    const [ isCustView,setIsCustView ] = useState(false)
+    const [ lineItemList,setLineItemList ] = useState([])
+    const [ inputValue,setInputValue ] = useState({
       itemStage:'',
       customerName:""
     })
 
     //=============|| to capture all the customername ||==================//
     const customerArray = orderFOrmData.map(item=>item.customerName)
-
     const removeDup =(arr)=>{
       return [...new Set(arr)]
     }
@@ -41,7 +36,6 @@ const NewOrderFormView = () => {
     };
 
     //=============|| find by customer Name||==================//
-
     const getByCustomerName = ()=>{
       setOrderViewByCust([])// to clear the previous state values 
       fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/getAllOrderBelongingToOneCustomer/${inputValue.customerName}`)
@@ -49,12 +43,12 @@ const NewOrderFormView = () => {
       .then(data =>{
         setOrderViewByCust(data)
         setIsCustView(true)
+        setInputValue({customerName:''})
        })
       .catch((err)=>{ 
         alert("Enter a valid Customer Name ")
         console.log(err)
       })
-    
      }
 
     //=============|| for table expansion ||==================//
@@ -64,7 +58,6 @@ const NewOrderFormView = () => {
     }
  
   //=============|| to get multiple element once ||==================//
-  
   const uniqueObjectMap = new Map();
   for (const obj of orderFOrmData) {
     uniqueObjectMap.set(obj.orderNo, obj);
@@ -72,7 +65,6 @@ const NewOrderFormView = () => {
   const uniqueObjects = Array.from(uniqueObjectMap.values());
   
   //=============|| to get lineItems based on the matched OrderNo||==================//
-
   const reRouteViaCheckBox =(orderRefNo)=>{
     console.log(orderRefNo);
     fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/getAllCustOrdByorderRefNo/${orderRefNo}`)
@@ -96,12 +88,12 @@ const NewOrderFormView = () => {
 
    //==============|| to reroute to gso ||===================//
  
- const reRouteFunc =()=>{
-  navigate.push('/gold-smith/order',{state:lineItemList})
+  const reRouteFunc =()=>{
+    navigate.push('/gold-smith/order',{state:lineItemList})
   
- }
+  }
 
-    useEffect(()=>{
+  useEffect(()=>{
     fetch('http://localhost:4000/CustomerOrderForm/getAllFromNew')
     .then(response => response.json())
     .then(data =>
@@ -109,19 +101,16 @@ const NewOrderFormView = () => {
         return data
         })
         .then(data =>{
-            setOrderFormData(data)
+          setOrderFormData(data)
         })
     .catch(err=> console.log(err))
-
-
-    },[])
+  },[])
 
     return (
         <>
             <div className='page-header'>
               <h1 className='page-title'>New Order Form View</h1>
             </div>
-
             <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -181,7 +170,101 @@ const NewOrderFormView = () => {
                   <div className="card-body">
                     {/* <h4 className="card-title"> GSO View</h4> */}
                     <div className="table-responsive OFtable-res ">
-                      <table className="table table-bordered OFtable ">
+                    {
+                      isCustView?
+                      (<table className="table table-bordered OFtable ">
+                        <thead>
+                          <tr>
+                            <th>Select</th>
+                            <th>SL.No</th>
+                            <th>Customer Name</th>
+                            <th>Order Ref No</th>
+                            <th>Final Iname</th>
+                            <th>Item Quantity</th>
+                            <th>Available Quantity</th>
+                            <th>Placed Order Date</th>
+                            <th>required Date</th>
+                            <th>Cust order Touch</th>
+                            <th>Target Touch</th>
+                            <th>seal</th>
+                            <th>Quality series</th>
+                            <th>Sale Name</th>
+                            <th>Item Stage</th>
+                            <th>No. Of Design</th>
+                            <th>Quantity/Design</th>
+                            <th>Unit Weight UL</th>
+                            <th>Unit Weight LL</th>
+                            <th>Estimated Weight</th>
+                            <th>Screw Make</th>
+                            <th>Screw Size</th>
+                            <th>Cutting Type</th>
+                            <th>Cutting Design</th>
+                            <th>Stone Brand</th>
+                            <th>Polish Type</th>
+                            <th>Dimmy Col Type</th>
+                            <th>SILSUR color Type</th>
+                            <th>Surface Finish</th>
+                            <th>Coat</th>
+                            <th>Card Type</th>
+                            <th>Card Fittin Plan</th>
+                            <th>Stone Setting Type</th>
+                            <th>Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {orderViewByCust.map((list,index,key)=>{
+                          return<>
+                            <tr key={key}>
+                              <td>
+                                <div className="form-check form-check-muted m-0">
+                                  <label className="form-check-label">
+                                    <input type="checkbox" 
+                                    className="form-check-input" 
+                                    onChange={()=>{reRouteViaCheckBox(list.orderRefNo)}}
+                                    />
+                                    <i className="input-helper"></i>
+                                  </label>
+                                </div>
+                              </td>
+                              <td>{index+1}</td>
+                              <td>{list.customerName}</td>
+                              <td>{list.orderRefNo}</td>
+                              <td>{list.finalIname}</td>
+                              <td>{list.itemQuantity}</td>
+                              <td className={list.availQuantity===list.itemQuantity?"text-success":"text-warning"}>{list.availQuantity}</td>
+                              <td>{list.placedOrderDate}</td>
+                              <td>{list.requiredDate}</td>
+                              <td>{list.customerOrderTouch}</td>
+                              <td>{list.targetTouch}</td>
+                              <td>{list.seal}</td>
+                              <td>{list.qualitySeries}</td>
+                              <td>{list.saleName}</td>
+                              <td>{list.itemStage}</td>
+                              <td>{list.noOfDesign}</td>
+                              <td>{list.quantityPerDesign}</td>
+                              <td>{list.unitWT_UL}</td>
+                              <td>{list.unitWT_LL}</td>
+                              <td>{list.estimatedWeight}</td>
+                              <td>{list.screwMake}</td>
+                              <td>{list.screwSize}</td>
+                              <td>{list.cuttingType}</td>
+                              <td>{list.cuttingDesign}</td>
+                              <td>{list.stoneBrand}</td>
+                              <td>{list.polishType}</td>
+                              <td>{list.dimmyColType}</td>
+                              <td>{list.SILSURColouringType}</td>
+                              <td>{list.surfaceFinish}</td>
+                              <td>{list.coat}</td>
+                              <td>{list.cardType}</td>
+                              <td>{list.cfPlan}</td>
+                              <td>{list.stoneSettingType}</td>
+                              <td>{list.remarks}</td>
+                            </tr>
+                          </>
+                        })}
+                        </tbody>
+                      </table>):
+                      (<table className="table table-bordered OFtable ">
                         <thead>
                           <tr>
                             <th> SL No. </th>
@@ -189,7 +272,6 @@ const NewOrderFormView = () => {
                             <th>Order NO</th>
                           </tr>
                         </thead>
-                        
                         <tbody>
                          {
                             uniqueObjects.map((orderArray,index) =>{
@@ -302,7 +384,8 @@ const NewOrderFormView = () => {
                             })
                          }
                        </tbody>
-                      </table>
+                      </table>)
+                    }
                     </div>
                   </div>
                 </div>
@@ -322,14 +405,6 @@ const NewOrderFormView = () => {
         </>
         
       )
-    // return(
-    //     <div>
-    //     <h1>Unique Objects</h1>
-    //     <ul>
-    //       {objectElements}
-    //     </ul>
-    //   </div>
-    // )
 }
 
 export default NewOrderFormView

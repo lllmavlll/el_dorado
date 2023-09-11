@@ -233,16 +233,13 @@ const updateSpecificCustOrd = async (req, res) => {
 const getAllOrderBelongingToOneCustomer = async (req, res) => {
     try {
         const customerName = req.params.customerName
-        const data = await newCustOrdModel.find().where('customerName').equals(customerName);
+        const data = await newCustOrderModel.find().where('customerName').equals(customerName);
         res.json(data)
     } catch (error) {
         console.log(error);
         res.status(500);
     }
 }
-
-
-
 
 module.exports = {
     addCustOrd,
@@ -259,5 +256,4 @@ module.exports = {
     getAllCustOrdByorderRefNo,
     updateSpecificCustOrd,
     getAllOrderBelongingToOneCustomer,
-    // getCustomerNamesNewDB
 };
