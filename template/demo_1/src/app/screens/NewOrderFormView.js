@@ -44,7 +44,7 @@ const NewOrderFormView = () => {
 
     const getByCustomerName = ()=>{
       setOrderViewByCust([])// to clear the previous state values 
-      fetch(`http://localhost:4000/CustomerOrderForm/getAllByCust/${inputValue.customerName}`)
+      fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/getAllOrderBelongingToOneCustomer/${inputValue.customerName}`)
       .then(response => response.json())
       .then(data =>{
         setOrderViewByCust(data)
@@ -170,7 +170,6 @@ const NewOrderFormView = () => {
                     <div className='col-md-2'>
                       <button type="submit"  onClick={()=>{setIsCustView(false)}} className="btn btn-outline-primary mr-2">View All</button>
                     </div> 
-                  
                 </div>
               </div>
             </div>
@@ -190,6 +189,7 @@ const NewOrderFormView = () => {
                             <th>Order NO</th>
                           </tr>
                         </thead>
+                        
                         <tbody>
                          {
                             uniqueObjects.map((orderArray,index) =>{

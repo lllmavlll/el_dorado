@@ -99,6 +99,11 @@ const GSOrder = () => {
   const pushToDB= async(e)=>{
     e.preventDefault()
     console.log(inputValue)
+    const { GSName } = inputValue
+    console.log({
+      GSName:GSName,
+      subOrder:Suborder
+    });
 
     // for backend
 

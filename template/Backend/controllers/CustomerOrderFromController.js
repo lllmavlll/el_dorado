@@ -182,7 +182,7 @@ const newPost = async (req, res) => {
         const OrderNO = orderNoGen()
         const test = orderArray.map((value, index) => ({
             orderNo: OrderNO,
-            orderRefNo:  `${OrderNO}-${index + 1}`,
+            orderRefNo:`${OrderNO}-${index + 1}`,
             ...value
         }));
         // console.log(test);
@@ -229,19 +229,18 @@ const updateSpecificCustOrd = async (req, res) => {
     }
 
 }
-// const getCustomerNamesNewDB = async (req, res) => {
 
-//     try {
-//         // const data = await newCustOrdModel.find().where('customerName').equals('KULKARNI')
-//         const data = await newCustOrdModel.find({}, 'customerName')
-//         // const customerNames = data.map(data => data.customerName);
-//         res.status(200).json(data);
-//         // res.status(200).json(data);
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500);
-//     }
-// }
+const getAllOrderBelongingToOneCustomer = async (req, res) => {
+    try {
+        const customerName = req.params.customerName
+        const data = await newCustOrdModel.find().where('customerName').equals(customerName);
+        res.json(data)
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+}
+
 
 
 
@@ -259,5 +258,6 @@ module.exports = {
     newPost,
     getAllCustOrdByorderRefNo,
     updateSpecificCustOrd,
+    getAllOrderBelongingToOneCustomer,
     // getCustomerNamesNewDB
 };
