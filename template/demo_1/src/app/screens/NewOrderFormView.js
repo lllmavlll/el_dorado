@@ -95,6 +95,7 @@ const NewOrderFormView = () => {
 
   useEffect(()=>{
     fetch('http://localhost:4000/CustomerOrderForm/getAllFromNew')
+    // fetch('https://mkb-shashwat.onrender.com/CustomerOrderForm/newCustOrdModel/GlobalGet')
     .then(response => response.json())
     .then(data =>
         {console.log(data);
@@ -109,7 +110,7 @@ const NewOrderFormView = () => {
     return (
         <>
             <div className='page-header'>
-              <h1 className='page-title'>Order Form View</h1>
+              <h1 className='page-title'>New Order Form View</h1>
             </div>
             <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">

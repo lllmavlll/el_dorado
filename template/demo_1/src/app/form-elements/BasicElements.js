@@ -23,8 +23,7 @@ const BasicElements = () => {
   const [lineItem, setLineItem] = useState([]); // to push line items in an array
   const [orderFormData,setOrderFormData] = useState([]) // to get SKU dropdown
   const [subGroupNameDD,setSubGroupNameDD] = useState([]) // for sub groupname  dropdown
-  const [inmaeDD,setInmaeDD] = useState([]) // for sub groupname  dropdown
-  // const [clearInput,setClearInput] = useState([]) // to clear input
+  const [inameDD,setInameDD] = useState([]) // for sub groupname  dropdown
   const [inputValue,setInputValue] = useState({
         customerName:'',
         OrderNo:'',
@@ -85,8 +84,6 @@ const dropDownHandle =(event)=>{
 setSubGroupNameDD(dependentDropDown.find(gname => gname.groupName===value).subGroupName)
 }
 
-
-
 const handleInputChange = (event) => {
   const { name, value } = event.target;
   // setClearInput(event.target.value)
@@ -105,13 +102,14 @@ const convertToNum =(num)=>{
 
 //================= || calculated values for item quantity and estimate weight || ===========================//
 
-const calcItemQuantity = convertToNum(inputValue.noOfDesign)*convertToNum(inputValue.QuantityPerDesign)
+const calcItemQuantity = Number(inputValue.noOfDesign)*Number(inputValue.QuantityPerDesign)
 
-const sumOfUnitWeight = convertToNum(inputValue.unitWT_UL)+convertToNum(inputValue.unitWT_LL)
-const averageWeight =sumOfUnitWeight/2
-const calcEstimatedWeight = (averageWeight *calcItemQuantity)
+// const sumOfUnitWeight = Number(inputValue.unitWT_UL)+Number(inputValue.unitWT_LL)
+// const averageWeight =sumOfUnitWeight/2
+// const calcEstimatedWeight = (averageWeight *calcItemQuantity)
+const calcEstimatedWeight = (Number(inputValue.unitWT_UL)*10+Number(inputValue.unitWT_LL)*10/2*calcItemQuantity)/10
 
-//================= || to bring up the table || ===========================//
+//================= || to bring up the line item table table || ===========================//
 const newLineItemHandle =(e)=>{
   e.preventDefault()
   setItemNameListView(true)
@@ -119,20 +117,20 @@ const newLineItemHandle =(e)=>{
       customerName:inputValue.customerName,
       placedOrderDate:inputValue.placedOrderDate,
       requiredDate:inputValue.requiredDate,
-      customerOrderTouch:inputValue.customerOrderTouch,
-      targetTouch:inputValue.targetTouch,
+      customerOrderTouch:Number(inputValue.customerOrderTouch),
+      targetTouch:Number(inputValue.targetTouch),
       seal:inputValue.seal,
       qualitySeries:inputValue.qualitySeries,
       finalIname:inputValue.FinalIname,
       saleName:inputValue.saleName,
       itemStage:inputValue.itemStage,
-      noOfDesign:inputValue.noOfDesign,
-      quantityPerDesign:inputValue.QuantityPerDesign,
-      itemQuantity:calcItemQuantity,
-      availQuantity:calcItemQuantity,
-      unitWT_UL:inputValue.unitWT_UL,
-      unitWT_LL:inputValue.unitWT_LL,
-      estimatedWeight:calcEstimatedWeight,
+      noOfDesign:Number(inputValue.noOfDesign),
+      quantityPerDesign:Number(inputValue.QuantityPerDesign),
+      itemQuantity:Number(calcItemQuantity),
+      availQuantity:Number(calcItemQuantity),
+      unitWT_UL:Number(inputValue.unitWT_UL),
+      unitWT_LL:Number(inputValue.unitWT_LL),
+      estimatedWeight:Number(calcEstimatedWeight),
       screwMake:inputValue.ScrewMake,
       screwSize:inputValue.screwSize,
       cuttingType:inputValue.cuttingType,
@@ -150,7 +148,57 @@ const newLineItemHandle =(e)=>{
     }
     setLineItem([...lineItem, newLineItem]);
     console.log(lineItem);
-    // setClearInput('');
+
+    //====> to clear inputs
+    
+    setInputValue({
+    //   customerOrderTouch:'',
+    //   targetTouch:'',
+    //   seal:'',
+    //   qualitySeries:'',
+    //   ScrewType:'',
+    //   category:'',
+    //   groupName:'',
+    //   subGroupName:'',
+    //   coreProductName:'',
+    //   modelNo:'',
+    //   noOfStones:'',
+    //   sizeofStone:'',
+    //   stoneColourPattern:'',
+    //   screwType:'',
+    //   saleName:'',
+    //   itemStage:'',
+    //   SKUNo:'',
+    //   FinalIname:'',
+    //   noOfDesign:'',
+    //   QuantityPerDesign:'',
+    //   itemQuantity:'',
+    //   unitWT_UL:'',
+    //   unitWT_LL:'',
+    //   // estimatedWeight:'',
+    //   ScrewMake:'',
+    //   screwSize:'',
+    //   cuttingType:'',
+    //   cuttingDesign:'',
+    //   stoneBrand:'',
+    //   polishType:'',
+      // dimmyColType:'',
+      // SILSURColouringType:'',
+      // surfaceFinish:'',
+      // Coat:'',
+      // cfPlan:'',
+      // cardType:'',
+      // stoneSettingType:'',
+      remarks:'' 
+    })
+
+    //==+=> scroll To Top
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', 
+    });
+
   }
 
 
@@ -158,15 +206,12 @@ const newLineItemHandle =(e)=>{
     const handleClosePopUp = () => {
       // setModalShow(false);
       window.location.reload();
-  
-  
     }
     // const handleYesPopUP=()=>{
     //   const data ={lineItem,orderNo:inputValue.OrderNo}
     //   navigate.push('/gold-smith/order',{state:data})
   
     // }
-
 
   //================= || get SKU for Dropdown || ===========================//
 
@@ -190,9 +235,9 @@ const skuFuncToAutoPopulate =async(e)=>{
     fetch(`http://localhost:4000/iname/getViaFinalIname/`+FinalIname)
     .then(response => response.json())
      .then(data =>{
-      setInmaeDD(data.data)
-      console.log(inmaeDD)
-      console.log(inmaeDD.SKUVariants)
+      setInameDD(data.data)
+      console.log(inameDD)
+      console.log(inameDD.SKUVariants)
     })
       .catch(error => {
         console.error('Error fetching user data:', error);
@@ -201,9 +246,9 @@ const skuFuncToAutoPopulate =async(e)=>{
       setShowIname(true)
       getSKUVariant()
 
-    // const conCatedSKUValur = `${inputValue.ScrewType}~${inputValue.qualitySeries}~${inmaeDD.SKUNo}`
-    // console.log(conCatedSKUValur);
-    // const finalSkuVariant =inmaeDD.SKUVariants&&inmaeDD.SKUVariants.remove(sku=> sku!==conCatedSKUValur)
+    // const conCatedSKUValue = `${inputValue.ScrewType}~${inputValue.qualitySeries}~${inameDD.SKUNo}`
+    // console.log(conCatedSKUValue);
+    // const finalSkuVariant =inameDD.SKUVariants&&inameDD.SKUVariants.remove(sku=> sku!==conCatedSKUValue)
     // console.log(finalSkuVariant);
     // setSkuVariantView(finalSkuVariant)
 }
@@ -211,11 +256,10 @@ const skuFuncToAutoPopulate =async(e)=>{
 //============|| to filter out the SKU variants ||====================//
 const getSKUVariant=()=>{
 
-  const conCatedSKUValur = `${inputValue.ScrewType}~${inputValue.qualitySeries}~${inmaeDD.SKUNo}`
-  console.log(conCatedSKUValur);
-  const finalSkuVariant =inmaeDD.SKUVariants&&inmaeDD.SKUVariants.filter(sku=> sku===conCatedSKUValur)
+  const conCatedSKUValue = `${inputValue.ScrewType}~${inputValue.qualitySeries}~${inameDD.SKUNo}`
+  console.log(conCatedSKUValue);
+  const finalSkuVariant =inameDD.SKUVariants&&inameDD.SKUVariants.filter(sku=> sku===conCatedSKUValue)
     setSkuVariantView(finalSkuVariant)
-
 }
 
 
@@ -228,20 +272,18 @@ const getSKUVariant=()=>{
     
     //=================|| for backend ||=======================//
     
-    const res =await fetch('http://localhost:4000/CustomerOrderForm/newCustOrdModel/newPost',{
-      method:'POST',
-      headers:{
-        "content-type":"application/json"
-      },
-      body:JSON.stringify({
-        orderArray:lineItem
-      })
-    })
+    // const res =await fetch('http://localhost:4000/CustomerOrderForm/newCustOrdModel/newPost',{
+    //   method:'POST',
+    //   headers:{
+    //     "content-type":"application/json"
+    //   },
+    //   body:JSON.stringify(lineItem)
+    // })
     
-    const data = await res.json();
-    console.log(data)
+    // const data = await res.json();
+    // console.log(data)
     
-    setModalShow(true) // this is for the popUp
+    // setModalShow(true) // this is for the popUp
 
   }
 
@@ -430,9 +472,9 @@ const getSKUVariant=()=>{
                     <label  htmlFor="qualitySeries" className="col-sm-4 col-form-label">Quality series</label>
                     <div className="col-sm-8">
                     <select  type="text"  value={inputValue.qualitySeries} name='qualitySeries'  onChange={handleInputChange}  className="form-control" id="qualitySeries" placeholder="Quality series">
-                      <option value={inmaeDD.defaultQualitySeries}>{inmaeDD.defaultQualitySeries}</option>
+                      <option value={inameDD.defaultQualitySeries}>{inameDD.defaultQualitySeries}</option>
                       {
-                        inmaeDD.qualitySeriesApplicable&&inmaeDD.qualitySeriesApplicable.map((list,index)=>{
+                        inameDD.qualitySeriesApplicable&&inameDD.qualitySeriesApplicable.map((list,index)=>{
                           return<option key={index} value={list}>{list}</option>
                         })
                       }
@@ -444,7 +486,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="category" className="col-sm-4 col-form-label">Category</label>
                     <div className="col-sm-8">
-                      <Form.Control type="text"  value={inmaeDD.category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
+                      <Form.Control type="text"  value={inameDD.category} name='category'  onChange={handleInputChange}  className="form-control" id="category" placeholder="Category" />
                     </div>
                   </Form.Group>
                   </div>
@@ -454,7 +496,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="groupName" className="col-sm-4 col-form-label">Group Name</label>
                     <div className="col-sm-8">
-                    <Form.Control type="text"  value={inmaeDD.group} name='groupName'  onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
+                    <Form.Control type="text"  value={inameDD.group} name='groupName'  onChange={handleInputChange}  className="form-control" id="groupName" placeholder="Group Name" />
                     </div>
                   </Form.Group>
                   </div>
@@ -462,7 +504,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="subGrpName" className="col-sm-4 col-form-label">Sub Grp Name</label>
                     <div className="col-sm-8">
-                      <Form.Control type="text"  value={inmaeDD.subGroup} name='subGrpName'  onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder=" Sub Group Name" />
+                      <Form.Control type="text"  value={inameDD.subGroup} name='subGrpName'  onChange={handleInputChange}  className="form-control" id="subGrpName" placeholder=" Sub Group Name" />
                     </div>
                   </Form.Group>
                   </div>
@@ -473,7 +515,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="CoreProdName" className="col-sm-4 col-form-label">Core Prdt Name</label>
                     <div className="col-sm-8">
-                    <Form.Control  type="text"  value={inmaeDD.coreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
+                    <Form.Control  type="text"  value={inameDD.coreProductName} name='coreProductName' onChange={handleInputChange}  className="form-control" id="CoreProdName" placeholder="Core Prdt Name" />
                     </div>
                   </Form.Group>
                   </div>
@@ -481,7 +523,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="modelNo" className="col-sm-4 col-form-label">Model No.</label>
                     <div className="col-sm-8">
-                    <Form.Control  type="text"  value={inmaeDD.modelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
+                    <Form.Control  type="text"  value={inameDD.modelNo} name='modelNo' onChange={handleInputChange}  className="form-control" id="modelNo" placeholder="Model No." />
                     </div>
                   </Form.Group>
                   </div>
@@ -492,7 +534,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="noOfStones" className="col-sm-4 col-form-label">No. Of Stones</label>
                     <div className="col-sm-8">
-                    <Form.Control  type="text"  value={inmaeDD.numberOfStones} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
+                    <Form.Control  type="text"  value={inameDD.numberOfStones} name='noOfStones' onChange={handleInputChange}  className="form-control" id="noOfStones" placeholder="No. Of Stones" />
                     </div>
                   </Form.Group>
                   </div>
@@ -500,10 +542,10 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="size" className="col-sm-4 col-form-label">Stone Size</label>
                     <div className="col-sm-8">
-                    <select  type="text"  value={inmaeDD.Size} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" >
-                      <option value={inmaeDD.defaultStoneSize}>{inmaeDD.defaultStoneSize}</option>
+                    <select  type="text"  value={inameDD.Size} name='sizeofStone' onChange={handleInputChange}  className="form-control" id="size" placeholder="Size" >
+                      <option value={inameDD.defaultStoneSize}>{inameDD.defaultStoneSize}</option>
                       {
-                        inmaeDD.stoneSizesApplicable&&inmaeDD.stoneSizesApplicable.map((val,index)=>{
+                        inameDD.stoneSizesApplicable&&inameDD.stoneSizesApplicable.map((val,index)=>{
                           return<option key={index} value={val}>{val}</option>
                         })
                       }
@@ -518,7 +560,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="stoneClrPattren" className="col-sm-4 col-form-label">Stn Clr pattern</label>
                     <div className="col-sm-8">
-                    <Form.Control  type="text"  value={inmaeDD.defaultFinalColour} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
+                    <Form.Control  type="text"  value={inameDD.defaultFinalColour} name='stoneColourPattern' onChange={handleInputChange}  className="form-control" id="stoneClrPattren" placeholder="Stone Color pattern" />
                     </div>
                   </Form.Group>
                   </div>
@@ -527,9 +569,9 @@ const getSKUVariant=()=>{
                     <label  htmlFor="ScrewType" className="col-sm-4 col-form-label">Screw Type </label>
                     <div className="col-sm-8">
                     <select  type="text"  value={inputValue.ScrewType} name='ScrewType' onChange={handleInputChange}  className="form-control" id="ScrewType" placeholder="Screw Type " >
-                      <option value={inmaeDD.defaultScrewType}>{inmaeDD.defaultScrewType}</option>
+                      <option value={inameDD.defaultScrewType}>{inameDD.defaultScrewType}</option>
                       {
-                        inmaeDD.screwTypesApplicable&&inmaeDD.screwTypesApplicable.map((val,index)=>{
+                        inameDD.screwTypesApplicable&&inameDD.screwTypesApplicable.map((val,index)=>{
                           return<option key={index} value={val}>{val}</option>
                         })
                       }
@@ -544,7 +586,7 @@ const getSKUVariant=()=>{
                   <Form.Group className="row">
                     <label  htmlFor="saleName" className="col-sm-4 col-form-label">Sale Name</label>
                     <div className="col-sm-8">
-                    <Form.Control  type="text"  value={inmaeDD.saleName} name='saleName' onChange={handleInputChange}  className="form-control" id="saleName" placeholder="Sale Name" />
+                    <Form.Control  type="text"  value={inameDD.saleName} name='saleName' onChange={handleInputChange}  className="form-control" id="saleName" placeholder="Sale Name" />
                     </div>
                   </Form.Group>
                   </div>
@@ -627,7 +669,7 @@ const getSKUVariant=()=>{
                     <Form.Group className="row">
                       <label  htmlFor="finalImg" className="col-sm-2 col-form-label">Image</label>
                       <div className="col-sm-10">
-                        <img src={inmaeDD.image} alt='NO DATA FOUND'/>
+                        <img src={inameDD.image} alt='NO DATA FOUND'/>
                       </div>
                     </Form.Group>
                   </div>

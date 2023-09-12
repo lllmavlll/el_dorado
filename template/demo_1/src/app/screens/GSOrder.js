@@ -67,18 +67,18 @@ const GSOrder = () => {
     e.preventDefault()
 
     //======|| Updataing the Item Quantity ||=========//
-    // const res =await fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/updateSpecificCustOrd/${specificIname.orderRefNo}`,{
-    //   method:'PUT',
-    //   headers:{
-    //     "content-type":"application/json"
-    //   },
-    //   body:JSON.stringify({
-    //     availQuantity:quantityToBeAllocated
-    //   })
-    // })
+    const res =await fetch(`http://localhost:4000/CustomerOrderForm/newCustOrdModel/updateSpecificCustOrd/${specificIname.orderRefNo}`,{
+      method:'PUT',
+      headers:{
+        "content-type":"application/json"
+      },
+      body:JSON.stringify({
+        availQuantity:quantityToBeAllocated
+      })
+    })
     
-    // const UdatedData = await res.json();
-    // console.log(UdatedData)
+    const UdatedData = await res.json();
+    console.log(UdatedData)
 
     setSubOrderTable(true)
     const newGSSO ={

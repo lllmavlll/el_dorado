@@ -97,7 +97,7 @@ const ManualGSO = () => {
         <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-              <h3 className="card-title">Gold SMith Orders</h3>
+              <h3 className="card-title">Gold Smith Orders</h3>
                 <form className='forms-sample'>
                     <div className='row'>
                         <div className='col-md-6'>

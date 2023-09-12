@@ -145,10 +145,12 @@ const UpdateIQ =async (req, res) => {
     const getAllCustomersFromOrders = async (req, res) => {
         const data = await CustOrdModel.find({}, 'customerName');
         // const customerNames = data.map(data => data.customerName);
-        res.json(data)}
+        res.json(data)
+    }
 
 
 // from new DATABASE to set ordeerform View
+//==================||from new DATA base ||=====================//
 
 const GlobalGetforNewDB = async (req, res) => {
     try {
@@ -160,14 +162,12 @@ const GlobalGetforNewDB = async (req, res) => {
     }
 }
 
-//==================||from new DATA base ||=====================//
 
 const newPost = async (req, res) => {
 
     try {
         //req.body
         const orderArray = req.body
-        console.log(req.body);
         //orderArray number generator
         const orderNoGen = () => {
             const characters = '0123456789';
