@@ -109,7 +109,7 @@ const NewOrderFormView = () => {
     return (
         <>
             <div className='page-header'>
-              <h1 className='page-title'>New Order Form View</h1>
+              <h1 className='page-title'>Order Form View</h1>
             </div>
             <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">

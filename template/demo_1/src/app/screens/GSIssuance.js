@@ -40,6 +40,12 @@ const GSIssuance = () => {
       compAmt:inputValue.compAmt,
     }
     setCompList([...compList, arrayOfComponents])
+    setInputValue({
+      compType:'',
+      compName:'',
+      compQnty:'',
+      compAmt:'',
+    })
   }
 
   const pushToDB = async(e)=>{
